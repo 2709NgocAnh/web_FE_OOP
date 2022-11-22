@@ -1,0 +1,21 @@
+.price {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+
+  .card-price--nosale {
+    display: block;
+    font-size: 1.6rem;
+    padding-left: 0;
+    margin-left: 0;
+    color: red;
+    font-weight: 300;
+  }
+  .card-price--sale {
+    display: block;
+    font-size: 1.4rem;
+    padding-left: 0;
+    margin-left: 0;
+    color: darkgrey;
+  }
+}

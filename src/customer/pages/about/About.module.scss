@@ -1,0 +1,60 @@
+.header {
+  display: flex;
+  justify-content: center;
+  width: var(--default-layout-width);
+}
+.header-btn {
+  position: absolute;
+  z-index: 3;
+  width: 100px;
+  font-size: 2rem;
+  top: 50%;
+  transform: (-50%);
+  background-color: var(--black);
+  color: white;
+}
+.page-wrapper {
+  padding-left: 40px;
+}
+.heading-page h1 {
+  display: block;
+  font-size: 5rem;
+  font-weight: bold;
+}
+.pd-page {
+  padding-top: 50px;
+}
+.wrapbox-content-page {
+  padding-bottom: 30px;
+}
+.container-fluid {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-top: 40px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.content-page {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.content-page p {
+  font-size: 1.6rem;
+}
+.sidebar-page .group-menu {
+  margin: 0 0 30px;
+  position: relative;
+  padding: 20px;
+  border: 1px solid #e3e5ec;
+}
+.wysiwyg-font-size-medium {
+  color: black;
+  font-size: 1.6rem;
+  margin-left: 0;
+}
+@media (min-width: 1200px) {
+  .container-fluid {
+    max-width: 1400px;
+    padding: 0 85px;
+  }
+}

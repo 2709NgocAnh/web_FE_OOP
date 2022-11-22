@@ -1,0 +1,141 @@
+.container {
+    width: 100%;
+    padding: 50p;
+  }
+  .form-Register {
+    width: 100%;
+    height:fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+  }
+  .form-heading {
+    text-align: center;
+    font-size: 1.6rem;
+    padding: 10px;
+    font-weight: 400;
+    color: rgb(153, 151, 151);
+  }
+  .form-heading-header {
+    display: flex;
+    align-items: center;
+  
+    font-size: 1.6rem;
+  }
+  .form-heading-header p {
+    padding-left: 5px;
+    padding-top: 5px;
+    color: rgb(153, 151, 151);
+    font-size: 1.4rem;
+  }
+  .form-group {
+    width: 600px;
+    font-size: 1.6rem;
+    border: 1px solid white;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    height: 40px;
+    border: 1px solid rgb(202, 197, 197);
+    display: flex;
+  }
+  .form-group--icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+  }
+  .form-group--err{
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+  }
+  .form-group label {
+    /* color: rgb(72 72 72); */
+    font-size: 1.6rem;
+    padding: 10px;
+    width: 150px;
+    // border-radius: 10px;
+  }
+  .form-input {
+    height: 100%;
+    padding: 0 10px;
+    background-color: white;
+    outline: none;
+    flex-grow: 5;
+  }
+  .form-input::placeholder {
+    font-size: 1.4rem;
+    border: none;
+    background-color: white;
+    color: #272424;
+  }
+  .form-submit {
+    width: 100%;
+    height: 40px;
+    border: 1px solid black;
+    font-size: 1.3rem;
+    background: linear-gradient(to right, black 50%, white 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: all 0.7s ease-out;
+  }
+  .form-submit:hover {
+    background-position: left bottom;
+    color: white;
+  }
+  .forget-password {
+    display: inline-block;
+    font-size: 1.3rem;
+    font-weight: 400;
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  label {
+    font-size: 1.6rem;
+    color: gray;
+  }
+  
+  span {
+    font-size: 1.2rem;
+    padding: 2px;
+    color: rgba(255, 0, 0, 0.736);
+    margin-left: 10px;
+  }
+  
+  .valid {
+    color: limegreen;
+    margin-left: 0.25rem;
+  }
+  
+  .invalid {
+    color: red;
+    margin-left: 0.25rem;
+  }
+  
+  .errmsg {
+    background-color: lightpink;
+    color: firebrick;
+    font-weight: bold;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .line {
+    display: inline-block;
+  }
+  .err {
+    font-size: 1.2rem;
+    padding: 2px;
+    color: rgba(255, 0, 0, 0.736);
+    margin-left: 10px;
+    display: none;
+  }
+  input:invalid[focused="true"] ~ .err {
+    display: block;
+    color: red;
+  }
+  

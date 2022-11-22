@@ -1,0 +1,32 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  background-color: #333;
+  line-height: 4rem;
+  .wrapper-item {
+    border-bottom: 1px solid lightgray;
+  }
+  .menu-item--btn {
+    width: 100%;
+    .menu-item {
+      display: block;
+      justify-content: center;
+
+      &.active {
+        border-radius: 0;
+      }
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+  .title {
+    margin-left: 10px;
+    color: white;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    display: inline-block;
+    width: 100%;
+  }
+}

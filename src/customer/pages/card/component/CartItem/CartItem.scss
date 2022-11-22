@@ -1,0 +1,19 @@
+.cart-product-amount {
+  display: flex;
+  border: 1px solid black;
+  height: 30px;
+  button {
+    width: 50px;
+    text-align: center;
+  }
+  span {
+    flex: auto;
+    color: black;
+    font-weight: 700;
+    font-size: 18px;
+    text-align: center;
+    margin-left: 0px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+  }
+}

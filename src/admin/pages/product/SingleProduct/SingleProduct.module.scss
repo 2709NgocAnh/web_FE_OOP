@@ -1,0 +1,158 @@
+.single {
+  display: flex;
+  width: 100%;
+  .singleContainer {
+    flex: 6;
+
+    .top {
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+
+      .left {
+        flex: 1;
+        -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+        box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+        padding: 40px;
+        position: relative;
+        height: fit-content;
+        .editButton {
+          position: absolute;
+          top: 0;
+          right: 0;
+          padding: 10px 25px;
+          font-size: 1.4rem;
+          font-weight: 600;
+          color: white;
+          background-color: black;
+          cursor: pointer;
+        }
+        .item {
+          display: flex;
+          gap: 20px;
+          .details {
+            width: 100%;
+            height: fit-content;
+            display: flex;
+            padding: 50px;
+
+            .imgContainer {
+              display: flex;
+              flex-direction: column;
+              margin: 20px;
+              .cellImg {
+                max-width: 400px;
+                margin: 20px;
+                height: 400px;
+                background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;
+              }
+
+              .thumb {
+                display: flex;
+                cursor: pointer;
+
+                img {
+                  width: 60px;
+                  height: 60px;
+                  display: block;
+                  object-fit: cover;
+                  margin: 20px;
+                  overflow: hidden;
+                }
+              }
+            }
+
+            .details_box {
+              margin: 20px;
+
+              .title {
+                margin-bottom: 10px;
+                margin-top: 20px;
+                color: #555;
+                font-size: 20px;
+                text-transform: uppercase;
+              }
+
+              .detailItem {
+                font-size: 16px;
+                line-height: 3rem;
+
+                .itemKey {
+                  font-weight: bold;
+                  color: gray;
+                  margin-right: 5px;
+                  font-size: 1.8rem;
+                }
+
+                .itemValue {
+                  font-weight: 300;
+                  font-size: 1.6rem;
+                  color: gray;
+                }
+              }
+            }
+          }
+        }
+      }
+      .right {
+        flex: 2;
+      }
+    }
+
+    .bottom {
+      -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+      box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+      padding: 20px;
+      margin: 10px 20px;
+    }
+
+    .title {
+      color: gray;
+      margin-bottom: 40px;
+      font-weight: 700;
+    }
+  }
+}
+// Bootstrap Loading Skeleton
+%loading-skeleton {
+  color: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #eee;
+  border-color: #eee;
+
+  &::placeholder {
+    color: transparent;
+  }
+}
+@keyframes loading-skeleton {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.loading-skeleton {
+  pointer-events: none;
+  animation: loading-skeleton 1s infinite alternate;
+
+  img {
+    filter: grayscale(100) contrast(0%) brightness(1.8);
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  li,
+  .btn,
+  label,
+  .form-control {
+    @extend %loading-skeleton;
+  }
+}

@@ -1,0 +1,60 @@
+.container-fluid {
+  width: 100%;
+  padding: 0 100px;
+  font-size: 1.6 rem;
+  // padding-left: 40px;
+  // padding-right: 40px;
+}
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 90px;
+  background-color: rgba(193, 186, 186, 0.853);
+  padding-left: 100px;
+  padding-top: 15px;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+.header-icon {
+  margin-right: 5px;
+}
+.header-title {
+  display: flex;
+  align-items: center;
+}
+.header-title span {
+  font-size: 1.8rem;
+  color: black;
+  padding-right: 10px;
+}
+.header-title a {
+  color: red !important;
+  font-size: 2.5rem;
+}
+.footer-title {
+  font-size: 2rem;
+}
+.footer-content-title {
+  font-size: 1.6rem;
+}
+
+.footer-content-item {
+  width: 100%;
+  list-style: none;
+}
+.fb-page {
+  border: "none";
+  visibility: "visible";
+  width: 305px;
+  height: 130px;
+}
+.item {
+  margin-left: 0;
+}
+a,
+li {
+  font-size: 1.6rem;
+  margin-left: 0;
+}
