@@ -1,0 +1,21 @@
+.category__list {
+  display: flex;
+  flex-direction: column;
+  font-weight: 400;
+  a {
+    line-height: 4rem;
+    color: black;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .active {
+    span {
+      line-height: 4rem;
+      color: black;
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+  }
+}

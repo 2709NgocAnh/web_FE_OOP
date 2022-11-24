@@ -1,0 +1,108 @@
+.details {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  padding: 50px;
+
+  .imgContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    .cellImg {
+      max-width: 400px;
+      margin: 20px;
+      height: 400px;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .thumb {
+      display: flex;
+      cursor: pointer;
+
+      img {
+        width: 60px;
+        height: 60px;
+        display: block;
+        object-fit: cover;
+        margin: 20px;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .box-details {
+    margin: 40px;
+    display: flex;
+    flex-direction: column;
+    .title {
+      margin-bottom: 10px;
+      color: #555;
+      font-size: 20px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    .price {
+      font-size: 1.4rem;
+    }
+    .card-button {
+      width: 300px;
+      height: 40px;
+      background-color: white;
+      color: black;
+      text-transform: uppercase;
+      border: 1px solid black;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    .card-button--buynow {
+      background-color: black;
+      color: white;
+      border: 1px solid white;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+// Bootstrap Loading Skeleton
+%loading-skeleton {
+  color: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #eee;
+  border-color: #eee;
+
+  &::placeholder {
+    color: transparent;
+  }
+}
+@keyframes loading-skeleton {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.loading-skeleton {
+  pointer-events: none;
+  animation: loading-skeleton 1s infinite alternate;
+
+  img {
+    filter: grayscale(100) contrast(0%) brightness(1.8);
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  li,
+  .btn,
+  label,
+  .form-control {
+    @extend %loading-skeleton;
+  }
+}

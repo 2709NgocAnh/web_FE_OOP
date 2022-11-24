@@ -1,0 +1,38 @@
+.no-product {
+  padding-bottom: 30px;
+  width: 100%;
+  height: fit-content;
+  font-size: 2rem;
+  background-image: url("https://dtcfurniture.vn/images/empty_cart.png");
+  background-repeat: no-repeat;
+  background-size: 400px;
+  background-position: center;
+  span {
+    display: block;
+    svg {
+      font-size: 30rem;
+    }
+  }
+}
+.no-product-text {
+  color: black;
+  text-align: center;
+  padding: 10px 0;
+}
+.no-product-btn {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  a {
+    height: 50px;
+    width: 200px;
+  }
+
+  button {
+    width: 100%;
+    height: 100%;
+    color: white;
+    background-color: black;
+    border-radius: 20px;
+  }
+}

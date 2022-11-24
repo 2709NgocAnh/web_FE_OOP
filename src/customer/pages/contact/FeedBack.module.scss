@@ -1,0 +1,60 @@
+.container__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.stars {
+    display: flex;
+    flex-direction: column;
+    flex-direction: row;
+    font-size: 1.4rem;
+}
+.wrapper-title {
+    font-size: 2.2rem;
+}
+.wrapper-input {
+    margin-top: 10px;
+    font-size: 1.4rem;
+
+    border: 1px solid #a9a9a9;
+    padding: 5px;
+    border-radius: 5px;
+    width: 300px;
+}
+.wrapper-text {
+    border: 1px solid #a9a9a9;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 20px 0px;
+    min-height: 100px;
+    width: 300px;
+    font-size: 1.4rem;
+}
+
+
+.wrapper-btn {
+    width: 300px;
+    height: 40px;
+    border: 1px solid black;
+    font-size: 1.4rem;
+    background: linear-gradient(to right, black 50%, white 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: all 0.7s ease-out;
+    border-radius: 10px;
+}
+.wrapper-btn:hover {
+    background-position: left bottom;
+    color: white;
+}
+.err {
+    font-size: 1.2rem;
+    padding: 2px;
+    color: rgba(255, 0, 0, 0.736);
+    margin-left: 10px;
+    display: none;
+}
+input:invalid[focused='true'] ~ .err {
+    display: block;
+    color: red;
+}

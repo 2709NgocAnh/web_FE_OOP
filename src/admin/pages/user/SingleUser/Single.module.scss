@@ -1,0 +1,141 @@
+.single {
+    display: flex;
+    width: 100%;
+    .singleContainer {
+        flex: 6;
+
+        .top {
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+
+            .left {
+                flex: 1;
+                -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+                box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+                padding: 40px;
+                position: relative;
+                /*  height: 100vh; */
+
+                .editButton {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    padding: 10px 25px;
+                    font-size: 1.4rem;
+                    font-weight: 500;
+                    color: #7451f8;
+                    background-color: #7551f818;
+                    cursor: pointer;
+                    border-radius: 0px 0px 0px 5px;
+                }
+
+                .item {
+                    display: flex;
+                    gap: 20px;
+
+                    .itemImg {
+                        width: 100px;
+                        height: 100px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+
+                    .details {
+                        .imgContainer {
+                            width: 400px;
+                            width: 100%;
+                            margin: 20px;
+                            height: 350px;
+                            background-position: center;
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                        }
+                        .imgContainer:hover {
+                            background-size: 150%;
+                            border: 1px solid #ddd;
+                            cursor: zoom-in;
+                        }
+                        .thumb {
+                            display: flex;
+                            cursor: pointer;
+                            img {
+                                width: 50px;
+                                height: 45px;
+                                display: block;
+                                object-fit: cover;
+                                margin: 20px;
+                                overflow: hidden;
+                            }
+                        }
+                        .itemTitle {
+                            margin-bottom: 10px;
+                            color: #555;
+                        }
+
+                        .detailItem {
+                            margin-bottom: 10px;
+                            font-size: 14px;
+                            .sidebar {
+                                position: relative;
+                                height: 100%;
+                                color: #717171;
+                                margin-right: 150px;
+                                padding-left: 40px;
+                                font-size: 1.4rem;
+                                border-left: 1px solid rgba(153, 153, 153, 0.203);
+                                height: 100%;
+                                width: 150px;
+                                .sidebar-content {
+                                    width: 500px;
+                                    justify-content: space-between;
+                                }
+                                ::after {
+                                    content: '';
+                                    display: block;
+                                    width: 200%;
+                                    position: absolute;
+                                    top: 0;
+                                    /* left: -100%; */
+                                    bottom: 0;
+                                    background: #fafafa;
+                                    z-index: -1;
+                                    box-shadow: 0 -1px 0 #e1e1e1 inset;
+                                }
+                            }
+                            .itemKey {
+                                font-weight: bold;
+                                color: gray;
+                                margin-right: 5px;
+                                font-size: 1.4rem;
+                            }
+
+                            .itemValue {
+                                font-weight: 300;
+                                font-size: 1.4rem;
+                                color: gray;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .right {
+                flex: 2;
+            }
+        }
+
+        .bottom {
+            -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+            box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+            padding: 20px;
+            margin: 10px 20px;
+        }
+
+        .title {
+            color: gray;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+    }
+}
