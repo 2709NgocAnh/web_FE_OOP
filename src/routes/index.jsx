@@ -46,6 +46,8 @@ import Contact from "~/customer/pages/contact/Contact";
 import Cart from "~/customer/pages/card/Cart";
 import ViewOrder from "~/customer/pages/vieworder/ViewOrder";
 import FeedBack from "~/customer/pages/contact/FeedBack";
+import ListNewProduct from "~/customer/pages/new/ListNewProduct";
+import ListSaleProduct from "~/customer/pages/sale/ListSaleProduct";
 // Public routes
 const PRIVATEROUTES = [
   //admin
@@ -167,6 +169,9 @@ const PRIVATEROUTES = [
 const PUBLICROUTES = [
   { path: config.routes.customer, component: Shop, layout: DefaultLayout },
   { path: config.routes.shop, component: Shop, layout: DefaultLayout },
+  { path: config.routes. listnewproduct, component: ListNewProduct, layout: DefaultLayout },
+  { path: config.routes. listsaleproduct, component: ListSaleProduct, layout: DefaultLayout },
+
   { path: config.routes.profile, component: Profile, layout: DefaultLayout },
   { path: config.routes.payment, component: Payment, layout: DefaultLayout },
   { path: config.routes.feedback, component: FeedBack, layout: DefaultLayout },

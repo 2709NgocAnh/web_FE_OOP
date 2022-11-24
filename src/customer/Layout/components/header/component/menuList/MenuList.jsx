@@ -6,7 +6,8 @@ import MenuItem from "../menuItem/MenuItem";
 export default function MenuList({ items }) {
   const cx = classNames.bind(styles);
   const logout = () => {
-    Cookies.set("accessToken", { expires: 0 });
+    Cookies.remove("accessToken")
+    // Cookies.set("accessToken", { expires: 0 });
     localStorage.removeItem("cart");
     window.location.reload();
   };

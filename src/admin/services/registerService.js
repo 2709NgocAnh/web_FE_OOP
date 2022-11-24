@@ -1,8 +1,8 @@
 import * as httpRequest from "~/admin/utils/httpRequest";
 
-export const getRegister = async (email, password) => {
+export const getRegister = async () => {
   try {
-    const res = await httpRequest.get(`auth/secret`, { email, password });
+    const res = await httpRequest.get(`auth/secret`);
     return res;
   } catch (error) {
     console.log(error);

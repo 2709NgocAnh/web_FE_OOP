@@ -2,6 +2,9 @@ const routes = {
   admin: "/admin",
   customer: "/",
   shop:"/shop",
+  listnewproduct: "/product/new",
+  listsaleproduct: "/product/sale",
+
   payment:"/payment",
   profile:"/profile",
   cart:"/cart",
@@ -22,9 +25,9 @@ const routes = {
   //Product
   listproduct: "/admin/product",
   singleproduct: "/admin/product/:id",
-  detailproduct: "/product/detail/:id",
   newproduct: "/admin/product/newproduct",
   editproduct: "/admin/product/editproduct/:id",
+  detailproduct: "/product/detail/:id",
 
   //category
   listcategory: "/admin/category",

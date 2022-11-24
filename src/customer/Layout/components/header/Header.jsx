@@ -8,14 +8,15 @@ import Search from "./component/search/Search";
 
 const cx = classNames.bind(styles);
 function Header(props) {
-  const {setProductList}=props
+  const { setValueSearch, valueSearch,handleSubmit,setIdCategory} = props;
+
     
   return (
     <header className={cx("wrapper")}>
       <div className={cx("inner")}>
         <Logo />
-        <Menu setProductList={setProductList}/>
-        <Search setProductList={setProductList}  />
+        <Menu setIdCategory={setIdCategory}/>
+        <Search setValueSearch={setValueSearch} valueSearch={valueSearch} handleSubmit={handleSubmit} />
         <Action />
       </div>
     </header>

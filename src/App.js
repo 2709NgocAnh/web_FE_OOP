@@ -18,7 +18,6 @@ function App() {
     };
     fetchApi();
   }, [role]);
-  console.log(role);
   return (
     <DataProvider>
       <Router>

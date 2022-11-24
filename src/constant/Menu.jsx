@@ -39,7 +39,7 @@ const MENU_HEADER = [
     },
     {
       title: "NEW",
-      to: "/new",
+      to: "/product/new",
     },
     {
         title: "ABOUT",
@@ -47,7 +47,7 @@ const MENU_HEADER = [
       },
       {
         title: "SALE",
-        to: "/sale",
+        to: "/product/sale",
       },
       {
         title: "CONTACT",

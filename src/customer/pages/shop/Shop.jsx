@@ -15,37 +15,68 @@ export default function Shop() {
   const cx = classNames.bind(styles);
   const [totalPage, setTotalPage] = useState();
   const [productList, setProductList] = useState([]);
-  
+  const [valueSearch, setValueSearch] = useState("");
+  const [numberPage, setNumberPage] = useState(1);
+  const [nameSort, setNameSort] = useState("price");
+  const [valueSort, setValueSort] = useState(1);
+  const [idCategory, setIdCategory] = useState(productList);
+
   useEffect(() => {
     const fetchApi = async () => {
-      const response = await productService.getProduct(1);
+      const response = await productService.getProduct(
+        nameSort,
+        valueSort,
+        numberPage
+      );
       setProductList(response.products);
       setTotalPage(response.totalPage);
     };
     fetchApi();
-  }, []);
-  
+  }, [numberPage, nameSort, valueSort]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const fetchApi = async () => {
+      const response = await productService.searchProduct(valueSearch);
+      setProductList(response.products);
+    };
+    fetchApi();
+  };
+  console.log(idCategory)
+
+//   useEffect((e) => {
+//     e.preventDefault();
+
+//     const fetchApi = async () => {
+//       const response = await productService.getListProductById(idCategory);
+//       setProductList(response.products);
+//     };
+//     fetchApi();
+//   }, [idCategory]);
+
   return (
     <>
       <div className={cx("header")}>
-        <Header setProductList={setProductList} />
+        <Header
+          setValueSearch={setValueSearch}
+          valueSearch={valueSearch}
+          handleSubmit={handleSubmit}
+          setIdCategory={setIdCategory}
+        />
         <Slider title="Shop" />
       </div>
       <div>
         <section className={cx("product")}>
           <div className={cx("container")}>
             <div className={cx("row")}>
-              <Sort setProductList={setProductList} />
+              <Sort setNameSort={setNameSort} setValueSort={setValueSort} />
               {productList?.length === 0 ? (
                 <NoProduct />
               ) : (
                 <Products productList={productList} />
               )}
             </div>
-            <Pagination
-            totalPage={totalPage}
-            setProductList={setProductList}
-            />
+            <Pagination totalPage={totalPage} setNumberPage={setNumberPage} />
           </div>
         </section>
       </div>

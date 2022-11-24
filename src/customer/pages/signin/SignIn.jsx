@@ -21,6 +21,8 @@ const SignIn = () => {
   const showPass = true;
   const navigate = useNavigate();
   const [search, setSearch] = useState();
+  const [auth, setAuth] = useState(false);
+  const [role, setRole] = useState();
 
   const formik = useFormik({
     initialValues: {
@@ -30,6 +32,7 @@ const SignIn = () => {
     onSubmit: async (values, actions) => {
       fetchApiSignIn(values.email, values.password);
       actions.resetForm();
+      fetchApi();
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -44,9 +47,26 @@ const SignIn = () => {
     const response = await registerService.signInRegister(a, b);
     const token = "Bearer " + response.headers.authorization;
     Cookies.set("accessToken", token, { expires: 7 });
-    response.data.success ? navigate("/shop") : navigate("/sign-in");
+    setAuth(response.data.success);
     window.location.reload();
+    // navigate("/admin");
   };
+  console.log(auth)
+  console.log('roleeeee',role)
+
+  const fetchApi = async () => {
+    const response = await registerService.getRegister();
+    setRole(response.account.role);
+  };
+
+//   if (auth && role === "admin") {
+//     navigate("/admin");
+//   } else if (auth && role === "user") {
+//     navigate("/shop");
+//   } else {
+//     navigate("/sign-in");
+//   }
+
   return (
     <div className={cx("container")}>
       <Header search={search} onChange={(e) => setSearch(e.target.value)} />
@@ -79,7 +99,9 @@ const SignIn = () => {
             }
           />
           {formik.touched.password && formik.errors.password && (
-            <span className={cx("form-group--err")}>{formik.errors.password}</span>
+            <span className={cx("form-group--err")}>
+              {formik.errors.password}
+            </span>
           )}
         </div>
         <div className={cx("form-group")}>
