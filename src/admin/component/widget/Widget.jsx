@@ -20,7 +20,7 @@ const Widget = ({ type }) => {
   let data;
   useEffect(() => {
     const fetchApi = async () => {
-      const response = await productService.getProduct();
+      const response = await productService.getListProduct();
       const response1 = await categoryService.getCategory();
       const response2 = await orderService.getOrder();
       const response3 = await userService.getUser();

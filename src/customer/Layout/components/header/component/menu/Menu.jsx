@@ -6,7 +6,7 @@ import Category from "../category/Category";
 import { MENU_HEADER } from "~/constant/Menu";
 
 const cx = classNames.bind(styles);
-function Menu({setIdCategory}) {
+function Menu({setIdCategory,handleSubmitCategory}) {
   //call API
 
   return (
@@ -18,7 +18,7 @@ function Menu({setIdCategory}) {
               <div className={cx("dropdown")} key={index}>
                 <MenuItem title={item.title} to={item.to} />
                 <div className={cx("dropdown-content")}>
-                  <Category setIdCategory={setIdCategory}/>
+                  <Category setIdCategory={setIdCategory} handleSubmitCategory={handleSubmitCategory}/>
                 </div>
               </div>
             </li>

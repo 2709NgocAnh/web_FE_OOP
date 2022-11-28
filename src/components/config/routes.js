@@ -2,6 +2,8 @@ const routes = {
   admin: "/admin",
   customer: "/",
   shop:"/shop",
+  pageproduct: "/product?pageproduct",
+  
   listnewproduct: "/product/new",
   listsaleproduct: "/product/sale",
 

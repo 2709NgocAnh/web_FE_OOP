@@ -9,7 +9,6 @@ const EditUser = () => {
   TabTitle("EditUser");
   const [focused, setFocused] = useState(false);
   const [role, setRole] = useState("admin");
-
   const [values, setValues] = useState({
     fullName: "",
     email: "",
@@ -18,6 +17,19 @@ const EditUser = () => {
     address: "",
     password_confirm: "",
   });
+  useEffect(() => {
+    const fetchApi = async () => {
+      const response = await registerService.getRegister();
+      setValues({
+        fullName: response.account.fullName,
+        email: response.account.email,
+        phoneNumber: response.account.phoneNumber,
+        address: response.account.address,
+      });
+    };
+    fetchApi();
+  }, []);
+ 
   const arrStatus = [
     { id: 1, type: "admin", name: "active" },
     { id: 0, type: "Khách hàng", name: "active" },
@@ -132,7 +144,7 @@ const EditUser = () => {
     <div className={cx("new")}>
       <div className={cx("newContainer")}>
         <div className={cx("top")}>
-          <h1>Thêm Thành Viên</h1>
+          <h1>Sửa Thông tin thành viên</h1>
         </div>
         <div className={cx("bottom")}>
           <div className={cx("right")}>

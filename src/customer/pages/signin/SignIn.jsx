@@ -7,7 +7,7 @@ import {
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import * as registerService from "~/admin/services/registerService";
@@ -21,8 +21,7 @@ const SignIn = () => {
   const showPass = true;
   const navigate = useNavigate();
   const [search, setSearch] = useState();
-  const [auth, setAuth] = useState(false);
-  const [role, setRole] = useState();
+  const [role, setRole] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -32,7 +31,6 @@ const SignIn = () => {
     onSubmit: async (values, actions) => {
       fetchApiSignIn(values.email, values.password);
       actions.resetForm();
-      fetchApi();
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -43,29 +41,29 @@ const SignIn = () => {
         .min(6, "Mật khẩu quá ngắn - vui lòng nhập trên 6 kí tự"),
     }),
   });
+
   const fetchApiSignIn = async (a, b) => {
     const response = await registerService.signInRegister(a, b);
     const token = "Bearer " + response.headers.authorization;
     Cookies.set("accessToken", token, { expires: 7 });
-    setAuth(response.data.success);
-    window.location.reload();
-    // navigate("/admin");
+    if (response.data.success === true) {
+      const response1 = await registerService.LoginRegister(
+        response.headers.authorization
+      );
+      setRole(response1?.data.account.role);
+    }
   };
-  console.log(auth)
-  console.log('roleeeee',role)
-
-  const fetchApi = async () => {
-    const response = await registerService.getRegister();
-    setRole(response.account.role);
-  };
-
-//   if (auth && role === "admin") {
-//     navigate("/admin");
-//   } else if (auth && role === "user") {
-//     navigate("/shop");
-//   } else {
-//     navigate("/sign-in");
-//   }
+  useEffect(() => {
+    if (role === "admin") {
+      navigate("/admin");
+      window.location.reload();
+    } else if (role === "user") {
+      navigate("/shop");
+      window.location.reload();
+    } else {
+      navigate("/sign-in");
+    }
+  }, [role]);
 
   return (
     <div className={cx("container")}>
