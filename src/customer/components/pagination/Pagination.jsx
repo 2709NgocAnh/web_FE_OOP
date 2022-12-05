@@ -21,7 +21,7 @@ const Pagination = ({  setNumberPage,totalPage}) => {
             <ul className={cx('pagination')}>
                 {pageNumbers.map((number) => (
                     <li key={number} className={cx('page-item')}>
-                        <NavLink onClick ={()=>setNumberPage(number)} to={`/product?pageIndex=${number}`} className={cx('page-link')}>
+                        <NavLink onClick ={()=>setNumberPage(number)} className={cx('page-link')}>
                             {number}
                         </NavLink>
                     </li>

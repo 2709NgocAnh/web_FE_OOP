@@ -19,7 +19,7 @@ export default function Shop() {
   const [numberPage, setNumberPage] = useState(1);
   const [nameSort, setNameSort] = useState("price");
   const [valueSort, setValueSort] = useState(1);
-  const [idCategory, setIdCategory] = useState(productList);
+  //   const [idCategory, setIdCategory] = useState();
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -32,7 +32,7 @@ export default function Shop() {
       setTotalPage(response.totalPage);
     };
     fetchApi();
-  }, [numberPage, nameSort, valueSort]);
+  }, [nameSort, valueSort, numberPage]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,17 +42,22 @@ export default function Shop() {
     };
     fetchApi();
   };
-  console.log(idCategory)
+  const handleSubmitCategory = (idCategory) => {
+    console.log(idCategory);
 
-//   useEffect((e) => {
-//     e.preventDefault();
-
-//     const fetchApi = async () => {
-//       const response = await productService.getListProductById(idCategory);
-//       setProductList(response.products);
-//     };
-//     fetchApi();
-//   }, [idCategory]);
+    const fetchApi = async () => {
+      const response = await productService.getListProductById(idCategory);
+      setProductList(response.products);
+    };
+    fetchApi();
+  };
+  //   useEffect(() => {
+  //     const fetchApi = async () => {
+  //       const response = await productService.getListProductById(idCategory);
+  //       setProductList(response.products);
+  //     };
+  //     fetchApi();
+  //   }, [idCategory]);
 
   return (
     <>
@@ -61,7 +66,8 @@ export default function Shop() {
           setValueSearch={setValueSearch}
           valueSearch={valueSearch}
           handleSubmit={handleSubmit}
-          setIdCategory={setIdCategory}
+          handleSubmitCategory={handleSubmitCategory}
+          //   setIdCategory={setIdCategory}
         />
         <Slider title="Shop" />
       </div>

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import * as categoryService from "~/admin/services/categoryService";
 
 export default function Category(props) {
-  const { setIdCategory } = props;
+  const { setIdCategory, handleSubmitCategory } = props;
   const cx = classNames.bind(styles);
   const [listCategory, setListCategory] = useState([]);
 
@@ -21,10 +21,14 @@ export default function Category(props) {
     <div className={cx("wrapper")}>
       {listCategory.map((category, index) => {
         return (
-          <div key={index} className={cx("wrapper-item")}>
+          <div
+            key={index}
+            className={cx("wrapper-item")}
+          >
             <NavLink
               className={cx("menu-item")}
-              onClick={()=>setIdCategory(category._id)}
+            // onClick={handleSubmitCategory(category._id)}
+
             >
               <span className={cx("title")}>{category.name}</span>
             </NavLink>

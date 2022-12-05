@@ -18,7 +18,7 @@ const ListProduct = () => {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const response = await productService.getProduct();
+      const response = await productService.getListProduct();
       setList(response.products);
     };
     fetchApi();

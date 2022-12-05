@@ -9,6 +9,7 @@ import moment from "moment";
 import { confirm } from "react-confirm-box";
 import * as orderService from "~/admin/services/orderService";
 import Image from "~/components/image/Image";
+import Price from "~/customer/pages/shop/component/price/Price";
 
 function SingleOrder() {
   const cx = classNames.bind(styles);
@@ -26,26 +27,26 @@ function SingleOrder() {
     const fetchApi = async () => {
       const response = await orderService.getAOrder(id);
       setOrder(response.order[0]);
-      setOrderstatus(response.order[0].status)
+      setOrderstatus(response.order[0].status);
       setOrderdetail(response.order[0].orderProducts);
     };
     fetchApi();
   }, [id]);
 
-  const handleOnclick =async (status_id, status_name) => {
-      const result = await confirm(
-        `Bạn có chắc chắn muốn chọn ${status_name} cho đơn hàng không?`
-      );
-      if (!result) {
-        return;
-      }
-        const fetchApi = async () => {
-          const response = await orderService.editOrder(id,status_id)
-          setOrderstatus(status_id);
-        };
-        fetchApi();
-      };
-    
+  const handleOnclick = async (status_id, status_name) => {
+    const result = await confirm(
+      `Bạn có chắc chắn muốn chọn ${status_name} cho đơn hàng không?`
+    );
+    if (!result) {
+      return;
+    }
+    const fetchApi = async () => {
+      const response = await orderService.editOrder(id, status_id);
+      setOrderstatus(status_id);
+    };
+    fetchApi();
+  };
+
   return (
     <div className={cx("single")}>
       <div className={cx("singleContainer")}>
@@ -63,15 +64,15 @@ function SingleOrder() {
                   <span className={cx("itemKey")}>Tên khách hàng:</span>
                   <span className={cx("itemValue")}> {order?.user}</span>
                 </div>
-                
-                <div className={cx('detailItem')}>
-                                    <span className={cx('itemKey')}>Số điện thoại:</span>
-                                    <span className={cx('itemValue')}>{order?.phone}</span>
-                                </div>
-                <div className={cx('detailItem')}>
-                                    <span className={cx('itemKey')}>Địa chỉ nhận hàng:</span>
-                                    <span className={cx('itemValue')}>{order?.address}</span>
-                                </div>
+
+                <div className={cx("detailItem")}>
+                  <span className={cx("itemKey")}>Số điện thoại:</span>
+                  <span className={cx("itemValue")}>{order?.phone}</span>
+                </div>
+                <div className={cx("detailItem")}>
+                  <span className={cx("itemKey")}>Địa chỉ nhận hàng:</span>
+                  <span className={cx("itemValue")}>{order?.address}</span>
+                </div>
                 {order?.note != null ? (
                   <div className={cx("detailItem")}>
                     <span className={cx("itemKey")}>Chú thích:</span>
@@ -93,12 +94,10 @@ function SingleOrder() {
                 <div className={cx("detailItem")}>
                   <div className="row wrap">
                     <div className="col-md-6 col-sm-12 col-xs-12">
-                      <div >
+                      <div>
                         {orderdetail?.map((item) => (
                           <div key={item._id}>
-                            <div
-                              className={cx("sidebar")}
-                            >
+                            <div className={cx("sidebar")}>
                               <div className={cx("sidebar-content")}>
                                 <table className={cx("product-table")}>
                                   <tbody>
@@ -161,10 +160,11 @@ function SingleOrder() {
                                             "product-description-price"
                                           )}
                                         >
-                                          {item.price.toLocaleString("it-IT", {
+                                          <Price price={item.price} />
+                                          {/* {item.price.toLocaleString("it-IT", {
                                             style: "currency",
                                             currency: "VND",
-                                          })}{" "}
+                                          })}{" "} */}
                                         </div>
                                         {/* ) */}
                                       </td>
@@ -173,12 +173,15 @@ function SingleOrder() {
                                         <span
                                           className={cx("product-price-des")}
                                         >
-                                          {(
+                                          <Price
+                                            price={item.price * item.quantity}
+                                          />
+                                          {/* {(
                                             item.price * item.quantity
                                           ).toLocaleString("it-IT", {
                                             style: "currency",
                                             currency: "VND",
-                                          })}
+                                          })} */}
                                         </span>
                                       </td>
                                     </tr>
@@ -193,10 +196,15 @@ function SingleOrder() {
                             <table className={cx("product-table")}>
                               <thead>
                                 <tr className={cx("product")}>
-                                  <th style={{textAlign:'left'}}>
+                                  <th style={{ textAlign: "left" }}>
                                     <span>Mô tả</span>
                                   </th>
-                                  <th style={{textAlign:'right',paddingRight:'35px'}}>
+                                  <th
+                                    style={{
+                                      textAlign: "right",
+                                      paddingRight: "35px",
+                                    }}
+                                  >
                                     <span>Giá</span>
                                   </th>
                                 </tr>
@@ -208,13 +216,14 @@ function SingleOrder() {
                                   </td>
                                   <td className={cx("total-line-price")}>
                                     <span>
-                                      {order?.totalPrice.toLocaleString(
+                                        <Price price={order?.totalPrice}/>
+                                      {/* {order?.totalPrice.toLocaleString(
                                         "it-IT",
                                         {
                                           style: "currency",
                                           currency: "VND",
                                         }
-                                      )}
+                                      )} */}
                                     </span>
                                   </td>
                                 </tr>
@@ -225,13 +234,15 @@ function SingleOrder() {
                                   </td>
                                   <td className={cx("total-line-price")}>
                                     <span>
-                                      {order?.transportFee.toLocaleString(
+                                    <Price price={order?.transportFee}/>
+
+                                      {/* {order?.transportFee.toLocaleString(
                                         "it-IT",
                                         {
                                           style: "currency",
                                           currency: "VND",
                                         }
-                                      )}
+                                      )} */}
                                     </span>
                                   </td>
                                 </tr>
@@ -241,10 +252,12 @@ function SingleOrder() {
                                   </td>
                                   <td className={cx("total-line-price")}>
                                     <span>
-                                      {order?.discount.toLocaleString("it-IT", {
+                                    <Price price={order?.discount}/>
+
+                                      {/* {order?.discount.toLocaleString("it-IT", {
                                         style: "currency",
                                         currency: "VND",
-                                      })}
+                                      })} */}
                                     </span>
                                   </td>
                                 </tr>
@@ -256,19 +269,22 @@ function SingleOrder() {
                                   </td>
                                   <td className={cx("total-line-price")}>
                                     <strong
-                                    
                                       style={{
                                         fontSize: "1.6rem",
                                       }}
                                     >
-                                      {(
+                                    <Price price={order?.totalPrice -
+                                        order?.transportFee -
+                                        order?.discount}/>
+
+                                      {/* {(
                                         order?.totalPrice -
                                         order?.transportFee -
                                         order?.discount
                                       ).toLocaleString("it-IT", {
                                         style: "currency",
                                         currency: "VND",
-                                      })}
+                                      })} */}
                                     </strong>
                                   </td>
                                 </tr>

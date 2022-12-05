@@ -2,7 +2,7 @@ import * as httpRequest from "~/admin/utils/httpRequest";
 
 export const getOrder = async () => {
   try {
-    const res = await httpRequest.get(`order/`);
+    const res = await httpRequest.get(`order`);
     return res;
   } catch (error) {
     console.log(error);

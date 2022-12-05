@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import {
-    BrowserRouter as Router, Route,
-    Routes
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
 } from "react-router-dom";
 import * as registerService from "~/admin/services/registerService";
 import { DataProvider } from "./customer/components/dataProvider/DataProvider";
 import { PRIVATEROUTES, PUBLICROUTES } from "./routes";
-import PrivateRoutes from "./routes/PrivateRoute";
 
 function App() {
-  const [role, setRole] = useState();
+  const [role, setRole] = useState('admin');
   // call API lấy role
   useEffect(() => {
     const fetchApi = async () => {
@@ -32,11 +33,14 @@ function App() {
                     key={index}
                     path={route.path}
                     element={
-                        <Layout>
-                          <PrivateRoutes>
-                            <Page />
-                          </PrivateRoutes>
-                        </Layout>
+                      <Layout>
+                        {role === "admin" ? (
+                          <Page />
+                        ) : (
+                          <Navigate to="/sign-in" />
+                        )}
+                        
+                      </Layout>
                     }
                   />
                 </>

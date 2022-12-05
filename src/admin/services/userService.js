@@ -2,7 +2,7 @@ import * as httpRequest from "~/admin/utils/httpRequest";
 
 export const getUser = async () => {
   try {
-    const res = await httpRequest.get(`user`);
+    const res = await httpRequest.get(`user/`);
 
     return res;
   } catch (error) {
