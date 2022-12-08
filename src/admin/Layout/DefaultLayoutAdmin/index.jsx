@@ -7,13 +7,12 @@ function DefaultLayoutAdmin({ children }) {
     const cx = classNames.bind(styles);
     return (
         <div className={cx('wrapper')}>
-            <Navbar />
+            {children}
+            {/* <Navbar />
             <div className={cx('container')}>
                 <Sidebar />
                 <div className={cx('content')}>{children}</div>
-            </div>
+            </div> */}
         </div>
     );
 }
-
-export default DefaultLayoutAdmin;
