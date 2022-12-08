@@ -85,3 +85,18 @@ input:invalid[focused="true"] ~ .err {
   justify-content: center;
   align-items: center;
 }
+.form-signin{
+    width: 600px;
+    font-size: 1.4rem;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    height: 40px;
+    display: flex;
+    span{
+        margin-left: 0;
+        color: #333;
+    }
+    a{
+        font-size: 1.4rem;
+    }
+  }

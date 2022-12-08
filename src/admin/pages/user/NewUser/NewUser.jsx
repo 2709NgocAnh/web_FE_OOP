@@ -3,6 +3,8 @@ import classNames from "classnames/bind";
 import styles from "./NewUser.module.scss";
 import TabTitle from "~/components/tabtiltle/TabTiltle";
 import * as registerService from "~/admin/services/registerService";
+import Navbar from "~/admin/Layout/components/Navbar/Navbar";
+import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 
 const cx = classNames.bind(styles);
 const NewUser = () => {
@@ -129,6 +131,11 @@ const NewUser = () => {
     });
   };
   return (
+    <div>
+    <Navbar />
+    <div className={cx("container")}>
+      <Sidebar />
+      <div className={cx("content")}>
     <div className={cx("new")}>
       <div className={cx("newContainer")}>
         <div className={cx("top")}>
@@ -169,6 +176,9 @@ const NewUser = () => {
           </div>
         </div>
       </div>
+    </div>
+    </div>
+    </div>
     </div>
   );
 };

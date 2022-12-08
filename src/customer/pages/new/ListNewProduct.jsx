@@ -14,15 +14,16 @@ export default function ListNewProduct() {
   const cx = classNames.bind(styles);
   const [totalPage, setTotalPage] = useState();
   const [productList, setProductList] = useState([]);
+  const [numberPage, setNumberPage] = useState(1);
   
   useEffect(() => {
     const fetchApi = async () => {
-      const response = await productService.getListNewProduct();
+      const response = await productService.getListNewProduct(numberPage);
       setProductList(response.products);
       setTotalPage(response.totalPage);
     };
     fetchApi();
-  }, []);
+  }, [numberPage]);
   
   return (
     <>
@@ -40,10 +41,8 @@ export default function ListNewProduct() {
                 <Products productList={productList} />
               )}
             </div>
-            <Pagination
-            totalPage={totalPage}
-            setProductList={setProductList}
-            />
+            <Pagination totalPage={totalPage} setNumberPage={setNumberPage} />
+
           </div>
         </section>
       </div>

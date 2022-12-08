@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import "yup-phone-lite";
 import * as registerService from "~/admin/services/registerService";
@@ -10,11 +10,12 @@ import Header from "~/customer/Layout/components/header/Header";
 import FormRegister from "./component/FormRegister/FormRegister";
 import { MENU_REGISTER } from "./constant";
 import styles from "./Register.module.scss";
+import Swal from "sweetalert2";
 
 const cx = classNames.bind(styles);
 
 const Register = () => {
-    const [search, setSearch] = useState();
+  const [search, setSearch] = useState();
   TabTitle("Register");
   const role = "user";
   const phoneRegExp =
@@ -66,14 +67,14 @@ const Register = () => {
   });
   const fetchApiSignUp = async (a, b, c, d, e, f) => {
     const response = await registerService.signUpRegister(a, b, c, d, e, f);
-    response.data.success === true
-      ? navigate("/sign-in")
-      : navigate("/register");
+    if (response.data.success === true) {
+      navigate("/veryfyEmail");
+    } 
   };
 
   return (
     <div className={cx("container")}>
-        <Header search={search} onChange={(e) => setSearch(e.target.value)} />
+      <Header search={search} onChange={(e) => setSearch(e.target.value)} />
       <form className={cx("form-Register")} onSubmit={formik.handleSubmit}>
         <h3 className={cx("form-heading")}>ĐĂNG KÝ THÀNH VIÊN MỚI </h3>
         {MENU_REGISTER.map((input) => (
@@ -90,6 +91,15 @@ const Register = () => {
           <button type="submit" className={cx("form-submit")}>
             Đăng ký
           </button>
+        </div>
+        <div className={cx("form-signin")}>
+            <span>Bạn đã có tài khoản !</span>
+            <NavLink
+              to="/sign-in"
+              style={{ color: "blue", textDecoration: "underline" }}
+            >
+              Đăng nhập
+            </NavLink>
         </div>
       </form>
     </div>

@@ -8,7 +8,6 @@ const httpRequest = axios.create({
     Authorization: Cookies.get("accessToken") ? `${Cookies.get("accessToken")}`: " ",
   },
 });
-console.log('hiiiiiiiii', Cookies.get("accessToken") )
 export const get = async (path, options = {}) => {
   const response = await httpRequest.get(path, options);
   return response.data;

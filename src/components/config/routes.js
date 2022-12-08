@@ -2,12 +2,15 @@ const routes = {
   admin: "/admin",
   customer: "/",
   shop:"/shop",
+  pageSaleProduct: "/product/sale",
   listnewproduct: "/product/new",
   listsaleproduct: "/product/sale",
-
   payment:"/payment",
   profile:"/profile",
+  editprofile:"/profile/editprofile",
+
   cart:"/cart",
+  detailorder:"/order/:id",
   vieworder:"/vieworder",
   //contact
   feedback:"/feedback",
@@ -48,10 +51,12 @@ const routes = {
   editdiscount: "/admin/discount/editdiscount/:id",
 
   singleprofile: "/admin/profile",
-  editprofile: "/admin/profile/editprofile",
+//   editprofile: "/admin/profile/editprofile",
   //register
   register: "/register",
-  signin:"/sign-in"
+  signin:"/sign-in",
+  forgetPassword:"/forgetPassword",
+veryfyEmail:'veryfyEmail'
 };
 
 export default routes;

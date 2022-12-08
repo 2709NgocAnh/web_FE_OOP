@@ -10,13 +10,14 @@ import * as registerService from "~/admin/services/registerService";
 import Price from "../shop/component/price/Price";
 import Header from "~/customer/Layout/components/header/Header";
 import Slider from "~/customer/Layout/components/slider/Slider";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
 export default function Payment() {
   TabTitle("Thanh toán");
   const value = useContext(DataContext);
   const navigate = useNavigate();
 
-  const status = 0;
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -39,21 +40,20 @@ export default function Payment() {
   const [discount, setDiscount] = useState(20000);
   const [search, setSearch] = useState();
   const priceShip = 30000;
-  const [idUser, setIdUser] = useState();
 
   const fetchApi1 = async () => {
     const response = await registerService.getRegister();
-    setIdUser(response.account._id);
     setFullName(response.account.fullName);
     setPhone(response.account.phoneNumber);
     setEmail(response.account.email);
   };
   useEffect(() => {
-    fetchApi1();
+    
+    Cookies.get("accessToken")?fetchApi1():(Swal.fire("Vui lòng đăng nhập trước khi thanh toán") && navigate("/sign-in"));
   }, []);
   useEffect(() => {
     setPriceall(total + 30000 - discount);
-  }, [total]);
+  }, [total, discount]);
   useEffect(() => {
     if (fullName === "" && f1) {
       setErr1("Hãy nhập họ và tên");
@@ -95,7 +95,6 @@ export default function Payment() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     fetchApi(
-      idUser,
       orderProducts,
       phone,
       address,
@@ -103,19 +102,20 @@ export default function Payment() {
       discount,
       priceShip,
       priceAll,
-      status
     );
     localStorage.removeItem("cart");
     navigate("/shop");
+    window.location.reload();
+
   };
 
   const fetchApi = async (a, b, c, d, e, f, g, h, i) => {
-    const response = await orderService.newOrder(a, b, c, d, e, f, g, h, i);
+   await orderService.newOrder(a, b, c, d, e, f, g, h, i);
   };
 
   return (
     <>
-      <Header search={search}  onChange={(e) => setSearch(e.target.value)}/>
+      <Header search={search} onChange={(e) => setSearch(e.target.value)} />
       <div className="row wrap">
         <div className="col-md-6 col-sm-12 col-xs-12">
           <div className="main">
@@ -133,7 +133,6 @@ export default function Payment() {
                     Giỏ hàng
                   </NavLink>
                 </li>
-
                 <li className="breadcrumb-item breadcrumb-item-current">
                   Thông tin giao hàng
                 </li>
@@ -311,125 +310,125 @@ export default function Payment() {
             </div>
           </div>
         </div>
-        <div className="col-md-6 col-sm-12 col-xs-12 content">
-          {cart.map((item) => (
-            <div key={item._id}>
-              <div className="sidebar">
-                <div className="sidebar-content">
-                  <table className="product-table">
-                    <tbody>
-                      <tr className="product">
-                        <td className="product-image">
-                          <div className="product-thumbnail">
-                            <Image
-                              className="product-thumbnail-image"
-                              cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                              publicId={item.images[1]}
-                            />
-                            <div className="product-thumbnail-quantity">
-                              {item.cartNum}
+        <div className="col-md-6 col-sm-12 col-xs-12">
+          <div className="content">
+            <div className="sidebar">
+              {cart.map((item) => (
+                <div key={item._id}>
+                  <div className="sidebar-content">
+                    <table className="product-table">
+                      <tbody>
+                        <tr className="product">
+                          <td className="product-image">
+                            <div className="product-thumbnail">
+                              <Image
+                                className="product-thumbnail-image"
+                                cloudName={
+                                  process.env.REACT_APP_CLOUDINARY_NAME
+                                }
+                                publicId={item.images[1]}
+                              />
+                              <div className="product-thumbnail-quantity">
+                                {item.cartNum}
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                        <td className="product-description">
-                          <div className="product-description-name">
-                            {item.name}
-                          </div>
-                          {item.price_sale != null ? (
-                            <Price price={item.price_sale} />
-                          ) : (
-                            <div className="product-description-price">
-                              <Price price={item.price} />
+                          </td>
+                          <td className="product-description">
+                            <div className="product-description-name">
+                              {item.name}
                             </div>
-                          )}
-                        </td>
-                        <td className="product-price">
-                          <div className="product-price-des">
-                            <Price
-                              price={
-                                item.price_sale !== null
-                                  ? item.price_sale * item.cartNum
-                                  : item.price * item.cartNum
-                              }
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                            {item.price_sale != null ? (
+                              <div className="product-description-price">
+                                {item.price_sale.toLocaleString("it-IT", {
+                                  style: "currency",
+                                  currency: "VND",
+                                })}
+                              </div>
+                            ) : (
+                              <div className="product-description-price">
+                                {item.price.toLocaleString("it-IT", {
+                                  style: "currency",
+                                  currency: "VND",
+                                })}
+                              </div>
+                            )}
+                          </td>
+                          <td className="product-price">
+                            <div className="product-price-des">
+                              {(item.price_sale !== null
+                                ? item.price_sale * item.cartNum
+                                : item.price * item.cartNum
+                              ).toLocaleString("it-IT", {
+                                style: "currency",
+                                currency: "VND",
+                              })}
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
-          <div className="sidebar">
-            <div className="sidebar-content">
-              <table className="product-table">
-                <thead>
-                  <tr className="product">
-                    <th style={{ textAlign: "left" }}>
-                      <div>Mô tả</div>
-                    </th>
-                    <th style={{ textAlign: "right", paddingRight: "35px" }}>
-                      <div>Giá</div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="product">
-                    <td className="total-line-name">Tạm tính</td>
-                    <td className="total-line-price">
-                      <div>
-                        {total.toLocaleString("it-IT", {
-                          style: "currency",
-                          currency: "VND",
-                        })}
-                      </div>
-                    </td>
-                  </tr>
+              ))}
+              <div className="sidebar-content">
+                <table className="product-table">
+                  <tbody>
+                    <tr className="product">
+                      <td className="total-line-name">Tạm tính</td>
+                      <td className="total-line-price">
+                        <div>
+                          {total.toLocaleString("it-IT", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </div>
+                      </td>
+                    </tr>
 
-                  <tr>
-                    <td className="total-line-name">Phí vận chuyển</td>
-                    <td className="total-line-price">
-                      <div>
-                        {priceShip.toLocaleString("it-IT", {
-                          style: "currency",
-                          currency: "VND",
-                        })}
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="total-line-name">Discount</td>
-                    <td className="total-line-price">
-                      <div>
-                        {discount.toLocaleString("it-IT", {
-                          style: "currency",
-                          currency: "VND",
-                        })}
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td>
-                      <strong>Tổng cộng:</strong>
-                    </td>
-                    <td className="total-line-price">
-                      <strong
-                        style={{
-                          fontSize: "1.6rem",
-                        }}
-                      >
-                        {priceAll.toLocaleString("it-IT", {
-                          style: "currency",
-                          currency: "VND",
-                        })}
-                      </strong>
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
+                    <tr>
+                      <td className="total-line-name">Phí vận chuyển</td>
+                      <td className="total-line-price">
+                        <div>
+                          {priceShip.toLocaleString("it-IT", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="total-line-name">Discount</td>
+                      <td className="total-line-price">
+                        <div>
+                          {discount.toLocaleString("it-IT", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td>
+                        <strong>Tổng cộng:</strong>
+                      </td>
+                      <td className="total-line-price">
+                        <strong
+                          style={{
+                            fontSize: "1.6rem",
+                          }}
+                        >
+                          {priceAll.toLocaleString("it-IT", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </strong>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
             </div>
           </div>
         </div>

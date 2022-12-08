@@ -33,13 +33,13 @@ function Profile() {
                   <div className={cx("item")}>
                     <NavLink
                       className={(nav) => cx({ active: nav.isActive })}
-                      to={`/profileuser/EditProfileUser/${profile?.id}`}
+                      to={`/profile/editprofile`}
                     >
                       <div className={cx("editButton")}>Edit</div>
                     </NavLink>
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <div className={cx("user-avatar--work")}>
-                        {profile?.fullName.split(" ").pop().slice(0, 1)}
+                        {profile?.fullName.split(" ").pop().slice(0, 1)} 
                       </div>
                     </div>
                     <div className={cx("details")}>

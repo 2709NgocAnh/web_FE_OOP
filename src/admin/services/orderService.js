@@ -1,33 +1,32 @@
 import * as httpRequest from "~/admin/utils/httpRequest";
+import Swal from "sweetalert2";
 
-export const getOrder = async () => {
+export const getOrder = async (pageIndex) => {
   try {
-    const res = await httpRequest.get(`order/`);
+    const res = await httpRequest.get(`order?pageIndex=${pageIndex}`);
     return res;
   } catch (error) {
     console.log(error);
   }
 };
 export const newOrder = async (
-  user,
   orderProducts,
   phone,
   address,
   note,
   discount,
   transportFee,
-  totalPrice,status
+  totalPrice
 ) => {
   try {
     const res = await httpRequest.post(`order/add`, {
-        user,
         orderProducts,
         phone,
         address,
         note,
         discount,
         transportFee,
-        totalPrice,status
+        totalPrice
     });
     return res;
   } catch (error) {
@@ -39,9 +38,21 @@ export const editOrder = async (id, status) => {
     const res = await httpRequest.post(`order/update`, { id, status });
     return res;
   } catch (error) {
-    console.log(error);
+    await Swal.fire({
+        icon: 'error',
+        text: 'Bạn phải chọn đúng qui trình😰😰',
+        timer:4000
+      })
   }
 };
+export const cancelOrder = async (id) => {
+    try {
+      const res = await httpRequest.post(`order/cancel`, { id});
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 export const getAOrder = async (id) => {
   try {
     const res = await httpRequest.get(`order/${id}`);

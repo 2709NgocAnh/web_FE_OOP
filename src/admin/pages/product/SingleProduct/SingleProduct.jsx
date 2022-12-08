@@ -8,6 +8,8 @@ import styles from "./SingleProduct.module.scss";
 import moment from "moment";
 import * as productService from "~/admin/services/productService";
 import * as categoryService from "~/admin/services/categoryService";
+import Navbar from "~/admin/Layout/components/Navbar/Navbar";
+import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 
 function SingleProduct() {
   const cx = classNames.bind(styles);
@@ -39,114 +41,151 @@ function SingleProduct() {
   };
 
   return product ? (
-    <div className={cx("single")}>
-      <div className={cx("singleContainer")}>
-        <div className={cx("top")}>
-          <div className={cx("left")}>
-            <NavLink
-              className={(nav) => cx({ active: nav.isActive })}
-              to={`/admin/product/editproduct/${product?._id}`}
-            >
-              <div className={cx("editButton")}>Edit</div>
-            </NavLink>
+    <div>
+      <Navbar />
+      <div className={cx("container")}>
+        <Sidebar />
+        <div className={cx("content")}>
+          <div className={cx("single")}>
+            <div className={cx("singleContainer")}>
+              <div className={cx("top")}>
+                <div className={cx("left")}>
+                  <NavLink
+                    className={(nav) => cx({ active: nav.isActive })}
+                    to={`/admin/product/editproduct/${product?._id}`}
+                  >
+                    <div className={cx("editButton")}>Edit</div>
+                  </NavLink>
 
-            <div className={cx("item")} key={product?._id}>
-              <div className={cx("details")}>
-                <div className={cx("imgContainer")}>
-                  <Image
-                    className={cx("cellImg")}
-                    cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                    publicId={
-                      product.images.length
-                        ? product.images[index]
-                        : product.images
-                    }
-                    onMouseMove={handleMouseMove}
-                    ref={imgDiv}
-                    onMouseLeave={() =>
-                      (imgDiv.product.style.backgroundPosition = `center`)
-                    }
-                  />
+                  <div className={cx("item")} key={product?._id}>
+                    <div className={cx("details")}>
+                      <div className={cx("imgContainer")}>
+                        <Image
+                          className={cx("cellImg")}
+                          cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
+                          publicId={
+                            product.images.length
+                              ? product.images[index]
+                              : product.images
+                          }
+                          onMouseMove={handleMouseMove}
+                          ref={imgDiv}
+                          onMouseLeave={() =>
+                            (imgDiv.product.style.backgroundPosition = `center`)
+                          }
+                        />
 
-                  <div className={cx("thumb")}>
-                    {product.images?.map((img, index) => (
-                      <Image
-                        className={cx("cellImg")}
-                        cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                        publicId={img}
-                        onClick={() => setIndex(index)}
-                      />
-                      // <Image src={img.image} alt="" key={index} onClick={() => setIndex(index)} />
-                    ))}
+                        <div className={cx("thumb")}>
+                          {product.images?.map((img, index) => (
+                            <Image
+                              className={cx("cellImg")}
+                              cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
+                              publicId={img}
+                              onClick={() => setIndex(index)}
+                            />
+                            // <Image src={img.image} alt="" key={index} onClick={() => setIndex(index)} />
+                          ))}
+                        </div>
+                      </div>
+                      <div className={cx("details_box")}>
+                        <h1 className={cx("title")}>{product?.name}</h1>
+
+                        <div className={cx("detailItem")}>
+                          <div className={cx("detailItem__box")}>
+                            <span className={cx("itemKey")}>Trạng thái:</span>
+                            <span className={cx("itemValue")}>
+                              {product?.active === true
+                                ? "Đang hoạt động"
+                                : "Tạm dừng"}
+                            </span>
+                          </div>
+                          <div>
+                            <span className={cx("itemKey")}>
+                              Danh mục sản phẩm:
+                            </span>
+                            <span className={cx("itemValue")}>
+                              {category_id.map((category) =>
+                                category._id === product?.category_id
+                                  ? category.name
+                                  : ""
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                        <div className={cx("detailItem")}>
+                          <div className={cx("detailItem__box")}>
+                            <span className={cx("itemKey")}>Giá gốc:</span>
+                            <span className={cx("itemValue")}>
+                              {" "}
+                              {product?.price.toLocaleString("it-IT", {
+                                style: "currency",
+                                currency: "VND",
+                              })}
+                            </span>
+                          </div>
+                          <div>
+                            <span className={cx("itemKey")}>Giá sale:</span>
+                            <span className={cx("itemValue")}>
+                              {product?.price_sale != null
+                                ? product?.price_sale.toLocaleString("it-IT", {
+                                    style: "currency",
+                                    currency: "VND",
+                                  })
+                                : ""}
+                            </span>
+                          </div>
+                        </div>
+                        <div className={cx("detailItem")}>
+                          <div className={cx("detailItem__box")}>
+                            <span className={cx("itemKey")}>
+                              Số lượng trong kho:
+                            </span>
+                            <span className={cx("itemValue")}>
+                              {product?.num}
+                            </span>
+                          </div>
+                          <div>
+                            <span className={cx("itemKey")}>
+                              Số lượng đã bán:
+                            </span>
+                            <span className={cx("itemValue")}>
+                              {product?.mun_buy ? product?.mun_buy : 0}
+                            </span>
+                          </div>
+                        </div>
+                        <div className={cx("detailItem")}>
+                          <div className={cx("detailItem__box")}>
+                            <span className={cx("itemKey")}>Ngày tạo:</span>
+                            <span className={cx("itemValue")}>
+                              {moment(product?.createdAt).format(
+                                "DD/MM/YYYY HH:mm"
+                              )}
+                            </span>
+                          </div>
+                          <div>
+                            <span className={cx("itemKey")}>
+                              Ngày chỉnh sửa:
+                            </span>
+                            <span className={cx("itemValue")}>
+                              {moment(product?.updatedAt).format(
+                                "DD/MM/YYYY HH:mm"
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                        <div className={cx("detailItem")}>
+                          <span
+                            className={cx("itemValue")}
+                            style={{ marginLeft: 0 }}
+                          >
+                            <span className={cx("itemKey")}>Content </span>
+                            {product?.content}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div
-                  className={cx("details_box")}
-                  style={{ marginLeft: "60px" }}
-                >
-                  <h1 className={cx("title")}>{product?.name}</h1>
-
-                  <div className={cx("detailItem")}>
-                    <span className={cx("itemKey")}>Trạng thái:</span>
-                    <span className={cx("itemValue")}>
-                      {product?.active === true ? "Đang hoạt động" : "Tạm dừng"}
-                    </span>
-                  </div>
-                  <div className={cx("detailItem")}>
-                    <span className={cx("itemKey")}>Danh mục sản phẩm:</span>
-                    <span className={cx("itemValue")}>
-                      {category_id.map((category) =>
-                        category._id === product?.category_id
-                          ? category.name
-                          : ""
-                      )}
-                    </span>
-                  </div>
-                  <div className={cx("detailItem")}>
-                    <span className={cx("itemKey")}>Giá gốc:</span>
-                    <span className={cx("itemValue")}>
-                      {" "}
-                      {product?.price.toLocaleString("it-IT", {
-                        style: "currency",
-                        currency: "VND",
-                      })}
-                    </span>
-                  </div>
-                  <div className={cx("detailItem")}>
-                    <span className={cx("itemKey")}>Giá sale:</span>
-                    <span className={cx("itemValue")}>
-                      {product?.price_sale != null
-                        ? product?.price_sale.toLocaleString("it-IT", {
-                            style: "currency",
-                            currency: "VND",
-                          })
-                        : ""}
-                    </span>
-                  </div>
-                  <div className={cx("detailItem")}>
-                    <span className={cx("itemKey")}>Số lượng trong kho:</span>
-                    <span className={cx("itemValue")}>{product?.num}</span>
-                  </div>
-                  <div className={cx("detailItem")}>
-                    <span className={cx("itemKey")}>Số lượng đã bán:</span>
-                    <span className={cx("itemValue")}>
-                      {product?.mun_buy ? product?.mun_buy : 0}
-                    </span>
-                  </div>
-                  <div className={cx("detailItem")}>
-                    <span className={cx("itemKey")}>Ngày tạo:</span>
-                    <span className={cx("itemValue")}> {moment(product?.createdAt).format("DD/MM/YYYY HH:mm")}</span>
-                  </div>
-                  <div className={cx("detailItem")}>
-                    <span className={cx("itemKey")}>Ngày chỉnh sửa:</span>
-                    <span className={cx("itemValue")}> {moment(product?.updatedAt).format("DD/MM/YYYY HH:mm")}</span>
-                  </div>
-                  <div className={cx("detailItem")}>
-                    <span className={cx("itemKey")}>Content </span>
-                    <span className={cx("itemValue")}>{product?.content}</span>
-                  </div>
-                </div>
-                {/* </div> */}
               </div>
             </div>
           </div>
@@ -154,15 +193,23 @@ function SingleProduct() {
       </div>
     </div>
   ) : (
-    <div style={{ display: "flex", margin: 50 }}>
-      <Skeleton height={300} width={300} />
-      <div style={{ display: "flex", direction: "collumn" }}>
-        <Skeleton
-          count={5}
-          height={30}
-          width={250}
-          style={{ marginBottom: 20 }}
-        />
+    <div>
+      <Navbar />
+      <div className={cx("container")}>
+        <Sidebar />
+        <div className={cx("content")}>
+          <div style={{ display: "flex", margin: 50 }}>
+            <Skeleton height={300} width={300} />
+            <div style={{ display: "flex", direction: "collumn" }}>
+              <Skeleton
+                count={5}
+                height={30}
+                width={250}
+                style={{ marginBottom: 20 }}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

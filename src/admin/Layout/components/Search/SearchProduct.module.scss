@@ -2,10 +2,8 @@
   display: flex;
   align-items: center;
   font-size: 1.4rem;
-  border: 0.5px solid lightgray;
   height: 50px;
   width: 300px;
-  border-radius: 10px;
   position: relative;
 
   input {
@@ -71,6 +69,19 @@
     border-bottom-right-radius: 10px;
     font-size: 1.8rem;
     color: rgba(22, 24, 35, 0.34);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span {
+      width: 25px;
+      height: 25px;
+      margin-left: 0px;
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
 
     &:hover {
       cursor: pointer;

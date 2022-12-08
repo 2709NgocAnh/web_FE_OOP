@@ -35,7 +35,7 @@ function Slider(props) {
               >
                 <Image
                   width="1620px"
-                  height="700px"
+                  height="500px"
                   className={cx("d-block w-100")}
                   cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
                   publicId={slider.image}

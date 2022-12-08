@@ -133,10 +133,13 @@ function Footer() {
                                         <span>
                                             <iframe
                                                 name="f2f3cf4bebfefb8"
-                                                width="1000px"
-                                                height="300px"
+                                                width="200px"
+                                                height="150px"
+                                                scrolling="no" 
+                                                style={{overflow: 'hidden'}}
+                                                allowfullscreen
                                                 title="fb:page Facebook Social Plugin"
-                                                src="https://www.facebook.com/v12.0/plugins/page.php?adapt_container_width=true&amp;app_id=363772567412181&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df1c8a1d3efe8b34%26domain%3Douterity.com%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Fouterity.com%252Ff61c8ea4d0f48%26relation%3Dparent.parent&amp;container_width=305&amp;height=300&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fouterity&amp;locale=vi_VN&amp;sdk=joey&amp;show_facepile=true&amp;show_posts=false&amp;small_header=false"
+                                                src="https://www.vascara.com/"
                                             ></iframe>
                                           
                                         </span>

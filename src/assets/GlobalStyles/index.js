@@ -1,6 +1,6 @@
 import "./GlobalStyles.scss";
-function GlobalStyles({ children }) {
-  return children;
+function GlobalStyles({ children,index }) {
+  return <div key={index}> {children}</div>;
 }
 
 export default GlobalStyles;

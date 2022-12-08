@@ -217,17 +217,20 @@ form {
   display: flex;
   border-left: 1px solid lightgray;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   background-color: #fafafa;
   padding: 30px;
   line-height: 3rem;
+  height: 700px;
   .sidebar {
+    border-radius: 10px;
     .sidebar-content {
-      justify-content: space-between;
+        justify-content: space-between;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    border-bottom: 1px solid #e1e1e1;;
       .product-table {
         width: 500px;
-        border: 1px solid lightgray;
         padding: 15px;
         .product {
           th {
@@ -241,7 +244,7 @@ form {
             .product-thumbnail-image {
               width: 4.6em;
               height: 4.6em;
-              border: 1px solid lightgray;
+              border: 1px solid#e1e1e1;;
               border-radius: 8px;
               background: #fff;
             }
@@ -254,6 +257,10 @@ form {
               border-radius: 50%;
               text-align: center;
               background-color: lightgray;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-size: 1.3rem;
               span {
                 color: black;
                 margin-left: -10px;
@@ -267,14 +274,19 @@ form {
           flex-direction: column;
           width: 300px;
           .product-description-name {
-            font-weight: bold;
+            font-weight: 700;
+            color: #4b4b4b;
+            text-transform: uppercase;
           }
           .product-description-price {
-            font-size: 13px;
+            font-weight: 500;
+            color: #4b4b4b;
           }
         }
         .product-price {
           justify-content: flex-end;
+          font-weight: 500;
+            color: #4b4b4b;
           .product-price-des {
             width: 50px;
           }

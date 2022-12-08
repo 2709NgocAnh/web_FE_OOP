@@ -1,20 +1,23 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
-import classNames from "classnames/bind";
-import Cookies from "js-cookie";
-import styles from "./Contact.module.scss";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
 import { useEffect, useRef, useState } from "react";
-import TabTitle from "~/components/tabtiltle/TabTiltle";
-import Sidebar from "./component/Sidebar";
-import "./FeedBack.module.scss";
 import * as registerService from "~/admin/services/registerService";
+import * as feedbackService from "~/admin/services/feedbackService";
+
+import TabTitle from "~/components/tabtiltle/TabTiltle";
 import Header from "~/customer/Layout/components/header/Header";
+import Sidebar from "./component/Sidebar";
+import styles from "./FeedBack.module.scss";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const colors = {
   orange: "#FFBA5A",
   grey: "#a9a9a9",
 };
+
 function FeedBack() {
   TabTitle("Star Rate");
   const userRef = useRef();
@@ -23,17 +26,17 @@ function FeedBack() {
   const [content, setContent] = useState("");
   const [err, setErr] = useState("");
   const [focused, setFocused] = useState(false);
-  const [auth, setAuth] = useState(true);
   const [currentValue, setCurrentValue] = useState(0);
   const [hoverValue, setHoverValue] = useState(undefined);
-  const [search, setSearch] = useState();
+  const navigate = useNavigate();
+
+  const fetchApi = async () => {
+    const response = await registerService.getRegister();
+    setEmail(response.account.email);
+  };
 
   useEffect(() => {
-    const fetchApi = async () => {
-        const response = await registerService.getRegister();
-        setAuth(response.account);
-      };
-    fetchApi();
+    Cookies.get("accessToken")?fetchApi():(Swal.fire("Vui lòng đăng nhập trước khi đánh giá đơn hàng") && navigate("/sign-in"));
   }, []);
   
   useEffect(() => {
@@ -54,42 +57,25 @@ function FeedBack() {
   const handleClick = (value) => {
     setCurrentValue(value);
   };
-
   const handleMouseOver = (newHoverValue) => {
     setHoverValue(newHoverValue);
   };
-
   const handleMouseLeave = () => {
     setHoverValue(undefined);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post(
-        "http://localhost:8080/tttn_be/public/api/feedback/add",
-        { email, content },
-        {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
-          },
-        }
-      )
-      .then(function (response) {
-        if (response.data.result) {
-          alert(response.data.message);
-          setEmail("");
-          setContent("");
-        } else {
-          alert(response.data.error);
-        }
-      })
-      .catch(function (error) {
-        alert(error.response.data.message);
-      });
+    const fetchApi = async () => {
+       await feedbackService.addFeedBack(content,currentValue);
+       setCurrentValue("")
+       setContent("")
+      };
+    fetchApi();
+    setFocused(false)
   };
   return (
     <>
-     <Header search={search} onChange={(e) => setSearch(e.target.value)} />
+     <Header />
 
       <div className={cx("wrap")}>
         <div className="col-md-3 col-sm-12 col-xs-12">
@@ -128,21 +114,19 @@ function FeedBack() {
               >
                 <input
                   placeholder="Email của bạn"
-                  className={cx("wrapper-input ")}
+                  className={cx("wrapper-input")}
                   type="email"
                   ref={userRef}
                   autoComplete="off"
-                  onChange={(e) => setEmail(e.target.value)}
+                  disabled="true"
                   value={email}
                   pattern="[a-z0-9]+@[a-z]+.[a-z]{2,3}"
                   onBlur={handleFocus}
                   required="true"
-                  focused={focused.toString()}
                 />
-                <span className={cx("err")}>Vui lòng nhập lại mail</span>
                 <textarea
                   placeholder="Ý kiến của bạn"
-                  className="wrapper-text"
+                  className={cx("wrapper-text")}
                   pattern="\S+.*"
                   onBlur={handleFocus}
                   value={content}
@@ -152,9 +136,8 @@ function FeedBack() {
                     setFocused(true);
                   }}
                 />
-
-                <span className="wrapper-text-err">{err}</span>
-                <button className="wrapper-btn">Submit</button>
+                <span className={cx("wrapper-text-err")}>{err}</span>
+                <button className={cx("wrapper-btn")}>Submit</button>
               </form>
             </div>
           </div>

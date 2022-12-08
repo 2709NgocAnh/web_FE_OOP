@@ -7,6 +7,9 @@ import * as productService from "~/admin/services/productService";
 import * as categoryService from "~/admin/services/categoryService";
 import styles from "./EditProduct.module.scss";
 import { Image } from "cloudinary-react";
+import Navbar from "~/admin/Layout/components/Navbar/Navbar";
+import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
+import Swal from "sweetalert2";
 
 const EditProduct = () => {
   const cx = classNames.bind(styles);
@@ -50,7 +53,7 @@ const EditProduct = () => {
       setContent(response.product[0].content);
       setActive(response.product[0].active);
       setCategory_id(response.product[0].category_id);
-      console.log(response.product[0].category_id)
+      console.log(response.product[0].category_id);
     };
     fetchApi();
   }, [id]);
@@ -128,162 +131,175 @@ const EditProduct = () => {
 
   const handleSubmitFile = (e) => {
     e.preventDefault();
+    Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`,
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        await fetchApi(
+          id,
+          changedImg,
+          values.name,
+          category_id,
+          content,
+          values.price,
+          values.price_sale,
+          values.num,
+          active,
+          imgListApi
+        );
+        setImgList("");
+        setImgListApi("");
+        Swal.fire("Saved!", "", "success");
+        navigate("/admin/product");
+        window.location.reload()
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+        navigate("/admin/product");
 
-    fetchApi(
-      id,
-      changedImg,
-      values.name,
-      category_id,
-      content,
-      values.price,
-      values.price_sale,
-      values.num,
-      active,
-      imgListApi
-    );
-    setImgList("");
-    setImgListApi("");
-    navigate("/admin/product");
+      }
+    });
   };
-  const handleFocus = (e) => {
-    setFocused(true);
-  };
+ 
   const fetchApi = async (a, b, c, d, e, f, g, h, y, k) => {
-    const response = await productService.editProduct(
-      a,
-      b,
-      c,
-      d,
-      e,
-      f,
-      g,
-      h,
-      y,
-      k
-    );
+    await productService.editProduct(a, b, c, d, e, f, g, h, y, k);
   };
 
   return (
-    <div className={cx("new")}>
-      <div className={cx("newContainer")}>
-        <div className={cx("top")}>
-          <h1>Chỉnh sửa Sản Phẩm</h1>
-        </div>
-        <div className={cx("bottom")}>
-          <div className={cx("left")}>
-            <div className={cx("imgContainer")}>
-              {changedImg && imageURLS.length > 0 ? (
-                <>
-                  <img
-                    className={cx("cellImg")}
-                    src={
-                      imageURLS.length > 0
-                        ? imageURLS[index]
-                        : "https://vsam1040chicago.com/noimage.png"
-                    }
-                    alt=""
-                  />
-                  <div className={cx("thumb")}>
-                    {imageURLS.length <= 4 &&
-                      imageURLS.map((img, index) => (
+    <div>
+      <Navbar />
+      <div className={cx("container")}>
+        <Sidebar />
+        <div className={cx("content")}>
+          <div className={cx("new")}>
+            <div className={cx("newContainer")}>
+              <div className={cx("top")}>
+                <h1>Chỉnh sửa Sản Phẩm</h1>
+              </div>
+              <div className={cx("bottom")}>
+                <div className={cx("left")}>
+                  <div className={cx("imgContainer")}>
+                    {changedImg && imageURLS.length > 0 ? (
+                      <>
                         <img
-                          src={img}
+                          className={cx("cellImg")}
+                          src={
+                            imageURLS.length > 0
+                              ? imageURLS[index]
+                              : "https://vsam1040chicago.com/noimage.png"
+                          }
                           alt=""
-                          key={index}
-                          onClick={() => setIndex(index)}
                         />
-                      ))}
+                        <div className={cx("thumb")}>
+                          {imageURLS.length <= 4 &&
+                            imageURLS.map((img, index) => (
+                              <img
+                                src={img}
+                                alt=""
+                                key={index}
+                                onClick={() => setIndex(index)}
+                              />
+                            ))}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Image
+                          className={cx("cellImg")}
+                          cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
+                          publicId={image[index]}
+                        />
+                        <div className={cx("thumb")}>
+                          {image.map((img, index) => (
+                            <Image
+                              className={cx("cellImg")}
+                              cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
+                              publicId={img}
+                              onClick={() => setIndex(index)}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
                   </div>
-                </>
-              ) : (
-                <>
-                  <Image
-                    className={cx("cellImg")}
-                    cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                    publicId={image[index]}
-                  />
-                  <div className={cx("thumb")}>
-                    {image.map((img, index) => (
-                      <Image
-                        className={cx("cellImg")}
-                        cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                        publicId={img}
-                        onClick={() => setIndex(index)}
+                </div>
+                <div className={cx("right")}>
+                  <form onSubmit={handleSubmitFile}>
+                    <div className={cx("formInput")}>
+                      <label htmlFor="file">
+                        Image:{" "}
+                        <DriveFolderUploadOutlinedIcon className={cx("icon")} />
+                      </label>
+                      <input
+                        type="file"
+                        id="file"
+                        onChange={handleFileInputChange}
+                        style={{ display: "none" }}
+                        multiple
+                      />
+                    </div>
+                    <div className={cx("formInput-category")}>
+                      <select
+                        required
+                        onChange={(e) => {
+                          setCategory_id(e.target.value);
+                        }}
+                      >
+                        <option value="">Chọn danh mục sản phẩm</option>
+                        {listCategory.map((category) => (
+                          <option
+                            value={category._id}
+                            selected={
+                              category._id == category_id ? true : false
+                            }
+                          >
+                            {console.log(category._id)}
+                            {category.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {productInputs.map((input) => (
+                      <FormInput
+                        key={input.id}
+                        {...input}
+                        value={values[input.name]}
+                        onChange={onChange}
                       />
                     ))}
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-          <div className={cx("right")}>
-            <form onSubmit={handleSubmitFile}>
-              <div className={cx("formInput")}>
-                <label htmlFor="file">
-                  Image:{" "}
-                  <DriveFolderUploadOutlinedIcon className={cx("icon")} />
-                </label>
-                <input
-                  type="file"
-                  id="file"
-                  onChange={handleFileInputChange}
-                  style={{ display: "none" }}
-                  multiple
-                />
-              </div>
-              <div className={cx("formInput-category")}>
-                <select
-                  required
-                  onChange={(e) => {
-                    setCategory_id(e.target.value);
-                  }}
-                >
-                  <option value="">Chọn danh mục sản phẩm</option>
-                  {listCategory.map((category) => (
-                    <option
-                      value={category._id}
-                      selected={(category._id == category_id) ? true : false}
-                    >
-                      {console.log(category._id)}
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                    {arrActive.map((input) => (
+                      <div className={cx("formRadio")} key={input.id}>
+                        <input
+                          type="radio"
+                          name={input.name}
+                          onClick={(e) => setActive(input.id)}
+                          checked={input.id === active ? true : false}
+                        />
 
-              {productInputs.map((input) => (
-                <FormInput
-                  key={input.id}
-                  {...input}
-                  value={values[input.name]}
-                  onChange={onChange}
-                />
-              ))}
-              {arrActive.map((input) => (
-                <div className={cx("formRadio")} key={input.id}>
-                  <input
-                    type="radio"
-                    name={input.name}
-                    onClick={(e) => setActive(input.id)}
-                    checked={input.id === active ? true : false}
-                  />
-
-                  <label>{input.type}</label>
+                        <label>{input.type}</label>
+                      </div>
+                    ))}
+                    <div className={cx("formInput-desc")}>
+                      <label>Description</label>
+                      <textarea
+                        rows="4"
+                        cols="50"
+                        onChange={(e) => {
+                          setContent(e.target.value);
+                        }}
+                        value={content}
+                      />
+                    </div>
+                    <button>Send</button>
+                  </form>
                 </div>
-              ))}
-              <div className={cx("formInput-desc")}>
-                <label>Description</label>
-                <textarea
-                  rows="4"
-                  cols="50"
-                  onChange={(e) => {
-                    setContent(e.target.value);
-                  }}
-                  value={content}
-                />
               </div>
-              <button>Send</button>
-            </form>
+            </div>
           </div>
         </div>
       </div>

@@ -8,14 +8,17 @@ const cx = classNames.bind(styles);
 
 function Sort(props) {
   const { setNameSort, setValueSort } = props;
-  const [isSort, setIsSort] = useState(false);
+  const [isSortPrice, setIsSortPrice] = useState(false);
+  const [isSortName, setIsSortName] = useState(false);
+
   return (
     <div className={cx("container")}>
+        
       <div className={cx("box")}>
-        <p>Thứ tự </p>
-        <CaretDownOutlined onClick={() => setIsSort(true)} />
+        <p> Lọc Giá </p>
+        <CaretDownOutlined onClick={() =>(setIsSortPrice(!isSortPrice),setIsSortName(false))}/>
       </div>
-      {isSort === true ? (
+      {isSortPrice === true ? (
         <div className={cx("dropdown")}>
           <div className={cx("dropdown__item")}>
             <input
@@ -27,7 +30,7 @@ function Sort(props) {
                 e.preventDefault();
                 setNameSort("price");
                 setValueSort(1);
-                setIsSort(false);
+                setIsSortPrice(false);
               }}
             />
             <label for="html">Gía: Tăng dần</label>
@@ -42,31 +45,43 @@ function Sort(props) {
                 e.preventDefault();
                 setNameSort("price");
                 setValueSort(-1);
-                setIsSort(false);
+                setIsSortPrice(false);
               }}
             />
             <label for="css">Giá: Giảm dần</label>
           </div>
-          <div className={cx("dropdown__item")}>
+         
+        </div>
+      ) : (
+        ""
+      )}
+       <div className={cx("box")}>
+        <p>Name </p>
+        <CaretDownOutlined onClick={() => (setIsSortName(!isSortName),setIsSortPrice(false))} />
+      </div>
+      {isSortName === true ? (
+        <div className={cx("dropdown__name")}>
+          
+          <div className={cx("dropdown__name__item")}>
             <input
               type="radio"
               id="css"
               name="fav_language"
               value="1"
               onClick={(e) => (
-                setNameSort("name"), setValueSort(1), setIsSort(false)
+                setNameSort("name"), setValueSort(1), setIsSortName(false)
               )}
             />
             <label for="css">Tên: A-Z</label>
           </div>
-          <div className={cx("dropdown__item")}>
+          <div className={cx("dropdown__name__item")}>
             <input
               type="radio"
               id="css"
               name="fav_language"
               value="-1"
               onClick={(e) => (
-                setNameSort("name"), setValueSort(-1), setIsSort(false)
+                setNameSort("name"), setValueSort(-1), setIsSortName(false)
               )}
             />
             <label for="css">Tên:Z-A</label>

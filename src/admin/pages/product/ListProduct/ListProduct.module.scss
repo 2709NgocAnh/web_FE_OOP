@@ -1,112 +1,131 @@
-.list {
+.wrapper {
+  width: var(--default-layout-width);
   display: flex;
-  width: 100%;
-  .listContainer {
-    flex: 6;
-    font-size: 1.4rem;
-  }
+  flex-direction: column;
+  align-items: center;
 }
 
-.datatable {
-  height: 600px;
-  padding: 30px;
-  font-size: 2rem;
+.container {
+  min-height: 500px;
+  width: var(--default-layout-width);
+  max-width: 100%;
+  display: flex;
+  padding: 0 50px;
+}
 
-  .datatableTitle {
-    width: 100%;
-    font-size: 24px;
-    font-weight: 700;
-    color: gray;
-    margin-bottom: 30px;
+.content {
+  flex: 5;
+
+  .list {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    width: 100%;
+    .listContainer {
+      flex: 6;
+      font-size: 1.4rem;
+    }
+  }
 
-    .link {
-      text-decoration: none;
-      color: black;
-      font-size: 16px;
-      font-weight: 400;
-      background: linear-gradient(to right, black 50%, white 50%);
-      background-size: 200% 100%;
-      background-position: right bottom;
-      transition: all 0.7s ease-out;
-      border: 1px solid green;
-      padding: 5px;
-      border-radius: 5px;
+  .datatable {
+    height: 600px;
+    padding: 30px;
+    font-size: 2rem;
 
-      cursor: pointer;
-      &:hover {
-        background-position: left bottom;
-        color: white;
+    .datatableTitle {
+      width: 100%;
+      font-size: 24px;
+      font-weight: 700;
+      color: gray;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .link {
+        text-decoration: none;
+        color: black;
+        font-size: 16px;
+        font-weight: 400;
+        background: linear-gradient(to right, black 50%, white 50%);
+        background-size: 200% 100%;
+        background-position: right bottom;
+        transition: all 0.7s ease-out;
+        border: 1px solid green;
+        padding: 5px;
+        border-radius: 5px;
+
+        cursor: pointer;
+        &:hover {
+          background-position: left bottom;
+          color: white;
+        }
       }
     }
-  }
-  .datagrid {
-    font-size: 1.4rem;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center;
-  }
-  .cellWithImg {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.4rem;
-    .cellImg {
-      width: 40px;
-      height: 40px;
-      object-fit: cover;
-      margin-right: 20px;
-    }
-    .cellname {
-      width: 210px;
-      text-align: left;
-      color: black;
+    .datagrid {
       font-size: 1.4rem;
-      text-transform: uppercase;
-    }
-  }
-
-  .active {
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    font-size: 1.4rem;
-    width: 120px;
-    height: 30px;
-    text-align: center;
-    .true {
-      background-color: rgba(0, 128, 0, 0.05);
-      color: green;
-      padding: 5px;
-    }
-    .false {
-      background-color: rgba(255, 0, 0, 0.05);
-      color: crimson;
-      padding: 5px;
-    }
-  }
-  .cellAction {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    .viewButton {
-      padding: 2px 5px;
-      border-radius: 5px;
-      color: darkblue;
-      border: 1px dotted rgba(0, 0, 139, 0.596);
-      cursor: pointer;
-      width: 70px;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
     }
+    .cellWithImg {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.4rem;
+      .cellImg {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        margin-right: 20px;
+      }
+      .cellname {
+        width: 210px;
+        text-align: left;
+        color: black;
+        font-size: 1.4rem;
+        text-transform: uppercase;
+      }
+    }
 
-    .deleteButton {
-      padding: 4px 7px;
+    .active {
+      border: 1px solid lightgray;
       border-radius: 5px;
-      color: crimson;
-      border: 1px dotted rgba(220, 20, 60, 0.6);
-      cursor: pointer;
-      width: 70px;
+      font-size: 1.4rem;
+      width: 120px;
+      height: 30px;
       text-align: center;
+      .true {
+        background-color: rgba(0, 128, 0, 0.05);
+        color: green;
+        padding: 5px;
+      }
+      .false {
+        background-color: rgba(255, 0, 0, 0.05);
+        color: crimson;
+        padding: 5px;
+      }
+    }
+    .cellAction {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      .viewButton {
+        padding: 2px 5px;
+        border-radius: 5px;
+        color: darkblue;
+        border: 1px dotted rgba(0, 0, 139, 0.596);
+        cursor: pointer;
+        width: 70px;
+        text-align: center;
+      }
+
+      .deleteButton {
+        padding: 4px 7px;
+        border-radius: 5px;
+        color: crimson;
+        border: 1px dotted rgba(220, 20, 60, 0.6);
+        cursor: pointer;
+        width: 70px;
+        text-align: center;
+      }
     }
   }
 }

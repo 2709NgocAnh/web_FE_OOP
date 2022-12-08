@@ -2,6 +2,8 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import classNames from "classnames/bind";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "~/admin/Layout/components/Navbar/Navbar";
+import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 import * as sliderService from "~/admin/services/sliderService";
 import styles from "./NewSlider.module.scss";
 
@@ -58,18 +60,24 @@ const NewSlider = () => {
   };
   const uploadImage = (base64EncodedImage) => {
     fetchApi(name, content, active, base64EncodedImage);
-    setTimeout((navigate("/admin/slider")),3000)
     setImgList("");
     setPreviewSource("");
+    navigate("/admin/slider");
+   window.location.reload();
   };
   const handleFocus = (e) => {
     setFocused(true);
   };
   const fetchApi = async (a, b, c, d) => {
-    const response = await sliderService.newSlider(a, b, c, d);
+    await sliderService.newSlider(a, b, c, d);
   };
 
   return (
+    <div>
+    <Navbar />
+    <div className={cx("container")}>
+      <Sidebar />
+      <div className={cx("content")}>
     <div className={cx("new")}>
       <div className={cx("newContainer")}>
         <div className={cx("top")}>
@@ -145,6 +153,9 @@ const NewSlider = () => {
           </div>
         </div>
       </div>
+    </div>
+    </div>
+    </div>
     </div>
   );
 };

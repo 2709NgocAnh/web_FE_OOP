@@ -1,7 +1,19 @@
 import * as httpRequest from "~/admin/utils/httpRequest";
+//ADMIN
+export const getListProduct = async (pageIndex) => {
+    try {
+      const res = await httpRequest.get(`product?pageSize=12&pageIndex=${pageIndex}`);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+//USER
 export const getProduct = async (name,sort,pageIndex) => {
     try {
-      const res = await httpRequest.get(`product?sort=${name}&asc=${sort}&pageIndex=${pageIndex}`);
+      const res = await httpRequest.get(`product?sort=${name}&asc=${sort}&pageSize=12&pageIndex=${pageIndex}`);
       return res;
     } catch (error) {
       console.log(error);
@@ -24,17 +36,17 @@ export const getProduct = async (name,sort,pageIndex) => {
       }
     };
 
-  export const getListNewProduct = async () => {
+  export const getListNewProduct = async (pageIndex) => {
     try {
-      const res = await httpRequest.get(`product/newProducts`);
+      const res = await httpRequest.get(`product/newProducts?pageSize=12&pageIndex=${pageIndex}`);
       return res;
     } catch (error) {
       console.log(error);
     }
   };
-  export const getListSaleProduct = async () => {
+  export const getListSaleProduct = async (pageIndex) => {
     try {
-      const res = await httpRequest.get(`product/saleProducts`);
+      const res = await httpRequest.get(`product/saleProducts?pageSize=12&pageIndex=${pageIndex}`);
       return res;
     } catch (error) {
       console.log(error);

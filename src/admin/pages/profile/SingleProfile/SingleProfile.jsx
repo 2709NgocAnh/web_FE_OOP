@@ -3,26 +3,35 @@ import { useState,useEffect } from "react";
 import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
 import * as registerService from "~/admin/services/registerService"; 
+import Navbar from "~/admin/Layout/components/Navbar/Navbar";
+import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
+import Cookies from "js-cookie";
 
 function SingleProfile() {
   const cx = classNames.bind(styles);
   const [auth, setAuth] = useState([]);
 
   const fetchApi = async () => {
-    const response = await registerService.getRegister();
+    const response = await registerService.getRegister()
+  
     setAuth(response.account);
   };
   useEffect(() => {
     fetchApi();
   }, []);
   return (
+    <div>
+    <Navbar />
+    <div className={cx("container")}>
+      <Sidebar />
+      <div className={cx("content")}>
     <div className={cx("single")}>
       <div className={cx("singleContainer")}>
         <div className={cx("top")}>
           <div className={cx("left")}>
-            <Link to={`/admin/profile/editprofile`} className={cx("editButton")}>
+            {/* <Link to={`/admin/profile/editprofile`} className={cx("editButton")}>
               <div className={cx("viewButton")}>Edit</div>
-            </Link>
+            </Link> */}
            
             <h1 className={cx("title")}>Thông tin cá nhân</h1>
             <div className={cx("item")}>
@@ -53,6 +62,10 @@ function SingleProfile() {
         </div>
       </div>
     </div>
+    </div>
+    </div>
+    </div>
+
   );
 }
 

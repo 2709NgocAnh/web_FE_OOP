@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import styles from "./ListFeedBack.module.scss";
 import * as feedbackService from "~/admin/services/feedbackService";
+import Navbar from "~/admin/Layout/components/Navbar/Navbar";
+import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 
 const ListFeedback = () => {
   const cx = classNames.bind(styles);
@@ -43,14 +45,28 @@ const ListFeedback = () => {
       width: 250,
       headerClassName: "super-app-theme--header",
       headerAlign: "center",
+      renderCell: (params) => {
+        return (
+          <div style={{ margin: "0 auto" }}>
+           {params.row.user.fullName}
+          </div>
+        );
+      },
     },
-    {
-      field: "email",
-      headerName: "Email",
-      width: 250,
-      headerClassName: "super-app-theme--header",
-      headerAlign: "center",
-    },
+    // {
+    //   field: "",
+    //   headerName: "Email",
+    //   width: 250,
+    //   headerClassName: "super-app-theme--header",
+    //   headerAlign: "center",
+    //   renderCell: (params) => {
+    //     return (
+    //       <div style={{ margin: "0 auto" }}>
+    //        {params.row.user.email}
+    //       </div>
+    //     );
+    //   },
+    // },
     {
       field: "content",
       headerName: "Nội dung",
@@ -116,6 +132,11 @@ const ListFeedback = () => {
     },
   ];
   return (
+    <div>
+    <Navbar />
+    <div className={cx("container")}>
+      <Sidebar />
+      <div className={cx("content")}>
     <div className={cx("list")}>
       <div className={cx("listContainer")}>
         <div className={cx("datatable")}>
@@ -144,11 +165,13 @@ const ListFeedback = () => {
               columns={userColumns.concat(actionColumn)}
               priceSize={9}
               rowsPerPageOptions={[9]}
-              checkboxSelection
             />
           </Box>
         </div>
       </div>
+    </div>
+    </div>
+    </div>
     </div>
   );
 };

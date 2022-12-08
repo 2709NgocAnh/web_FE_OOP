@@ -1,11 +1,14 @@
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import classNames from "classnames/bind";
-import { Image } from 'cloudinary-react';
+import { Image } from "cloudinary-react";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { confirm } from "react-confirm-box";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import Navbar from "~/admin/Layout/components/Navbar/Navbar";
+import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 import * as sliderService from "~/admin/services/sliderService";
 import styles from "./ListSlider.module.scss";
 
@@ -20,24 +23,29 @@ function Slider() {
     fetchApi();
   }, []);
 
-  const handleDelete = async (id, name) => {
-    const result = await confirm(
-      `Bạn có chắc chắn muốn xóa Danh mục ${name} không?`
-    );
-    if (!result) {
-      return;
-    }
-    const response = await sliderService.removeSlider(id);
-    setTimeout(() => {
-      fetchApi();
-    }, 2000);
-    alert(`Bạn đã xóa Danh mục ${name} thành công`);
+  const handleDelete = (id, name) => {
+    Swal.fire({
+      title: `Bạn có muốn xóa ${name} này chứ ?`,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Detele",
+      denyButtonText: `Don't Detele`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await sliderService.removeSlider(id);
+        fetchApi();
+
+        Swal.fire("Saved!", "", `Bạn đã xóa ${name} thành công`);
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+      }
+    });
   };
 
   const userColumns = [
     {
       field: "_id",
-      hide:'true'
+      hide: "true",
     },
     {
       field: "name",
@@ -48,12 +56,12 @@ function Slider() {
       renderCell: (params) => {
         return (
           <div className={cx("cellWithImg")} style={{ margin: "0 auto" }}>
-             <Image
-             className={cx("cellImg")}
-                            cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                            publicId={params.row.image}
-                        />
-            <span className={cx("cellname")}>  {params.row.name}</span>
+            <Image
+              className={cx("cellImg")}
+              cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
+              publicId={params.row.image}
+            />
+            <span className={cx("cellname")}> {params.row.name}</span>
           </div>
         );
       },
@@ -124,7 +132,7 @@ function Slider() {
             </Link>
             <div
               className={cx("deleteButton")}
-              onClick={() => handleDelete(params.row._id,params.row.name)}
+              onClick={() => handleDelete(params.row._id, params.row.name)}
             >
               Delete
             </div>
@@ -135,32 +143,39 @@ function Slider() {
   ];
 
   return (
-    <div className={cx("datatable")}>
-      <div className={cx("datatableTitle")}>
-        Danh sách slide
-        <Link to="/admin/slider/newslider" className={cx("link")}>
-          Thêm mới
-        </Link>
+    <div>
+      <Navbar />
+      <div className={cx("container")}>
+        <Sidebar />
+        <div className={cx("content")}>
+          <div className={cx("datatable")}>
+            <div className={cx("datatableTitle")}>
+              Danh sách slide
+              <Link to="/admin/slider/newslider" className={cx("link")}>
+                Thêm mới
+              </Link>
+            </div>
+            <Box
+              sx={{
+                height: "100%",
+                width: "100%",
+                "& .super-app-theme--header": {
+                  backgroundColor: "#89CFFD",
+                },
+              }}
+            >
+              <DataGrid
+                getRowId={(row) => row._id}
+                className={cx("datagrid")}
+                rows={data}
+                columns={userColumns.concat(actionColumn)}
+                priceSize={9}
+                rowsPerPageOptions={[9]}
+              />
+            </Box>
+          </div>
+        </div>
       </div>
-      <Box
-        sx={{
-          height: "100%",
-          width: "100%",
-          "& .super-app-theme--header": {
-            backgroundColor: "#89CFFD",
-          },
-        }}
-      >
-        <DataGrid
-          getRowId={(row) => row._id}
-          className={cx("datagrid")}
-          rows={data}
-          columns={userColumns.concat(actionColumn)}
-          priceSize={9}
-          rowsPerPageOptions={[9]}
-          checkboxSelection
-        />
-      </Box>
     </div>
   );
 }

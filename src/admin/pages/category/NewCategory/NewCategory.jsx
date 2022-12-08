@@ -3,6 +3,8 @@ import * as categoryService from "~/admin/services/categoryService";
 import { Link, useNavigate } from "react-router-dom";
 import classNames from "classnames/bind";
 import styles from "./NewCategory.module.scss";
+import Navbar from "~/admin/Layout/components/Navbar/Navbar";
+import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 
 const NewCategory = () => {
   const cx = classNames.bind(styles);
@@ -32,53 +34,66 @@ const NewCategory = () => {
     setFocused(true);
   };
 
-  const fetchApi = async (a,b) => {
-    const response = await categoryService.newCategory(a,b);
-  }
+  const fetchApi = async (a, b) => {
+    await categoryService.newCategory(a, b);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetchApi(name,status);
-    navigate("/admin/category")
+    fetchApi(name, status);
+    navigate("/admin/category");
+    window.location.reload();
   };
   return (
-    <div className={cx("new")}>
-      <div className={cx("newContainer")}>
-        <div className={cx("top")}>
-          <h1>Thêm Danh mục</h1>
-        </div>
-        <div className={cx("bottom")}>
-          <div className={cx("right")}>
-            <form onSubmit={handleSubmit}>
-              {userInputs.map((input) => (
-                <div className={cx("formInput")} key={input.id}>
-                  <label>{input.label}</label>
-                  <input
-                    {...input}
-                    value={name}
-                    onBlur={handleFocus}
-                    onChange={(e) => {
-                      onChange(e);
-                    }}
-                    focused={focused.toString()}
-                  />
-                  <span className={cx("err")}>{input.err}</span>
-                </div>
-              ))}
-              {arrStatus.map((input) => (
-                <div className={cx("formRadio")} key={input.id}>
-                  <input
-                    type="radio"
-                    name={input.name}
-                    onClick={(e) => setStatus(input.id)}
-                    checked={input.id === status ? true : false}
-                  />
+    <div>
+      <Navbar />
+      <div className={cx("container")}>
+        <Sidebar />
+        <div className={cx("content")}>
+          <div className={cx("new")}>
+            <div className={cx("newContainer")}>
+              <div className={cx("top")}>
+                <h1>Thêm Danh mục</h1>
+              </div>
+              <div className={cx("bottom")}>
+                <div className={cx("right")}>
+                  <form onSubmit={handleSubmit}>
+                    {userInputs.map((input) => (
+                      <div className={cx("formInput")} key={input.id}>
+                        <label>{input.label}</label>
+                        <input
+                          {...input}
+                          value={name}
+                          onBlur={handleFocus}
+                          onChange={(e) => {
+                            onChange(e);
+                          }}
+                          focused={focused.toString()}
+                        />
+                        <span className={cx("err")}>{input.err}</span>
+                      </div>
+                    ))}
 
-                  <label>{input.type}</label>
-                </div>
-              ))}
+                    <div className={cx("formRadio")}>
+                      <label>Trạng thái</label>
 
-                <button className={cx("link")}>Thêm</button>
-            </form>
+                      {arrStatus.map((input) => (
+                        <div key={input.id}>
+                          <input
+                            type="radio"
+                            name={input.name}
+                            onClick={(e) => setStatus(input.id)}
+                            checked={input.id === status ? true : false}
+                          />
+
+                          <p>{input.type}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <button className={cx("link")}>Thêm</button>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

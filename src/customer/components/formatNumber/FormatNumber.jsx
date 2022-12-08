@@ -1,15 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-
-function FormatNumber(props) {
+function FormatNumber({ price }) {
   return (
-    <div>
-      {" "}
-      {props.price.toLocaleString("it-IT", {
+    <>
+      {price?.toLocaleString("it-IT", {
         style: "currency",
         currency: "VND",
       })}
-    </div>
+    </>
   );
 }
 

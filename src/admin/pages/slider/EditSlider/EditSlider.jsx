@@ -5,6 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as sliderService from "~/admin/services/sliderService";
 import styles from "./EditSlider.module.scss";
 import { Image } from "cloudinary-react";
+import Navbar from "~/admin/Layout/components/Navbar/Navbar";
+import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 
 const EditSlider = () => {
   const cx = classNames.bind(styles);
@@ -74,9 +76,10 @@ console.log(previewSource)
   };
   const uploadImage = (base64EncodedImage) => {
     fetchApi(id, name, content, active, changedImg, base64EncodedImage);
-    setTimeout(navigate("/admin/slider"), 3000);
     setImgList("");
     setPreviewSource("");
+    navigate("/admin/slider");
+    window.location.reload();
   };
   const handleFocus = (e) => {
     setFocused(true);
@@ -86,6 +89,11 @@ console.log(previewSource)
   };
 
   return (
+    <div>
+    <Navbar />
+    <div className={cx("container")}>
+      <Sidebar />
+      <div className={cx("content")}>
     <div className={cx("new")}>
       <div className={cx("newContainer")}>
         <div className={cx("bottom")}>
@@ -168,6 +176,9 @@ console.log(previewSource)
           </div>
         </div>
       </div>
+    </div>
+    </div>
+    </div>
     </div>
   );
 };

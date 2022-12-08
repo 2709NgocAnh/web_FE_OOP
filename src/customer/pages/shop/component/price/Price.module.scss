@@ -1,6 +1,9 @@
 .price {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 50px;
   height: fit-content;
 
   .card-price--nosale {

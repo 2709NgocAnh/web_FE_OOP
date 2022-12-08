@@ -1,11 +1,13 @@
 import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import * as productService from "~/admin/services/productService";
 import TabTitle from "~/components/tabtiltle/TabTiltle";
 import Pagination from "~/customer/components/pagination/Pagination";
 import Sort from "~/customer/components/sort/Sort";
 import Header from "~/customer/Layout/components/header/Header";
 import Slider from "~/customer/Layout/components/slider/Slider";
+import Discount from "./component/discount/Discount";
 import NoProduct from "./component/noproduct/NoProduct";
 import Products from "./component/products/Products";
 import styles from "./Shop.module.scss";
@@ -19,7 +21,6 @@ export default function Shop() {
   const [numberPage, setNumberPage] = useState(1);
   const [nameSort, setNameSort] = useState("price");
   const [valueSort, setValueSort] = useState(1);
-  const [idCategory, setIdCategory] = useState(productList);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -32,7 +33,7 @@ export default function Shop() {
       setTotalPage(response.totalPage);
     };
     fetchApi();
-  }, [numberPage, nameSort, valueSort]);
+  }, [nameSort, valueSort, numberPage]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,17 +43,21 @@ export default function Shop() {
     };
     fetchApi();
   };
-  console.log(idCategory)
-
-//   useEffect((e) => {
-//     e.preventDefault();
-
-//     const fetchApi = async () => {
-//       const response = await productService.getListProductById(idCategory);
-//       setProductList(response.products);
-//     };
-//     fetchApi();
-//   }, [idCategory]);
+  const handleSubmitAllProduct = (e) => {
+    e.preventDefault();
+    const fetchApi = async () => {
+      const response = await productService.getListProduct(numberPage);
+      setProductList(response.products);
+    };
+    fetchApi();
+  };
+  const handleSubmitCategory = (idCategory) => {
+    const fetchApi = async () => {
+      const response = await productService.getListProductById(idCategory);
+      setProductList(response.products);
+    };
+    fetchApi();
+  };
 
   return (
     <>
@@ -61,10 +66,15 @@ export default function Shop() {
           setValueSearch={setValueSearch}
           valueSearch={valueSearch}
           handleSubmit={handleSubmit}
-          setIdCategory={setIdCategory}
+          handleSubmitCategory={handleSubmitCategory}
+          handleSubmitAllProduct={handleSubmitAllProduct}
         />
         <Slider title="Shop" />
+        
+       
       </div>
+<Discount/>
+
       <div>
         <section className={cx("product")}>
           <div className={cx("container")}>

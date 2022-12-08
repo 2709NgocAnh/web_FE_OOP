@@ -1,91 +1,31 @@
-import { useEffect, useState, useRef } from 'react';
-import { faCircleXmark, faSearch, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import HeadlessTippy from '@tippyjs/react/headless';
-import classNames from 'classnames/bind';
-
-import * as searchServices from '~/admin/services/searchServices';
-import useDebounce from '~/hooks/useDebounce/useDebounce';
-import styles from './Search.module.scss';
-
+import { SearchOutlined } from "@ant-design/icons";
+import classNames from "classnames/bind";
+import styles from "./SearchProduct.module.scss";
 const cx = classNames.bind(styles);
 
-function Search() {
-    const [searchValue, setSearchValue] = useState('');
-    const [searchResult, setSearchResult] = useState([]);
-    const [showResult, setShowResult] = useState(false);
-    const [loading, setLoading] = useState(false);
+function Search(props) {
+  const { setValueSearch, valueSearch,handleSubmit} = props;
 
-    const debouncedValue = useDebounce(searchValue, 500);
-
-    const inputRef = useRef();
-
-    useEffect(() => {
-        if (!debouncedValue.trim()) {
-            setSearchResult([]);
-            return;
-        }
-        const fetchApi = async () => {
-            setLoading(true);
-            const result = await searchServices.search(debouncedValue);
-            setSearchResult(result);
-            setLoading(false);
-        };
-        fetchApi();
-    }, [debouncedValue]);
-
-    const handleClear = () => {
-        setSearchValue('');
-        setSearchResult([]);
-        inputRef.current.focus();
-    };
-
-    const handleHideResult = () => {
-        setShowResult(false);
-    };
-
-    const handleChange = (e) => {
-        const searchValue = e.target.value;
-        if (!searchValue.startsWith(' ')) {
-            setSearchValue(searchValue);
-        }
-    };
-
-    return (
-        <div>
-            <HeadlessTippy
-                interactive
-                visible={showResult && searchResult.length > 0}
-                render={(attrs) => (
-                    <div className={cx('search-result')} tabIndex="-1" {...attrs}>
-                        <h1>hi</h1>
-                    </div>
-                )}
-                onClickOutside={handleHideResult}
-            >
-                <div className={cx('search')}>
-                    <input
-                        ref={inputRef}
-                        value={searchValue}
-                        placeholder="Search "
-                        spellCheck={false}
-                        onChange={handleChange}
-                        onFocus={() => setShowResult(true)}
-                    />
-                    {!!searchValue && !loading && (
-                        <button className={cx('clear')} onClick={handleClear}>
-                            <FontAwesomeIcon icon={faCircleXmark} />
-                        </button>
-                    )}
-                    {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
-
-                    <button className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
-                        <FontAwesomeIcon icon={faSearch} />
-                    </button>
-                </div>
-            </HeadlessTippy>
-        </div>
-    );
+  return (
+    <div>
+      <form  onSubmit={handleSubmit} >
+      <div className={cx("search")}>
+        <input
+          type="text"
+          placeholder="Tim kiem..."
+          className={cx("search")}
+          onChange={(e) => setValueSearch(e.target.value)}
+          value={valueSearch}
+        />
+        <button className={cx("search-btn")} type="submit">
+          <SearchOutlined />
+        </button>
+      </div>
+      </form>
+    </div>
+  );
 }
+
+Search.propTypes = {};
 
 export default Search;

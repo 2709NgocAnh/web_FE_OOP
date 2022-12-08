@@ -22,16 +22,17 @@ const FormRegister = (props) => {
     <>
       <div className={cx("form-group")}>
         <div className={cx("form-group--icon")}>{icon}</div>
-        <label htmlFor={name}>{label} *</label>
+        {/* <label htmlFor={name}>{label} *</label> */}
         <input
           type={type}
           id={name}
           onChange={onChange}
           value={value}
           className={cx("form-input")}
+          placeholder={label}
         />
-        {touched && errors && <span className={cx("form-group--err")}>{errorMessage}</span>}
       </div>
+        {touched && errors && <span className={cx("form-group--err")}>{errorMessage}</span>}
     </>
   );
 };

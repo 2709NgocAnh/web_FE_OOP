@@ -18,7 +18,7 @@ import ListCategory from "~/admin/pages/category/ListCategory/ListCategory";
 import NewCategory from "~/admin/pages/category/NewCategory/NewCategory";
 import EditCategory from "~/admin/pages/category/EditCategory/EditCategory";
 //Profile
-import EditProfile from "~/admin/pages/profile/EditProfile/EditProfile";
+// import EditProfile from "~/admin/pages/profile/EditProfile/EditProfile";
 import SingleProfile from "~/admin/pages/profile/SingleProfile/SingleProfile";
 //Slider
 import ListSlider from "~/admin/pages/slider/ListSlider/ListSlider";
@@ -48,6 +48,10 @@ import ViewOrder from "~/customer/pages/vieworder/ViewOrder";
 import FeedBack from "~/customer/pages/contact/FeedBack";
 import ListNewProduct from "~/customer/pages/new/ListNewProduct";
 import ListSaleProduct from "~/customer/pages/sale/ListSaleProduct";
+import ForgetPassword from "~/customer/pages/forgetpassword/ForgetPassWord";
+import VeryfyEmail from "~/customer/pages/veryfyEmail/VeryfyEmail";
+import DetailOrder from "~/customer/pages/vieworder/detailorder/DetailOrder";
+import EditProfile from "~/customer/pages/editprofile/EditProfile";
 // Public routes
 const PRIVATEROUTES = [
   //admin
@@ -169,12 +173,20 @@ const PRIVATEROUTES = [
 const PUBLICROUTES = [
   { path: config.routes.customer, component: Shop, layout: DefaultLayout },
   { path: config.routes.shop, component: Shop, layout: DefaultLayout },
-  { path: config.routes. listnewproduct, component: ListNewProduct, layout: DefaultLayout },
-  { path: config.routes. listsaleproduct, component: ListSaleProduct, layout: DefaultLayout },
+  { path: config.routes.listnewproduct, component: ListNewProduct, layout: DefaultLayout },
+//   { path: config.routes. listsaleproduct, component: ListSaleProduct, layout: DefaultLayout },
+  { path: config.routes.pageSaleProduct, component: ListSaleProduct, layout: DefaultLayout },
 
   { path: config.routes.profile, component: Profile, layout: DefaultLayout },
+  { path: config.routes.editprofile, component: EditProfile, layout: DefaultLayout },
+
   { path: config.routes.payment, component: Payment, layout: DefaultLayout },
   { path: config.routes.feedback, component: FeedBack, layout: DefaultLayout },
+  {
+    path: config.routes.detailorder,
+    component: DetailOrder,
+    layout: DefaultLayout,
+  },
   {
     path: config.routes.vieworder,
     component: ViewOrder,
@@ -200,6 +212,10 @@ const PUBLICROUTES = [
   },
   { path: config.routes.register, component: Register, layout: DefaultLayout },
   { path: config.routes.signin, component: SignIn, layout: DefaultLayout },
+  { path: config.routes.forgetPassword, component: ForgetPassword, layout: DefaultLayout },
+  { path: config.routes.veryfyEmail, component: VeryfyEmail, layout: DefaultLayout },
+
+ 
   {
     path: config.routes.detailproduct,
     component: Details,
