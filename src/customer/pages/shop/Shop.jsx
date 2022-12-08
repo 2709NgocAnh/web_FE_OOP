@@ -2,6 +2,8 @@ import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import * as productService from "~/admin/services/productService";
+import * as discountService from "~/admin/services/discountService";
+
 import TabTitle from "~/components/tabtiltle/TabTiltle";
 import Pagination from "~/customer/components/pagination/Pagination";
 import Sort from "~/customer/components/sort/Sort";
@@ -21,6 +23,7 @@ export default function Shop() {
   const [numberPage, setNumberPage] = useState(1);
   const [nameSort, setNameSort] = useState("price");
   const [valueSort, setValueSort] = useState(1);
+  const [discountList, setDiscountList] = useState([]);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -34,7 +37,13 @@ export default function Shop() {
     };
     fetchApi();
   }, [nameSort, valueSort, numberPage]);
-
+  useEffect(() => {
+    const fetchApi = async () => {
+      const response = await discountService.getDiscount();
+      setDiscountList(response.discounts);
+    };
+    fetchApi();
+  }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
     const fetchApi = async () => {
@@ -70,10 +79,14 @@ export default function Shop() {
           handleSubmitAllProduct={handleSubmitAllProduct}
         />
         <Slider title="Shop" />
-        
-       
       </div>
-<Discount/>
+      {discountList.map((item, index) => {
+        return (
+            <div className={cx("header--discount")}>
+                <Discount content={item.content} code={item.code} index={index} />
+            </div>
+        );
+      })}
 
       <div>
         <section className={cx("product")}>

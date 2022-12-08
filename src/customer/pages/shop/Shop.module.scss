@@ -4,6 +4,10 @@
 .header-img {
   width: var(--default-layout-width);
 }
+.header--discount{
+    display: flex;
+    padding: 10px;
+}
 .header-btn {
   position: absolute;
   z-index: 3;
