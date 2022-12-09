@@ -1,0 +1,84 @@
+.search {
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  border: 0.5px solid lightgray;
+  height: 50px;
+  width: 300px;
+  border-radius: 10px;
+  position: relative;
+
+  input {
+    flex: 1;
+    height: 100%;
+    color: var(--black);
+    padding: 10px;
+    font-size: 1.4rem;
+    caret-color: var(--black);
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  input:not(:placeholder-shown) ~ .search-btn {
+    color: rgba(22, 24, 35, 0.75);
+  }
+  .clear,
+  .loading {
+    position: absolute;
+    background-color: white;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(22, 24, 35, 0.34);
+  }
+  .clear,
+  .loading:hover {
+    background-color: white;
+  }
+
+  .loading {
+    animation: spinner 0.8s linear infinite;
+  }
+
+  @keyframes spinner {
+    from {
+      transform: translateY(-50%) rotate(0);
+    }
+    to {
+      transform: translateY(-50%) rotate(360deg);
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: var(--search-top-spacer);
+    right: var(--search-button-width);
+    width: 1px;
+    height: calc(var(--search-height) - var(--search-top-spacer) * 2);
+    background-color: rgba(22, 24, 35, 0.12);
+  }
+
+  &:focus-within {
+    border-color: rgba(22, 24, 35, 0.2);
+  }
+
+  button {
+    background-color: rgba(193, 186, 186, 0.853);
+    width: 50px;
+    height: 100%;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 1.8rem;
+    color: rgba(22, 24, 35, 0.34);
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(22, 24, 35, 0.03);
+    }
+
+    &:active {
+      background-color: rgba(22, 24, 35, 0.06);
+    }
+  }
+}

@@ -1,3 +1,4 @@
+
 import Navbar from '../components/Navbar/Navbar';
 import Sidebar from '../components/Sidebar/Sidebar';
 import styles from './DefaultLayoutAdmin.module.scss';
@@ -16,3 +17,5 @@ function DefaultLayoutAdmin({ children }) {
         </div>
     );
 }
+
+export default DefaultLayoutAdmin;
