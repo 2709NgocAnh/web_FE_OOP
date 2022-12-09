@@ -102,7 +102,11 @@ const ListOrder = () => {
         const result = listorderstatus.find(
           (status, index) => status.name === params.row.status
         );
-        return <div className={cx("status")}>{result?.title}</div>;
+        return (
+          <div className={cx("status")}>
+            <div className={cx(result.name)}>{result?.title}</div>
+          </div>
+        );
       },
       //   renderCell: (params) => {
       //     return (
@@ -237,4 +241,3 @@ const ListOrder = () => {
   );
 };
 export default ListOrder;
-

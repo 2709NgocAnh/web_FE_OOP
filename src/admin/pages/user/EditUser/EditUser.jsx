@@ -67,6 +67,17 @@ const EditUser = () => {
       required: true,
       icon: "fa-solid fa-lock",
     },
+    {
+      id: 8,
+      name: "active",
+      type: "text",
+      placeholder: "true",
+      errorMessage: "hãy nhập trạng thái user",
+      label: "Active",
+      pattern: "^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$",
+      required: true,
+      icon: "fa-solid fa-user",
+    },
   ];
   const INPUT_REGISTER = [
     {
@@ -177,20 +188,24 @@ const EditUser = () => {
                         <span className={cx("err")}>{input.err}</span>
                       </div>
                     ))}
-                    <div className={cx("formRadio")}>
-                      {arrStatus.map((input) => (
-                        <div key={input.type} style={{ marginRight:"10px"}} >
-                          <input
-                            type="radio"
-                            name={input.name}
-                            onClick={(e) => setRole(input.type)}
-                            checked={input.type === role ? true : false}
-                          />
+                    <div className={cx("formInput")}>
+                      <div className={cx("formRadio")}>
+                        
+                        {arrStatus.map((input) => (
+                          <div key={input.type} style={{ marginRight: "10px" }}>
+                            <input
+                              type="radio"
+                              name={input.name}
+                              onClick={(e) => setRole(input.type)}
+                              checked={input.type === role ? true : false}
+                            />
 
-                          <label>{input.type}</label>
-                        </div>
-                      ))}
+                            <label>{input.type}</label>
+                          </div>
+                        ))}
+                      </div>
                     </div>
+
                     <button className={cx("link")}>Cập nhật</button>
                   </form>
                 </div>
