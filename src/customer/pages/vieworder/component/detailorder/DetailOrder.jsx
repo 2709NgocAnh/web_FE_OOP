@@ -7,8 +7,8 @@ import * as orderService from "~/admin/services/orderService";
 import Price from "~/customer/pages/shop/component/price/Price";
 import Swal from "sweetalert2";
 import Header from "~/customer/Layout/components/header/Header";
-import SideBar from "../component/sidebar/SideBar";
 import { Image } from "cloudinary-react";
+import SideBar from "../sidebar/SideBar";
 
 function DetailOrder() {
   const cx = classNames.bind(styles);
