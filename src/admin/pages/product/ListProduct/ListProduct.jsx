@@ -9,20 +9,46 @@ import * as categoryService from "~/admin/services/categoryService";
 import styles from "./ListProduct.module.scss";
 import { confirm } from "react-confirm-box";
 import { Image } from "cloudinary-react";
-
+import { TablePagination } from "@mui/material";
+import Navbar from "~/admin/Layout/components/Navbar/Navbar";
+import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 const ListProduct = () => {
   const [list, setList] = useState([]);
   const [category_id, setCategory_id] = useState([]);
-
-  const cx = classNames.bind(styles);
-
-  useEffect(() => {
+  const [valueSearch, setValueSearch] = useState("");
+  const [pagination, setPagination] = useState({
+    currentPage: "0",
+    pageSize: "10",
+  });
+  const [totalTask, setTotalTask] = useState();
+  const handleChangePage = (e, newPage) => {
+    setPagination({ ...pagination, currentPage: newPage.toString() });
+  };
+  const handleChangeRowsPerPage = (e) => {
+    setPagination({
+      pageSize: parseInt(e.target.value, 10).toString(),
+      currentPage: "1",
+    });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const fetchApi = async () => {
-      const response = await productService.getListProduct();
+      const response = await productService.searchProduct(valueSearch);
       setList(response.products);
     };
     fetchApi();
-  }, []);
+  };
+  const cx = classNames.bind(styles);
+  useEffect(() => {
+    const fetchApi = async () => {
+      const response = await productService.getListProduct(
+        Number(pagination.currentPage) + 1
+      );
+      setList(response.products);
+      setTotalTask(response.totalItem);
+    };
+    fetchApi();
+  }, [pagination.currentPage]);
   useEffect(() => {
     const fetchApi = async () => {
       const response = await categoryService.getCategory();
@@ -37,7 +63,7 @@ const ListProduct = () => {
     if (!result) {
       return;
     }
-    const response = await productService.removeProduct(id, name);
+    await productService.removeProduct(id, name);
     alert(`Bạn đã xóa sản phẩm ${name} thành công  `);
     setTimeout(() => {
       const fetchApi = async () => {
@@ -45,12 +71,14 @@ const ListProduct = () => {
         setList(response.products);
       };
     }, 2000);
+    window.location.reload();
+
   };
 
   const userColumns = [
     {
       field: "_id",
-      hide:true
+      hide: true,
     },
     {
       field: "name",
@@ -81,11 +109,11 @@ const ListProduct = () => {
       headerAlign: "center",
       renderCell: (params) => {
         return (
-          <div >
-            {category_id.map((category) => (
-                  (category._id === params.row.category_id)?category.name : ""
-                  ))}
-            </div>
+          <div>
+            {category_id.map((category) =>
+              category._id === params.row.category_id ? category.name : ""
+            )}
+          </div>
         );
       },
     },
@@ -189,8 +217,6 @@ const ListProduct = () => {
         );
       },
     },
-   
-    
   ];
   const actionColumn = [
     {
@@ -220,36 +246,66 @@ const ListProduct = () => {
     },
   ];
   return (
-    <div className={cx("list")}>
-      <div className={cx("listContainer")}>
-        <div className={cx("datatable")}>
-          <div className={cx("datatableTitle")}>
-            Danh sách sản phẩm
-            <NavLink to="newproduct" className={cx("link")}>
-              Thêm mới
-            </NavLink>
+    <div>
+      <Navbar
+        setValueSearch={setValueSearch}
+        valueSearch={valueSearch}
+        handleSubmit={handleSubmit}
+      />
+      <div className={cx("container")}>
+        <Sidebar />
+        <div className={cx("content")}>
+          <div className={cx("list")}>
+            <div className={cx("listContainer")}>
+              <div className={cx("datatable")}>
+                <div className={cx("datatableTitle")}>
+                  Danh sách sản phẩm
+                  <NavLink to="newproduct" className={cx("link")}>
+                    Thêm mới
+                  </NavLink>
+                </div>
+                <Box
+                  sx={{
+                    height: "100%",
+                    width: "100%",
+                    "& .super-app-theme--header": {
+                      fontFamily: "Nunito",
+                      fontSize: "16px",
+                      backgroundColor: "#89CFFD",
+                    },
+                  }}
+                >
+                  <DataGrid
+                    getRowId={(row) => row._id}
+                    className={cx("datagrid")}
+                    rows={list}
+                    columns={userColumns.concat(actionColumn)}
+                    priceSize={9}
+                    rowsPerPageOptions={[9]}
+                    hideFooterPagination="true"
+                  />
+                  <TablePagination
+                    rowsPerPageOptions={[
+                      5,
+                      10,
+                      25,
+                      { value: totalTask || 5, label: "Tất cả" },
+                    ]}
+                    labelRowsPerPage="Số dòng hiển thị"
+                    labelDisplayedRows={({ from, to, count }) =>
+                      `${from}-${to} trên tổng số ${count}`
+                    }
+                    component="div"
+                    count={totalTask}
+                    rowsPerPage={Number(pagination.pageSize) ?? 10}
+                    page={Number(pagination.currentPage)}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </Box>
+              </div>
+            </div>
           </div>
-          <Box
-            sx={{
-              height: "100%",
-              width: "100%",
-              "& .super-app-theme--header": {
-                fontFamily: "Nunito",
-                fontSize: "16px",
-                backgroundColor: "#89CFFD",
-              },
-            }}
-          >
-            <DataGrid
-              getRowId={(row) => row._id}
-              className={cx("datagrid")}
-              rows={list}
-              columns={userColumns.concat(actionColumn)}
-              priceSize={9}
-              rowsPerPageOptions={[9]}
-              checkboxSelection
-            />
-          </Box>
         </div>
       </div>
     </div>

@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import Cookies from 'js-cookie';
+import Navbar from '~/admin/Layout/components/Navbar/Navbar';
+import Sidebar from '~/admin/Layout/components/Sidebar/Sidebar';
 
 function SingleUser() {
     const cx = classNames.bind(styles);
@@ -29,6 +31,11 @@ function SingleUser() {
     }, [id]);
 
     return (
+        <div>
+    <Navbar />
+    <div className={cx("container")}>
+      <Sidebar />
+      <div className={cx("content")}>
         <div className={cx('single')}>
             <div className={cx('singleContainer')}>
                 <div className={cx('top')}>
@@ -91,7 +98,7 @@ function SingleUser() {
                     </div>
                 </div>
             </div>
-        </div>
+        </div></div></div></div>
     );
 }
 

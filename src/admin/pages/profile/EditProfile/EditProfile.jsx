@@ -1,8 +1,15 @@
 import styles from './EditProfile.module.scss';
 import classNames from 'classnames/bind';
+import Navbar from '~/admin/Layout/components/Navbar/Navbar';
+import Sidebar from '~/admin/Layout/components/Sidebar/Sidebar';
 function EditProfile() {
     const cx = classNames.bind(styles);
     return (
+        <div>
+        <Navbar />
+        <div className={cx("container")}>
+          <Sidebar />
+          <div className={cx("content")}>
         <div className={cx('single')}>
             <div className={cx('singleContainer')}>
                 <div className={cx('top')}>
@@ -37,6 +44,9 @@ function EditProfile() {
                     </div>
                 </div>
             </div>
+        </div>
+        </div>
+        </div>
         </div>
     );
 }

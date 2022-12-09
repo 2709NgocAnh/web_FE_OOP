@@ -8,6 +8,8 @@ import * as productService from "~/admin/services/productService";
 import * as categoryService from "~/admin/services/categoryService";
 
 import styles from "./NewProduct.module.scss";
+import Navbar from "~/admin/Layout/components/Navbar/Navbar";
+import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 
 function NewProduct(props) {
   const cx = classNames.bind(styles);
@@ -23,12 +25,13 @@ function NewProduct(props) {
   const [imageURLS, setImageURLS] = useState([]);
   const [imgListApi, setImgListApi] = useState([]);
   const navigate = useNavigate();
-
+ 
   useEffect(() => {
   const fetchApi = async () => {
     const response = await categoryService.getCategory();
     setListCategory(response.categories);
   };
+  
     fetchApi();
   }, []);
   const arrActive = [
@@ -98,7 +101,6 @@ function NewProduct(props) {
     imgList.forEach((image) => newImageUrls.push(URL.createObjectURL(image)));
     setImageURLS(newImageUrls);
   }, [imgList]);
-  console.log("list img ", imageURLS);
 
   useEffect(() => {
     if (!imgList) return;
@@ -120,7 +122,6 @@ function NewProduct(props) {
   };
   const handleSubmitFile = (e) => {
     e.preventDefault();
-
     fetchApi(
       values.name,
       category_id,
@@ -134,15 +135,19 @@ function NewProduct(props) {
     setImgList("");
     setImgListApi("");
     navigate("/admin/product");
-  };
-  const handleFocus = (e) => {
-    setFocused(true);
+    window.location.reload();
   };
   const fetchApi = async (a, b, c, d, e, f, g, h) => {
-    const response = await productService.newProduct(a, b, c, d, e, f, g, h);
+    await productService.newProduct(a, b, c, d, e, f, g, h);
   };
+  
 
   return (
+    <div>
+    <Navbar />
+    <div className={cx("container")}>
+      <Sidebar />
+      <div className={cx("content")}>
     <div className={cx("new")}>
       <div className={cx("newContainer")}>
         <div className={cx("top")}>
@@ -241,6 +246,9 @@ function NewProduct(props) {
           </div>
         </div>
       </div>
+    </div>
+    </div>
+    </div>
     </div>
   );
 }
