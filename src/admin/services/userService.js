@@ -1,8 +1,8 @@
 import * as httpRequest from "~/admin/utils/httpRequest";
 
-export const getUser = async () => {
+export const getUser = async (page) => {
   try {
-    const res = await httpRequest.get(`user/`);
+    const res = await httpRequest.get(`user?pageIndex=${page}`);
 
     return res;
   } catch (error) {
