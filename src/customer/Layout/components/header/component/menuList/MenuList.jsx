@@ -16,8 +16,8 @@ export default function MenuList({ items }) {
       {items.map((item, index) => {
         if (item.separate === true) {
           return (
-            <div key={index} className={cx("wrapper-item")}>
-              <button onClick={logout} className={cx("menu-item--btn")}>
+            <div key={index} >
+              <button onClick={logout} style={{backgroundColor:"#333",width:"100%"}}>
                 <MenuItem to={item.to} title={item.title} />
               </button>
             </div>
