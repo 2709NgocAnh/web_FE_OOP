@@ -11,7 +11,8 @@ import { NavLink } from "react-router-dom";
 import AvatarUser from "../avatarUser/AvatarUser";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import images from "~/assets/images";
-function Action(props) {
+import Cookies from "js-cookie";
+function Action() {
   const cx = classNames.bind(styles);
   const [auth, setAuth] = useState([]);
   const [currentUser, setCurrentUser] = useState(false);
@@ -19,13 +20,13 @@ function Action(props) {
   const [cart] = value.cart;
 
   const fetchApi = async () => {
-    const response = await registerService.getRegister();
+    const response = await registerService.getRegister()
     setAuth(response.account.fullName);
     setCurrentUser(true);
   };
   //call API
   useEffect(() => {
-    fetchApi();
+    Cookies.get("accessToken")&&fetchApi()
   }, []);
 
   return (
