@@ -14,7 +14,7 @@ function Discount({content,code,index}) {
             <div className="coupon_head">
               <h3 className="coupon_title">NHẬP MÃ: {code}</h3>
               <div className="coupon_desc">
-                Mã giảm 15.000 cho đơn hàng tối thiểu 399.000{" "}
+              - {content}{" "}
               </div>
             </div>
             <div className="coupon_bottom">
@@ -34,9 +34,9 @@ function Discount({content,code,index}) {
                 className="content-discount"
               >
                 <div className="coupon_info">
-                  <h3 className="coupon_title">NHẬP MÃ: {code}</h3>
-                  <h3 className="coupon_title">Mã khuyến mãi: {code}</h3>
-                  - Mã giảm 15.000 cho đơn tối thiểu 399.000.
+                  <h3 className="coupon_title--header">NHẬP MÃ: {code}</h3>
+                  <h3 className="coupon_title--center">Mã khuyến mãi: {code}</h3>
+                  - {content}
                   <br />- Mã khuyễn mãi không áp dụng với các sản phẩm collab.{" "}
                   <div className="coupon_btn">
                     <button onClick={() => setIsOpen(false)}>Đóng</button>
