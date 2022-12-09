@@ -1,14 +1,14 @@
 import {
-  EyeInvisibleOutlined,
-  EyeTwoTone,
-  LockOutlined,
-  MailOutlined,
+    EyeInvisibleOutlined,
+    EyeTwoTone,
+    LockOutlined,
+    MailOutlined
 } from "@ant-design/icons";
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import * as registerService from "~/admin/services/registerService";
 import TabTitle from "~/components/tabtiltle/TabTiltle";
@@ -21,8 +21,6 @@ const SignIn = () => {
   const showPass = true;
   const navigate = useNavigate();
   const [search, setSearch] = useState();
-  const [role, setRole] = useState("");
-
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -46,66 +44,76 @@ const SignIn = () => {
     const response = await registerService.signInRegister(a, b);
     const token = "Bearer " + response.headers.authorization;
     Cookies.set("accessToken", token, { expires: 7 });
+
     if (response.data.success === true) {
       const response1 = await registerService.LoginRegister(
         response.headers.authorization
       );
-      setRole(response1?.data.account.role);
+      await Cookies.set("role", response1?.data.account.role, { expires: 7 });
+      if (response1?.data.account.role === "admin") {
+        return navigate("/admin"),window.location.reload();
+      } else if (response1?.data.account.role === "user") {
+        return navigate("/shop"),window.location.reload();
+      }
     }
   };
-  useEffect(() => {
-    if (role === "admin") {
-      navigate("/admin");
-      window.location.reload();
-    } else if (role === "user") {
-      navigate("/shop");
-      window.location.reload();
-    } else {
-      navigate("/sign-in");
-    }
-  }, [role]);
-
   return (
     <div className={cx("container")}>
       <Header search={search} onChange={(e) => setSearch(e.target.value)} />
-
       <form className={cx("form-Register")} onSubmit={formik.handleSubmit}>
         <h3 className={cx("form-heading")}>ĐĂNG NHẬP </h3>
         <div className={cx("form-group")}>
           <MailOutlined className={cx("form-group--icon")} />
-          <label htmlFor="email">Email *</label>
           <input
             type="email"
             id="email"
             className={cx("form-input")}
             {...formik.getFieldProps("email")}
+            placeholder="Email *"
           />
-          {formik.touched.email && formik.errors.email && (
-            <span className={cx("form-group--err")}>{formik.errors.email}</span>
-          )}
         </div>
+        {formik.touched.email && formik.errors.email && (
+          <span className={cx("form-group--err")}>{formik.errors.email}</span>
+        )}
         <div className={cx("form-group")}>
           <LockOutlined className={cx("form-group--icon")} />
-          <label htmlFor="password">Mật khẩu</label>
           <input
             type={showPass ? "password" : "text"}
             id="password"
             className={cx("form-input")}
+            placeholder="password *"
             {...formik.getFieldProps("password")}
             iconRender={(showPass) =>
               showPass ? <EyeTwoTone /> : <EyeInvisibleOutlined />
             }
           />
-          {formik.touched.password && formik.errors.password && (
-            <span className={cx("form-group--err")}>
-              {formik.errors.password}
-            </span>
-          )}
         </div>
+        {formik.touched.password && formik.errors.password && (
+          <span className={cx("form-group--err")}>
+            {formik.errors.password}
+          </span>
+        )}
         <div className={cx("form-group")}>
           <button type="submit" className={cx("form-submit")}>
             Đăng Nhập
           </button>
+        </div>
+        <div className={cx("form-register")}>
+            <span>Bạn chưa có tài khoản ?</span>
+            <NavLink
+              to="/register"
+              style={{ color: "blue", textDecoration: "underline" }}
+            >
+              Đăng ký
+            </NavLink>
+        </div>
+        <div className={cx("forget-password")}>
+          <NavLink
+            to="/forgetPassword"
+            style={{ color: "black", textDecoration: "underline" }}
+          >
+            Quên mật khẩu
+          </NavLink>
         </div>
       </form>
     </div>

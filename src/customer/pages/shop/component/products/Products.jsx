@@ -21,38 +21,59 @@ function Products(props) {
           {productList?.map((product) => {
             return (
               <div
-                className={cx("col-xl-3 col-lg-3 col-md-3", "product-item")}
+                className={cx("col-xl-3 col-lg-3 col-md-3")}
                 key={product._id}
               >
-                <NavLink to={`/product/detail/${product._id}`}>
-                  <Image
-                    className={cx("card-img")}
-                    cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                    publicId={product.images[1]}
-                  />
-                </NavLink>
-
-                <div className={cx("content")}>
-                  <h3>
-                    <Link
-                      to={`/product/detail/${product._id}`}
-                      className={cx("card-title")}
+                <div className={cx("product-item")}>
+                  {product.price_sale > 0 ? (
+                    <div className={cx("product-sale")}>
+                      <span>
+                        {((product.price_sale / 1000) * 100) /
+                          (product.price / 1000) <
+                          100 &&
+                        ((product.price_sale / 1000) * 100) /
+                          (product.price / 1000) >
+                          0
+                          ? (
+                              100 -
+                              ((product.price_sale / 1000) * 100) /
+                                (product.price / 1000)
+                            ).toFixed(0) + "%"
+                          : ""}
+                      </span>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  <NavLink to={`/product/detail/${product._id}`}>
+                    <Image
+                      className={cx("card-img")}
+                      cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
+                      publicId={product.images[1]}
+                    />
+                  </NavLink>
+                  <div className={cx("content")}>
+                    <h3>
+                      <Link
+                        to={`/product/detail/${product._id}`}
+                        className={cx("card-title")}
+                      >
+                        {product.name}
+                      </Link>
+                    </h3>
+                    <Price
+                      price={product.price}
+                      price_sale={product.price_sale}
+                    />
+                    <button
+                      className={cx("card-button")}
+                      onClick={() => {
+                        addCart(product, 1);
+                      }}
                     >
-                      {product.name}
-                    </Link>
-                  </h3>
-                  <Price
-                    price={product.price}
-                    price_sale={product.price_sale}
-                  />
-                  <button
-                    className={cx("card-button")}
-                    onClick={() => {
-                      addCart(product, 1);
-                    }}
-                  >
-                    Add to cart
-                  </button>
+                      Add to cart
+                    </button>
+                  </div>
                 </div>
               </div>
             );

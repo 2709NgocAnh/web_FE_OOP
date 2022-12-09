@@ -1,7 +1,6 @@
 import { DeleteOutlined } from "@ant-design/icons";
 import { Image } from "cloudinary-react";
 import { NavLink } from "react-router-dom";
-import Price from "~/customer/pages/shop/component/price/Price";
 import "./CartItem.scss";
 
 function CartItem(props) {
@@ -30,7 +29,7 @@ function CartItem(props) {
               <button
                 className="cart__remove"
                 onClick={(e) => {
-                e.preventDefault()
+                  e.preventDefault();
                   setCart((prev) => prev.filter((val) => val._id !== item._id));
                 }}
               >
@@ -38,15 +37,19 @@ function CartItem(props) {
               </button>
             </td>
             <td className="cart-product-price" data-label="Đơn giá">
-              <Price
-                price={item.price_sale != null ? item.price_sale : item.price}
-              />
+              {(item.price_sale != null
+                ? item.price_sale
+                : item.price
+              ).toLocaleString("it-IT", {
+                style: "currency",
+                currency: "VND",
+              })}
             </td>
             <td data-label="Số lượng">
               <div className="cart-product-amount">
                 <button
                   onClick={(e) => {
-                    e.preventDefault()
+                    e.preventDefault();
                     const newCart = [...cart];
                     if (newCart[index].cartNum > 1) newCart[index].cartNum -= 1;
                     setCart(newCart);
@@ -57,10 +60,11 @@ function CartItem(props) {
                 <span>{item.cartNum}</span>
                 <button
                   onClick={(e) => {
-                    e.preventDefault()
+                    e.preventDefault();
                     const newCart = [...cart];
-                                        if (newCart[index].num > newCart[index].cartNum) newCart[index].cartNum += 1;
-                                        setCart(newCart);
+                    if (newCart[index].num > newCart[index].cartNum)
+                      newCart[index].cartNum += 1;
+                    setCart(newCart);
                   }}
                 >
                   +
@@ -68,14 +72,14 @@ function CartItem(props) {
               </div>
             </td>
             <td data-label="Tổng giá" className="cart-product-price text-right">
-              <span className="h3">
-                <Price
-                  price={
-                    item.price_sale !== null
-                      ? item.price_sale * item.cartNum
-                      : item.price * item.cartNum
-                  }
-                />
+              <span style={{color:'black',fontSize:"2rem"}}>
+                {(item.price_sale !== null
+                  ? item.price_sale * item.cartNum
+                  : item.price * item.cartNum
+                ).toLocaleString("it-IT", {
+                  style: "currency",
+                  currency: "VND",
+                })}
               </span>
             </td>
           </tr>

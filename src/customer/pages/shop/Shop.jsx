@@ -1,11 +1,15 @@
 import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import * as productService from "~/admin/services/productService";
+import * as discountService from "~/admin/services/discountService";
+
 import TabTitle from "~/components/tabtiltle/TabTiltle";
 import Pagination from "~/customer/components/pagination/Pagination";
 import Sort from "~/customer/components/sort/Sort";
 import Header from "~/customer/Layout/components/header/Header";
 import Slider from "~/customer/Layout/components/slider/Slider";
+import Discount from "./component/discount/Discount";
 import NoProduct from "./component/noproduct/NoProduct";
 import Products from "./component/products/Products";
 import styles from "./Shop.module.scss";
@@ -19,7 +23,7 @@ export default function Shop() {
   const [numberPage, setNumberPage] = useState(1);
   const [nameSort, setNameSort] = useState("price");
   const [valueSort, setValueSort] = useState(1);
-  //   const [idCategory, setIdCategory] = useState();
+  const [discountList, setDiscountList] = useState([]);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -33,7 +37,13 @@ export default function Shop() {
     };
     fetchApi();
   }, [nameSort, valueSort, numberPage]);
-
+  useEffect(() => {
+    const fetchApi = async () => {
+      const response = await discountService.getDiscount();
+      setDiscountList(response.discounts);
+    };
+    fetchApi();
+  }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
     const fetchApi = async () => {
@@ -42,22 +52,21 @@ export default function Shop() {
     };
     fetchApi();
   };
+  const handleSubmitAllProduct = (e) => {
+    e.preventDefault();
+    const fetchApi = async () => {
+      const response = await productService.getListProduct(numberPage);
+      setProductList(response.products);
+    };
+    fetchApi();
+  };
   const handleSubmitCategory = (idCategory) => {
-    console.log(idCategory);
-
     const fetchApi = async () => {
       const response = await productService.getListProductById(idCategory);
       setProductList(response.products);
     };
     fetchApi();
   };
-  //   useEffect(() => {
-  //     const fetchApi = async () => {
-  //       const response = await productService.getListProductById(idCategory);
-  //       setProductList(response.products);
-  //     };
-  //     fetchApi();
-  //   }, [idCategory]);
 
   return (
     <>
@@ -67,10 +76,18 @@ export default function Shop() {
           valueSearch={valueSearch}
           handleSubmit={handleSubmit}
           handleSubmitCategory={handleSubmitCategory}
-          //   setIdCategory={setIdCategory}
+          handleSubmitAllProduct={handleSubmitAllProduct}
         />
         <Slider title="Shop" />
       </div>
+      {discountList.map((item, index) => {
+        return (
+            <div className={cx("header--discount")}>
+                <Discount content={item.content} code={item.code} index={index} />
+            </div>
+        );
+      })}
+
       <div>
         <section className={cx("product")}>
           <div className={cx("container")}>
