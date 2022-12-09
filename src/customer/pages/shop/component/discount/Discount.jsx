@@ -27,11 +27,11 @@ function Discount({content,code,index}) {
               >
                 Điều kiện
               </span>
-
+            
               <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={() => setIsOpen(false)}
-                className="content"
+                className="content-discount"
               >
                 <div className="coupon_info">
                   <h3 className="coupon_title">NHẬP MÃ: {code}</h3>

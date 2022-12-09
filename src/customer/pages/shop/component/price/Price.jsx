@@ -4,7 +4,6 @@ import classNames from "classnames/bind";
 import FormatNumber from "~/customer/components/formatNumber/FormatNumber";
 export default function Price(props) {
   const { price, price_sale } = props;
-  console.log(price_sale)
   const cx = classNames.bind(styles);
   return (
     <div>

@@ -68,3 +68,11 @@ export const getADiscount = async (id) => {
     console.log(error);
   }
 };
+export const getDiscountByCode = async (code) => {
+    try {
+      const res = await httpRequest.get(`discount/getDiscountByCode/${code}`);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
