@@ -5,8 +5,10 @@
     width: var(--default-layout-width);
   }
   .header--discount{
-      display: flex;
-      padding: 10px;
+    display: flex;
+    padding: 10px;
+    justify-content: space-around;
+    margin: 20px;
   }
   .header-btn {
     position: absolute;

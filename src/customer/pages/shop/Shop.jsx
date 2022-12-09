@@ -1,8 +1,7 @@
 import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import * as productService from "~/admin/services/productService";
 import * as discountService from "~/admin/services/discountService";
+import * as productService from "~/admin/services/productService";
 
 import TabTitle from "~/components/tabtiltle/TabTiltle";
 import Pagination from "~/customer/components/pagination/Pagination";
@@ -80,13 +79,13 @@ export default function Shop() {
         />
         <Slider title="Shop" />
       </div>
+      <div className={cx("header--discount")}>
       {discountList.map((item, index) => {
         return (
-            <div className={cx("header--discount")}>
                 <Discount content={item.content} code={item.code} index={index} />
+                );
+            })}
             </div>
-        );
-      })}
 
       <div>
         <section className={cx("product")}>

@@ -7,6 +7,8 @@ import config from "~/components/config";
 import TabTitle from "~/components/tabtiltle/TabTiltle";
 import * as orderService from "~/admin/services/orderService";
 import * as registerService from "~/admin/services/registerService";
+import * as discountService from "~/admin/services/discountService";
+
 import Price from "../shop/component/price/Price";
 import Header from "~/customer/Layout/components/header/Header";
 import Slider from "~/customer/Layout/components/slider/Slider";
@@ -28,6 +30,7 @@ export default function Payment() {
   const [err2, setErr2] = useState("");
   const [err3, setErr3] = useState("");
   const [err4, setErr4] = useState("");
+  const [err5, setErr5] = useState("");
 
   const [f1, setF1] = useState(false);
   const [f2, setF2] = useState(false);
@@ -37,8 +40,12 @@ export default function Payment() {
   const [cart] = value.cart;
   const [total, setTotal] = useState(0);
   const [priceAll, setPriceall] = useState(0);
-  const [discount, setDiscount] = useState(20000);
+  const [discount, setDiscount] = useState(0);
   const [search, setSearch] = useState();
+  const [code, setCode] = useState();
+  const [codeDiscount, setCodeDiscount] = useState();
+
+
   const priceShip = 30000;
 
   const fetchApi1 = async () => {
@@ -48,8 +55,10 @@ export default function Payment() {
     setEmail(response.account.email);
   };
   useEffect(() => {
-    
-    Cookies.get("accessToken")?fetchApi1():(Swal.fire("Vui lòng đăng nhập trước khi thanh toán") && navigate("/sign-in"));
+    Cookies.get("accessToken")
+      ? fetchApi1()
+      : Swal.fire("Vui lòng đăng nhập trước khi thanh toán") &&
+        navigate("/sign-in");
   }, []);
   useEffect(() => {
     setPriceall(total + 30000 - discount);
@@ -101,18 +110,28 @@ export default function Payment() {
       note,
       discount,
       priceShip,
-      priceAll,
+      priceAll
     );
     localStorage.removeItem("cart");
     navigate("/shop");
     window.location.reload();
-
   };
 
   const fetchApi = async (a, b, c, d, e, f, g, h, i) => {
-   await orderService.newOrder(a, b, c, d, e, f, g, h, i);
+    await orderService.newOrder(a, b, c, d, e, f, g, h, i);
   };
-
+  const handleCodeDiscount = async (e) => {
+    e.preventDefault();
+    const res = await discountService.getDiscount();
+    const result = res.discounts.find(
+      (discount, index) => discount.code === code
+    );
+    if (result) {
+      return setDiscount(result?.discount),setCodeDiscount(result?.code), setCode("");
+    } else {
+      return setErr5("Mã khuyến mãi không hợp lệ"), setCode("");
+    }
+  };
   return (
     <>
       <Header search={search} onChange={(e) => setSearch(e.target.value)} />
@@ -371,6 +390,19 @@ export default function Payment() {
                 </div>
               ))}
               <div className="sidebar-content">
+                <input
+                  className="input"
+                  placeholder="Nhập mã giảm giá"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                ></input>
+                <button className="button" onClick={handleCodeDiscount}>
+                  Áp dụng
+                </button>
+                {err5 ? <p style={{ color: "red" }}>{err5}</p> : ""}
+                {discount ? <div style={{display:"flex",border:"1px solid #e1e1e1",borderRadius:"5px",backgroundColor:"lightblue",padding:"3px",marginTop:"5px",width:"150px",justifyContent:"center",position:"relative"}}><div >{codeDiscount}</div><div onClick={()=>setDiscount(0)} style={{position:"absolute",display:"flex",justifyContent:"ceter",alignItems:"center",height:"8px",top:"3px",right:"3px"}}>x</div></div> : ""}
+              </div>
+              <div className="sidebar-content">
                 <table className="product-table">
                   <tbody>
                     <tr className="product">
@@ -400,7 +432,7 @@ export default function Payment() {
                       <td className="total-line-name">Discount</td>
                       <td className="total-line-price">
                         <div>
-                          {discount.toLocaleString("it-IT", {
+                          {discount?.toLocaleString("it-IT", {
                             style: "currency",
                             currency: "VND",
                           })}
