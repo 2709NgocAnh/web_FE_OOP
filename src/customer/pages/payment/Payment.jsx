@@ -113,6 +113,7 @@ export default function Payment() {
       priceAll
     );
     localStorage.removeItem("cart");
+    await Swal.fire("Đặt hàng thành công")
     navigate("/shop");
     window.location.reload();
   };
@@ -356,7 +357,7 @@ export default function Payment() {
                             <div className="product-description-name">
                               {item.name}
                             </div>
-                            {item.price_sale != null ? (
+                            {item.price_sale >0 ? (
                               <div className="product-description-price">
                                 {item.price_sale.toLocaleString("it-IT", {
                                   style: "currency",
@@ -374,7 +375,7 @@ export default function Payment() {
                           </td>
                           <td className="product-price">
                             <div className="product-price-des">
-                              {(item.price_sale !== null
+                              {(item.price_sale >0
                                 ? item.price_sale * item.cartNum
                                 : item.price * item.cartNum
                               ).toLocaleString("it-IT", {
