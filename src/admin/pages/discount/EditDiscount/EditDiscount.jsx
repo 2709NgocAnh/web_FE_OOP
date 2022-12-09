@@ -1,6 +1,8 @@
 import classNames from "classnames/bind";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Navbar from "~/admin/Layout/components/Navbar/Navbar";
+import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 import * as discountService from "~/admin/services/discountService";
 import styles from "./EditDiscount.module.scss";
 
@@ -73,7 +75,7 @@ const EditDiscount = () => {
   useEffect(() => {
     const fetchApi = async () => {
       const response = await discountService.getADiscount(id);
-      console.log(response.discount[0].active)
+      console.log(response.discount[0].active);
       setValues({
         code: response.discount[0].code,
         discount: response.discount[0].discount,
@@ -93,8 +95,8 @@ const EditDiscount = () => {
   const handleFocus = (e) => {
     setFocused(true);
   };
-  const fetchApi = async (a, b, c, d, e, f, g,h) => {
-    const response = await discountService.editDiscount(a, b, c, d, e, f, g,h);
+  const fetchApi = async (a, b, c, d, e, f, g, h) => {
+    const response = await discountService.editDiscount(a, b, c, d, e, f, g, h);
   };
 
   const handleSubmit = (e) => {
@@ -112,54 +114,61 @@ const EditDiscount = () => {
     navigate("/admin/discount");
   };
   return (
-    <div className={cx("new")}>
-      <div className={cx("newContainer")}>
-       
-        <div className={cx("bottom")}>
-          <div className={cx("right")}>
-            <form onSubmit={handleSubmit}>
-              {userInputs.map((input) => (
-                <div className={cx("formInput")} key={input.id}>
-                  <label>{input.label}</label>
-                  <input
-                    {...input}
-                    value={values[input.name]}
-                    onBlur={handleFocus}
-                    onChange={(e) => {
-                      onChange(e);
-                    }}
-                    focused={focused.toString()}
-                  />
-                  <span className={cx("err")}>{input.err}</span>
-                </div>
-              ))}
-              <div className={cx("formRadio")}>
-                {arrActive.map((input) => (
-                  <div key={input.id}>
-                    <input
-                      type="radio"
-                      name={input.name}
-                      onClick={(e) => setActive(input.id)}
-                      checked={input.id === active ? true : false}
-                    />
+    <div>
+      <Navbar />
+      <div className={cx("container")}>
+        <Sidebar />
+        <div className={cx("content")}>
+          <div className={cx("new")}>
+            <div className={cx("newContainer")}>
+              <div className={cx("bottom")}>
+                <div className={cx("right")}>
+                  <form onSubmit={handleSubmit}>
+                    {userInputs.map((input) => (
+                      <div className={cx("formInput")} key={input.id}>
+                        <label>{input.label}</label>
+                        <input
+                          {...input}
+                          value={values[input.name]}
+                          onBlur={handleFocus}
+                          onChange={(e) => {
+                            onChange(e);
+                          }}
+                          focused={focused.toString()}
+                        />
+                        <span className={cx("err")}>{input.err}</span>
+                      </div>
+                    ))}
+                    <div className={cx("formRadio")}>
+                      {arrActive.map((input) => (
+                        <div key={input.id}>
+                          <input
+                            type="radio"
+                            name={input.name}
+                            onClick={(e) => setActive(input.id)}
+                            checked={input.id === active ? true : false}
+                          />
 
-                    <label>{input.type}</label>
-                  </div>
-                ))}
+                          <label>{input.type}</label>
+                        </div>
+                      ))}
+                    </div>
+                    <div className={cx("formInput-desc")}>
+                      <label>Description</label>
+                      <textarea
+                        rows="4"
+                        cols="50"
+                        onChange={(e) => {
+                          setContent(e.target.value);
+                        }}
+                        value={content}
+                      ></textarea>
+                    </div>
+                    <button className={cx("link")}>Thêm</button>
+                  </form>
+                </div>
               </div>
-              <div className={cx("formInput-desc")}>
-                <label>Description</label>
-                <textarea
-                  rows="4"
-                  cols="50"
-                  onChange={(e) => {
-                    setContent(e.target.value);
-                  }}
-                  value={content}
-                ></textarea>
-              </div>
-              <button className={cx("link")}>Thêm</button>
-            </form>
+            </div>
           </div>
         </div>
       </div>

@@ -1,3 +1,20 @@
+.wrapper {
+    width: var(--default-layout-width);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .container {
+    min-height: 500px;
+    width: var(--default-layout-width);
+    max-width: 100%;
+    display: flex;
+    padding: 0 50px;
+  }
+  
+  .content {
+    flex: 5;
 .single {
     display: flex;
     width: 100%;
@@ -86,4 +103,4 @@
             font-weight: 500;
         }
     }
-}
+}}

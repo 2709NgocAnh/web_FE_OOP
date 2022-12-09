@@ -15,9 +15,8 @@ import Cookies from "js-cookie";
 const cx = classNames.bind(styles);
 const Sidebar = () => {
   const logout = () => {
-    Cookies.set("accessToken", { expires: 0 });
-    localStorage.removeItem("cart");
-    window.location.reload();
+    Cookies.remove("accessToken")
+   
   };
   return (
     <div className={cx("sidebar")}>
@@ -133,7 +132,7 @@ const Sidebar = () => {
 
           <NavLink
             onClick={logout}
-            to="/register"
+            to="/sign-in"
             className={({ isActive }) => cx(isActive ? "active" : "inactive")}
           >
             <li>

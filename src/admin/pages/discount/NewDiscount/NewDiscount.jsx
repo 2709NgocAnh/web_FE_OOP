@@ -1,6 +1,8 @@
 import classNames from "classnames/bind";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "~/admin/Layout/components/Navbar/Navbar";
+import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 import * as discountService from "~/admin/services/discountService";
 import styles from "./NewDiscount.module.scss";
 
@@ -93,6 +95,11 @@ const NewDiscount = () => {
     navigate("/admin/discount");
   };
   return (
+    <div>
+    <Navbar />
+    <div className={cx("container")}>
+      <Sidebar />
+      <div className={cx("content")}>
     <div className={cx("new")}>
       <div className={cx("newContainer")}>
         <div className={cx("top")}>
@@ -147,6 +154,10 @@ const NewDiscount = () => {
         </div>
       </div>
     </div>
+    </div>
+    </div>
+    </div>
+
   );
 };
 

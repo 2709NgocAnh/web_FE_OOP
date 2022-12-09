@@ -5,6 +5,8 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { confirm } from "react-confirm-box";
 import { Link } from "react-router-dom";
+import Navbar from "~/admin/Layout/components/Navbar/Navbar";
+import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 import * as discountService from "~/admin/services/discountService";
 import styles from "./ListDiscount.module.scss";
 
@@ -132,11 +134,16 @@ const ListDiscount = () => {
     },
   ];
   return (
+    <div>
+    <Navbar />
+    <div className={cx("container")}>
+      <Sidebar />
+      <div className={cx("content")}>
     <div className={cx("list")}>
       <div className={cx("listContainer")}>
         <div className={cx("datatable")}>
           <div className={cx("datatableTitle")}>
-            Danh mục
+            Danh sách Discount
             <Link to="/admin/discount/newdiscount" className={cx("link")}>
               Thêm mới
             </Link>
@@ -168,12 +175,12 @@ const ListDiscount = () => {
               columns={userColumns.concat(actionColumn)}
               priceSize={9}
               rowsPerPageOptions={[9]}
-              checkboxSelection
             />
           </Box>
         </div>
       </div>
     </div>
+    </div>    </div>    </div>
   );
 };
 

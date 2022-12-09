@@ -5,6 +5,8 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { confirm } from "react-confirm-box";
 import { Link } from "react-router-dom";
+import Navbar from "~/admin/Layout/components/Navbar/Navbar";
+import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 import * as categoryService from "~/admin/services/categoryService";
 import styles from "./ListCategory.module.scss";
 
@@ -28,7 +30,7 @@ const ListCategory = () => {
     if (!result) {
       return;
     }
-    const response = await categoryService.removeCategory(id);
+    await categoryService.removeCategory(id);
     alert(`Bạn đã xóa Danh mục ${name} thành công`);
   };
 
@@ -116,6 +118,11 @@ const ListCategory = () => {
     },
   ];
   return (
+    <div>
+    <Navbar />
+    <div className={cx("container")}>
+      <Sidebar />
+      <div className={cx("content")}>
     <div className={cx("list")}>
       <div className={cx("listContainer")}>
         <div className={cx("datatable")}>
@@ -150,10 +157,12 @@ const ListCategory = () => {
               columns={userColumns.concat(actionColumn)}
               priceSize={9}
               rowsPerPageOptions={[9]}
-              checkboxSelection
             />
           </Box>
         </div>
+      </div>
+    </div>
+    </div>
       </div>
     </div>
   );
