@@ -75,16 +75,15 @@ const EditDiscount = () => {
   useEffect(() => {
     const fetchApi = async () => {
       const response = await discountService.getADiscount(id);
-      console.log(response.discount[0].active);
       setValues({
-        code: response.discount[0].code,
-        discount: response.discount[0].discount,
-        minium_order: response.discount[0].minium_order,
-        purchase_limit: response.discount[0].purchase_limit,
-        expiration_date: response.discount[0].expiration_date,
+        code: response.discount.code,
+        discount: response.discount.discount,
+        minium_order: response.discount.minium_order,
+        purchase_limit: response.discount.purchase_limit,
+        expiration_date: response.discount.expiration_date,
       });
-      setActive(response.discount[0].active);
-      setContent(response.discount[0].content);
+      setActive(response.discount.active);
+      setContent(response.discount.content);
     };
     fetchApi();
   }, [id]);
@@ -96,7 +95,7 @@ const EditDiscount = () => {
     setFocused(true);
   };
   const fetchApi = async (a, b, c, d, e, f, g, h) => {
-    const response = await discountService.editDiscount(a, b, c, d, e, f, g, h);
+   await discountService.editDiscount(a, b, c, d, e, f, g, h);
   };
 
   const handleSubmit = (e) => {

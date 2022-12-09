@@ -126,7 +126,7 @@ export default function Payment() {
     const result = res.discounts.find(
       (discount, index) => discount.code === code
     );
-    if (result) {
+    if (result&&total>=discount.minium_order) {
       return setDiscount(result?.discount),setCodeDiscount(result?.code), setCode("");
     } else {
       return setErr5("Mã khuyến mãi không hợp lệ"), setCode("");
