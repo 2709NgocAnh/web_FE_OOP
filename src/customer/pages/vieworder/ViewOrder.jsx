@@ -26,10 +26,12 @@ const ViewOrder = () => {
   }, []);
   const userColumns = [
     {
-      field: "_id",
-      hide: true,
+      field: "id",
+      headerName: "Mã đơn hàng",
+      width: 170,
+      headerClassName: "super-app-theme--header",
+      headerAlign: "center",
     },
-
     {
       field: "discount",
       headerName: "Mã giảm giá",
@@ -126,7 +128,7 @@ const ViewOrder = () => {
         return (
           <div className={cx("cellAction")}>
             <Link
-              to={`/admin/order/${params.row._id}`}
+              to={`/order/${params.row._id}`}
               style={{ textDecoration: "none" }}
             >
               <div className={cx("viewButton")}>View</div>
@@ -162,9 +164,7 @@ const ViewOrder = () => {
       <>
         <Header search={search} onChange={(e) => setSearch(e.target.value)} />
         <div className={cx("wrap")}>
-          {/* <div className="col-md-3 col-sm-12 col-xs-12"> */}
           <SideBar />
-          {/* </div> */}
           <div className="col-md-9 col-sm-12 col-xs-12">
             <div className={cx("single")}>
               <div className={cx("singleContainer")}>

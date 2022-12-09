@@ -57,24 +57,30 @@ function Cart(props) {
                   </th>
                   <th className="text-center">Đơn giá</th>
                   <th className="text-center">Số lượng</th>
-                  <th className="text-right">Tổng giá</th>
+                  <th className="text-center">Tổng giá</th>
                 </tr>
               </thead>
               <CartItem cart={cart} setCart={setCart} />
             </table>
             <div className="cart__row">
-              <div className="grid__item text-right one-third small--one-whole">
+              <div className="grid__item text-center one-third small--one-whole">
                 <p>
                   <span className="cart__subtotal-title">Tổng tiền</span>
-                  <span className="h3 cart__subtotal">
-                    <Price price={total} />
+                  <span className="cart__subtotal">
+                    {total.toLocaleString("it-IT", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
                   </span>
                 </p>
                 <button className="btnCart">
                   <NavLink to="/payment">Thanh toán</NavLink>
                 </button>
               </div>
+              
+              
             </div>
+            
           </form>
         </div>
       </>

@@ -1,24 +1,15 @@
-import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 import {
-  BrowserRouter as Router,
-  Navigate,
-  Route,
-  Routes,
+    BrowserRouter as Router,
+    Navigate,
+    Route,
+    Routes
 } from "react-router-dom";
-import * as registerService from "~/admin/services/registerService";
 import { DataProvider } from "./customer/components/dataProvider/DataProvider";
 import { PRIVATEROUTES, PUBLICROUTES } from "./routes";
 
 function App() {
-  const [role, setRole] = useState('admin');
-  // call API lấy role
-  useEffect(() => {
-    const fetchApi = async () => {
-      const response = await registerService.getRegister();
-      setRole(response.account.role);
-    };
-    fetchApi();
-  }, [role]);
+    const role =Cookies.get("role")
   return (
     <DataProvider>
       <Router>
