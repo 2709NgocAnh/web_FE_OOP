@@ -20,10 +20,10 @@ const Widget = ({ type }) => {
   let data;
   useEffect(() => {
     const fetchApi = async () => {
-      const response = await productService.getListProduct();
-      const response1 = await categoryService.getCategory();
-      const response2 = await orderService.getOrder();
-      const response3 = await userService.getUser();
+      const response = await productService.getListProduct(1);
+      const response1 = await categoryService.getCategory(1);
+      const response2 = await orderService.getOrder(1);
+      const response3 = await userService.getUser(1);
 
       setCountProduct(response.products.length);
       setCountCategory(response1.categories.length);
@@ -33,7 +33,7 @@ const Widget = ({ type }) => {
     fetchApi();
   }, []);
   //temporary
-  const diff = 20;
+  const diff = "";
 
   switch (type) {
     case "user":
