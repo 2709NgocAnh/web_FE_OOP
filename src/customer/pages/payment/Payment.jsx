@@ -54,11 +54,18 @@ export default function Payment() {
     setPhone(response.account.phoneNumber);
     setEmail(response.account.email);
   };
+  console.log(JSON.parse(localStorage.getItem("cart"))?.length)
   useEffect(() => {
-    Cookies.get("accessToken")
-      ? fetchApi1()
-      : Swal.fire("Vui lòng đăng nhập trước khi thanh toán") &&
+    if(Cookies.get("accessToken")===false&&JSON.parse(localStorage.getItem("cart"))?.length>0){
+        Swal.fire("Vui lòng đăng nhập trước khi thanh toán") &&
         navigate("/sign-in");
+    }else if(Cookies.get("accessToken")&&JSON.parse(localStorage.getItem("cart"))?.length===0){
+        Swal.fire("Vui lòng thêm hàng vào giỏ trước khi thanh toán") &&
+        navigate("/shop");
+    }else{
+        fetchApi1()
+    }
+     
   }, []);
   useEffect(() => {
     setPriceall(total + 30000 - discount);
