@@ -5,7 +5,7 @@
 }
 .ReactModal__Overlay{
     position: relative;
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(162, 153, 153, 0.5) !important;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,7 +21,7 @@
   margin: "auto";
 }
 .coupon_body {
-  line-height: 3;
+  line-height: 2;
 }
 .coupon_head {
 }
@@ -53,15 +53,27 @@
   }
 }
 .coupon_info {
-  box-shadow: 5px 5px whitesmoke;
+    width: 500px;
+    height: 200px;
+  box-shadow: 5px 5px 5px 5px whitesmoke;
   border-radius: 5px;
-  border: 1px solid black;
   padding: 10px;
-  z-index: 1000;
+  line-height: 2;
 
-  .coupon_title {
+  .coupon_title--header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: black;
     font-weight: 600;
+  }
+  .coupon_title--center{
+    display: flex;
+    align-items: center;
+    background-color: #e1e1e1;
+    color: black;
+    font-weight: 600;
+    height: 30px;
   }
   .coupon_btn {
     display: flex;
