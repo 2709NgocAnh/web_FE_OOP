@@ -1,8 +1,8 @@
 import * as httpRequest from "~/admin/utils/httpRequest";
 //ADMIN
-export const getListProduct = async () => {
+export const getListProduct = async (pageIndex) => {
     try {
-      const res = await httpRequest.get(`product`);
+      const res = await httpRequest.get(`product?pageSize=12&pageIndex=${pageIndex}`);
       return res;
     } catch (error) {
       console.log(error);
@@ -38,7 +38,7 @@ export const getProduct = async (name,sort,pageIndex) => {
 
   export const getListNewProduct = async (pageIndex) => {
     try {
-      const res = await httpRequest.get(`product/newProducts?pageSize=2&pageIndex=${pageIndex}`);
+      const res = await httpRequest.get(`product/newProducts?pageSize=12&pageIndex=${pageIndex}`);
       return res;
     } catch (error) {
       console.log(error);
@@ -46,7 +46,7 @@ export const getProduct = async (name,sort,pageIndex) => {
   };
   export const getListSaleProduct = async (pageIndex) => {
     try {
-      const res = await httpRequest.get(`product/saleProducts?pageIndex=${pageIndex}`);
+      const res = await httpRequest.get(`product/saleProducts?pageSize=12&pageIndex=${pageIndex}`);
       return res;
     } catch (error) {
       console.log(error);
