@@ -21,6 +21,8 @@ const SignIn = () => {
   const showPass = true;
   const navigate = useNavigate();
   const [search, setSearch] = useState();
+  const password = `^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`;
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -34,9 +36,9 @@ const SignIn = () => {
       email: Yup.string()
         .email("Vui lòng nhập định dạng email hợp lệ")
         .required("Vui lòng điền vào trường này"),
-      password: Yup.string()
-        .required("Vui lòng điền vào trường này")
-        .min(6, "Mật khẩu quá ngắn - vui lòng nhập trên 6 kí tự"),
+        password: Yup.string()
+        .matches(password, "Mật khẩu phải bao gồm ký tự in hoa, in thường, chữ số và ký tự đặc biệt")
+        .required("Vui lòng điền vào trường này"),
     }),
   });
 
@@ -54,6 +56,8 @@ const SignIn = () => {
         return navigate("/admin"),window.location.reload();
       } else if (response1?.data.account.role === "user") {
         return navigate("/shop"),window.location.reload();
+      } else if (response1?.data.account.role === "shipper") {
+        return navigate("/shipper/listOrder"),window.location.reload();
       }
     }
   };

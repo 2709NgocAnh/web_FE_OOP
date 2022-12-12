@@ -1,15 +1,15 @@
 import Cookies from "js-cookie";
 import {
-    BrowserRouter as Router,
-    Navigate,
-    Route,
-    Routes
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
 } from "react-router-dom";
 import { DataProvider } from "./customer/components/dataProvider/DataProvider";
-import { PRIVATEROUTES, PUBLICROUTES } from "./routes";
+import { PRIVATEROUTES, PUBLICROUTES, SHIPPERROUTES } from "./routes";
 
 function App() {
-    const role =Cookies.get("role")
+  const role = Cookies.get("role");
   return (
     <DataProvider>
       <Router>
@@ -30,8 +30,27 @@ function App() {
                         ) : (
                           <Navigate to="/sign-in" />
                         )}
-                        
                       </Layout>
+                    }
+                  />
+                </>
+              );
+            })}
+            {SHIPPERROUTES.map((route, index) => {
+              const Page = route.component;
+              return (
+                <>
+                  <Route
+                    key={index}
+                    path={route.path}
+                    element={
+                      <>
+                        {role === "shipper" ? (
+                          <Page />
+                        ) : (
+                          <Navigate to="/sign-in" />
+                        )}
+                      </>
                     }
                   />
                 </>

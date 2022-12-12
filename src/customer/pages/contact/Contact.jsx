@@ -33,7 +33,7 @@ function Contact() {
                     style={{ fontSize: "1.6rem" }}
                   />
                   <br />
-                  <h1> THÔNG TIN HỆ THỐNG CỬA HÀNG DIRTYCOINS</h1>
+                  <h1> THÔNG TIN HỆ THỐNG CỬA HÀNG GIRL BAG</h1>
                   <br />
                   <h2>HỆ THỐNG CỬA HÀNG</h2>
                   <br />
@@ -67,7 +67,7 @@ function Contact() {
                         coming soon
                       </li>
                       <li className={cx("footer-contact contact-4")}>
-                        outerity.local@gmail.com
+                        girlbag.local@gmail.com
                       </li>
                     </ul>
                   </div>

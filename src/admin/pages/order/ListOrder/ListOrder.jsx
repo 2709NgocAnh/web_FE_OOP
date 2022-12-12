@@ -4,7 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import classNames from "classnames/bind";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Navbar from "~/admin/Layout/components/Navbar/Navbar";
 import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 import * as orderService from "~/admin/services/orderService";
@@ -39,11 +39,16 @@ const ListOrder = () => {
   }, [pagination.currentPage]);
   const listorderstatus = [
     { id: 0, name: "pending", title: "Chờ xác nhận", disabled: true },
-    { id: 1, name: "cancelled", title: "Hủy", disabled: true },
-    { id: 3, name: "processing", title: "Xác nhận đơn hàng", disabled: true },
-    { id: 4, name: "shipping", title: "Đang giao", disabled: true },
-    { id: 5, name: "shipped", title: "Đã giao", disabled: true },
-    { id: 6, name: "received", title: "Đã nhận", disabled: true },
+    { id: 1, name: "cancelled", title: "Đã Hủy", disabled: true },
+    {
+      id: 2,
+      name: "processing",
+      title: " Chờ shipper nhận hàng",
+      disabled: true,
+    },
+    { id: 3, name: "shipping", title: "Đang giao", disabled: true },
+    { id: 4, name: "shipped", title: "Đã giao", disabled: true },
+    { id: 5, name: "received", title: "Đã nhận", disabled: true },
   ];
 
   const userColumns = [
@@ -61,7 +66,7 @@ const ListOrder = () => {
       headerClassName: "super-app-theme--header",
       headerAlign: "center",
       renderCell: (params) => {
-        return params.row.user.fullName;
+        return params.row.user?.fullName;
       },
     },
     {
@@ -108,27 +113,6 @@ const ListOrder = () => {
           </div>
         );
       },
-      //   renderCell: (params) => {
-      //     return (
-      //       <div className={cx("status")}>
-      //         <div
-      //           className={cx(
-      //             params.row.status === 0
-      //               ? "active"
-      //               : params.row.status === 1
-      //               ? "pending"
-      //               : "passive"
-      //           )}
-      //         >
-      //           {params.row.status === 0
-      //             ? "Chờ xác nhận"
-      //             : params.row.status === 1
-      //             ? "Đang giao "
-      //             : "Đã giao"}
-      //         </div>
-      //       </div>
-      //     );
-      //   },
     },
     {
       field: "createdAt",
@@ -189,7 +173,9 @@ const ListOrder = () => {
           <div className={cx("list")}>
             <div className={cx("listContainer")}>
               <div className={cx("datatable")}>
-                <div className={cx("datatableTitle")}>Danh sách hóa đơn</div>
+                <div className={cx("datatableTitle")}>Danh sách hóa đơn
+                  <NavLink to="/admin/pendingOrder" style={{color:"blue"}}>Danh sách chờ xử lý</NavLink>
+                </div>
                 <Box
                   sx={{
                     height: "100%",

@@ -54,7 +54,6 @@ export default function Payment() {
     setPhone(response.account.phoneNumber);
     setEmail(response.account.email);
   };
-  console.log(JSON.parse(localStorage.getItem("cart"))?.length)
   useEffect(() => {
     if(Cookies.get("accessToken")===false&&JSON.parse(localStorage.getItem("cart"))?.length>0){
         Swal.fire("Vui lòng đăng nhập trước khi thanh toán") &&
@@ -120,13 +119,16 @@ export default function Payment() {
       priceAll
     );
     localStorage.removeItem("cart");
-    await Swal.fire("Đặt hàng thành công")
-    navigate("/shop");
-    window.location.reload();
+    
   };
 
   const fetchApi = async (a, b, c, d, e, f, g, h, i) => {
-    await orderService.newOrder(a, b, c, d, e, f, g, h, i);
+    const response= await orderService.newOrder(a, b, c, d, e, f, g, h, i);
+    if (response.data.success === true) {
+       await Swal.fire("Đặt hàng thành công")
+    navigate("/shop");
+    window.location.reload();
+      }
   };
   const handleCodeDiscount = async (e) => {
     e.preventDefault();
@@ -148,7 +150,7 @@ export default function Payment() {
           <div className="main">
             <div className="main-header">
               <a href="/" className="logo">
-                <h1 className="logo-text">Outerity</h1>
+                <h1 className="logo-text">Girl Bag</h1>
               </a>
 
               <ul className="breadcrumb">

@@ -1,6 +1,7 @@
 import { DeleteOutlined } from "@ant-design/icons";
 import { Image } from "cloudinary-react";
 import { NavLink } from "react-router-dom";
+import Swal from "sweetalert2";
 import "./CartItem.scss";
 
 function CartItem(props) {
@@ -37,7 +38,7 @@ function CartItem(props) {
               </button>
             </td>
             <td className="cart-product-price" data-label="Đơn giá">
-              {(item.price_sale != null
+              {(item.price_sale <0
                 ? item.price_sale
                 : item.price
               ).toLocaleString("it-IT", {
@@ -62,9 +63,11 @@ function CartItem(props) {
                   onClick={(e) => {
                     e.preventDefault();
                     const newCart = [...cart];
-                    if (newCart[index].num > newCart[index].cartNum)
+                    if (newCart[index].num > newCart[index].cartNum){
                       newCart[index].cartNum += 1;
-                    setCart(newCart);
+                    setCart(newCart)}else(
+                        Swal.fire('Số lượng sản phẩm chỉ còn 1')
+                    )
                   }}
                 >
                   +
@@ -73,7 +76,7 @@ function CartItem(props) {
             </td>
             <td data-label="Tổng giá" className="cart-product-price text-right">
               <span style={{color:'black',fontSize:"2rem"}}>
-                {(item.price_sale !== null
+                {(item.price_sale < 0
                   ? item.price_sale * item.cartNum
                   : item.price * item.cartNum
                 ).toLocaleString("it-IT", {
