@@ -20,6 +20,8 @@ const Register = () => {
   const role = "user";
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
+  const password = `^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`;
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -52,10 +54,11 @@ const Register = () => {
       phoneNumber: Yup.string().matches(
         phoneRegExp,
         "Phone number is not valid"
-      ),
+      )
+      .required("Vui lòng điền vào trường này"),
       password: Yup.string()
-        .required("Vui lòng điền vào trường này")
-        .min(6, "Mật khẩu quá ngắn - vui lòng nhập trên 6 kí tự"),
+        .matches(password, "Password is not valid")
+        .required("Vui lòng điền vào trường này"),
       address: Yup.string()
         .min(2, "Qua Ngan!")
         .max(50, "Qua dai roi b oi!")
@@ -69,7 +72,7 @@ const Register = () => {
     const response = await registerService.signUpRegister(a, b, c, d, e, f);
     if (response.data.success === true) {
       navigate("/veryfyEmail");
-    } 
+    }
   };
 
   return (
@@ -93,13 +96,13 @@ const Register = () => {
           </button>
         </div>
         <div className={cx("form-signin")}>
-            <span>Bạn đã có tài khoản !</span>
-            <NavLink
-              to="/sign-in"
-              style={{ color: "blue", textDecoration: "underline" }}
-            >
-              Đăng nhập
-            </NavLink>
+          <span>Bạn đã có tài khoản !</span>
+          <NavLink
+            to="/sign-in"
+            style={{ color: "blue", textDecoration: "underline" }}
+          >
+            Đăng nhập
+          </NavLink>
         </div>
       </form>
     </div>

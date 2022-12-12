@@ -91,7 +91,7 @@ export default function Shop() {
         <section className={cx("product")}>
           <div className={cx("container")}>
             <div className={cx("row")}>
-              <Sort setNameSort={setNameSort} setValueSort={setValueSort} />
+              <Sort setNameSort={setNameSort} setValueSort={setValueSort} nameSort={nameSort} valueSort={valueSort}/>
               {productList?.length === 0 ? (
                 <NoProduct />
               ) : (

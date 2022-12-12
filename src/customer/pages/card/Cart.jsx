@@ -41,7 +41,7 @@ function Cart(props) {
         <div className="container__wrapper">
           <div className="main-header">
             <a href="/" className="logo">
-              <h1 className="logo-text">Outerity</h1>
+              <h1 className="logo-text">Girl Bag</h1>
             </a>
             <div className="breadcrumb-small">
               <NavLink to="/">Trang chủ /</NavLink>

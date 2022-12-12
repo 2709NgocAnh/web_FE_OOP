@@ -100,9 +100,10 @@ export const signUpRegister = async (
     });
     return res;
   } catch (error) {
+    console.log(error.response.data.details[0].message)
     Swal.fire({
       icon: "error",
-      text: "Email này đã tồn tại  🙌👀",
+      text: `${error.response.data.details[0].message} 🙌👀`,
     });
   }
 };

@@ -9,6 +9,15 @@ export const getOrder = async (pageIndex) => {
     console.log(error);
   }
 };
+export const listPendingOrder = async () => {
+    try {
+      const res = await httpRequest.get(`order/listPendingOrder`);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
 export const newOrder = async (
   orderProducts,
   phone,
@@ -30,7 +39,10 @@ export const newOrder = async (
     });
     return res;
   } catch (error) {
-    console.log(error);
+    Swal.fire({
+        icon: "error",
+        text: `${error.response.data.message} 🙌👀`,
+      });
   }
 };
 export const editOrder = async (id, status) => {

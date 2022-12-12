@@ -20,6 +20,8 @@ function SingleOrder() {
   const listorderstatus = [
     { id: 0, name: "cancelled", title: "Hủy", disabled: true },
     { id: 1, name: "processing", title: "Xác nhận đơn hàng", disabled: true },
+    { id: 2, name: "processing", title: "Chờ shipper nhận đơn", disabled: true },
+
     { id: 2, name: "shipping", title: "Đang giao", disabled: true },
     { id: 3, name: "shipped", title: "Đã giao", disabled: true },
     { id: 4, name: "received", title: "Đã nhận", disabled: true },
@@ -286,28 +288,7 @@ function SingleOrder() {
                               </div>
                             </div>
                           </div>
-                          <div className={cx("bottom")}>
-                            {listorderstatus?.map((status) => {
-                              return (
-                                <button
-                                  disabled={status.id <= checkDisable()}
-                                  style={{
-                                    backgroundColor: "#0d6efd",
-                                    opacity:
-                                      status.id <= checkDisable() ? "0.5" : "1",
-                                    color: "white",
-                                    padding: "5px 10px",
-                                    marginRight: "20px",
-                                  }}
-                                  onClick={() => {
-                                    handleOnclick(status.name);
-                                  }}
-                                >
-                                  {status.title}
-                                </button>
-                              );
-                            })}
-                          </div>
+                         
                         </div>
                       </div>
                     </div>

@@ -65,7 +65,7 @@ export default function Details() {
               })}
 
           <button className="card-button" onClick={() => addCart(current, 1)}>
-            Add to cart
+            Thêm sản phẩm
           </button>
           <NavLink to="/payment">
             <button

@@ -52,6 +52,22 @@ import ForgetPassword from "~/customer/pages/forgetpassword/ForgetPassWord";
 import VeryfyEmail from "~/customer/pages/veryfyEmail/VeryfyEmail";
 import EditProfile from "~/customer/pages/editprofile/EditProfile";
 import DetailOrder from "~/customer/pages/vieworder/component/detailorder/DetailOrder";
+import HomeShipper from "~/shipper/pages/Home/Home";
+import DetailOrderShipper from "~/shipper/pages/DetailOrder/DetailOrder";
+import SinglePendingOrderList from "~/admin/pages/order/SinglePendingOrderList/SinglePendingOrderList";
+import PendingOrderList from "~/admin/pages/order/PendingOrderList/PendingOrderList";
+
+const SHIPPERROUTES = [
+  {
+    path: config.routes.shipper,
+    component: HomeShipper,
+  },
+  {
+    path: config.routes.detailOrder,
+    component: DetailOrderShipper,
+  },
+];
+
 // Public routes
 const PRIVATEROUTES = [
   //admin
@@ -120,6 +136,16 @@ const PRIVATEROUTES = [
     component: SingleOrder,
     layout: DefaultLayoutAdmin,
   },
+  {
+    path: config.routes.pendingOrder,
+    component: PendingOrderList,
+    layout: DefaultLayoutAdmin,
+  },
+  {
+    path: config.routes.singlePendingOrder,
+    component: SinglePendingOrderList,
+    layout: DefaultLayoutAdmin,
+  },
   //slider
   {
     path: config.routes.listslider,
@@ -173,12 +199,24 @@ const PRIVATEROUTES = [
 const PUBLICROUTES = [
   { path: config.routes.customer, component: Shop, layout: DefaultLayout },
   { path: config.routes.shop, component: Shop, layout: DefaultLayout },
-  { path: config.routes.listnewproduct, component: ListNewProduct, layout: DefaultLayout },
-//   { path: config.routes. listsaleproduct, component: ListSaleProduct, layout: DefaultLayout },
-  { path: config.routes.pageSaleProduct, component: ListSaleProduct, layout: DefaultLayout },
+  {
+    path: config.routes.listnewproduct,
+    component: ListNewProduct,
+    layout: DefaultLayout,
+  },
+  //   { path: config.routes. listsaleproduct, component: ListSaleProduct, layout: DefaultLayout },
+  {
+    path: config.routes.pageSaleProduct,
+    component: ListSaleProduct,
+    layout: DefaultLayout,
+  },
 
   { path: config.routes.profile, component: Profile, layout: DefaultLayout },
-  { path: config.routes.editprofile, component: EditProfile, layout: DefaultLayout },
+  {
+    path: config.routes.editprofile,
+    component: EditProfile,
+    layout: DefaultLayout,
+  },
 
   { path: config.routes.payment, component: Payment, layout: DefaultLayout },
   { path: config.routes.feedback, component: FeedBack, layout: DefaultLayout },
@@ -212,10 +250,17 @@ const PUBLICROUTES = [
   },
   { path: config.routes.register, component: Register, layout: DefaultLayout },
   { path: config.routes.signin, component: SignIn, layout: DefaultLayout },
-  { path: config.routes.forgetPassword, component: ForgetPassword, layout: DefaultLayout },
-  { path: config.routes.veryfyEmail, component: VeryfyEmail, layout: DefaultLayout },
+  {
+    path: config.routes.forgetPassword,
+    component: ForgetPassword,
+    layout: DefaultLayout,
+  },
+  {
+    path: config.routes.veryfyEmail,
+    component: VeryfyEmail,
+    layout: DefaultLayout,
+  },
 
- 
   {
     path: config.routes.detailproduct,
     component: Details,
@@ -223,4 +268,4 @@ const PUBLICROUTES = [
   },
 ];
 
-export { PUBLICROUTES, PRIVATEROUTES };
+export { PUBLICROUTES, PRIVATEROUTES, SHIPPERROUTES };

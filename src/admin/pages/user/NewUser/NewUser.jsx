@@ -21,6 +21,8 @@ const NewUser = () => {
     password_confirm: "",
   });
   const arrStatus = [
+    { id: 2, type: "shipper", name: "active" },
+
     { id: 1, type: "admin", name: "active" },
     { id: 0, type: "user", name: "active" },
   ];

@@ -7,7 +7,7 @@ import { useState } from "react";
 const cx = classNames.bind(styles);
 
 function Sort(props) {
-  const { setNameSort, setValueSort } = props;
+  const { setNameSort, setValueSort,nameSort,valueSort} = props;
   const [isSortPrice, setIsSortPrice] = useState(false);
   const [isSortName, setIsSortName] = useState(false);
 
@@ -32,6 +32,7 @@ function Sort(props) {
                 setValueSort(1);
                 setIsSortPrice(false);
               }}
+              checked={(nameSort==="price"&&valueSort===1)?true:false}
             />
             <label for="html">Gía: Tăng dần</label>
           </div>
@@ -47,6 +48,8 @@ function Sort(props) {
                 setValueSort(-1);
                 setIsSortPrice(false);
               }}
+              checked={(nameSort==="price"&&valueSort===-1)?true:false}
+
             />
             <label for="css">Giá: Giảm dần</label>
           </div>
@@ -71,6 +74,8 @@ function Sort(props) {
               onClick={(e) => (
                 setNameSort("name"), setValueSort(1), setIsSortName(false)
               )}
+              checked={(nameSort==="name"&&valueSort===1)?true:false}
+
             />
             <label for="css">Tên: A-Z</label>
           </div>
@@ -83,6 +88,8 @@ function Sort(props) {
               onClick={(e) => (
                 setNameSort("name"), setValueSort(-1), setIsSortName(false)
               )}
+              checked={(nameSort==="name"&&valueSort===-1)?true:false}
+
             />
             <label for="css">Tên:Z-A</label>
           </div>
