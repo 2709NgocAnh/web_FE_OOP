@@ -312,17 +312,16 @@ function SinglePendingOrderList() {
                               <button
                              
                                 style={{
-                                    opacity:status === "shipping" ? 1 : 0.5,
                                   backgroundColor: "#0d6efd",
                                   color: "white",
                                   padding: "5px 10px",
-                                  marginRight: "20px",
+                                  marginRight: "20px"
                                 }}
                                 onClick={() => {
                                   handleshippedOrder();
                                 }}
                               >
-                                Giao hàng thành công
+                               Xác nhận đơn hàng
                               </button>
                           
                           </div>
