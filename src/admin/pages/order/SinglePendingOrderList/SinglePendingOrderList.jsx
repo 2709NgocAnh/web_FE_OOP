@@ -315,7 +315,7 @@ function SinglePendingOrderList() {
                                   backgroundColor: "#0d6efd",
                                   color: "white",
                                   padding: "5px 10px",
-                                  marginRight: "20px",
+                                  marginRight: "20px"
                                 }}
                                 onClick={() => {
                                   handleshippedOrder();
