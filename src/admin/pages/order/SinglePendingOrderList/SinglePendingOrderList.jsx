@@ -2,7 +2,7 @@ import classNames from "classnames/bind";
 import { Image } from "cloudinary-react";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import Navbar from "~/admin/Layout/components/Navbar/Navbar";
 import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
@@ -13,15 +13,15 @@ import styles from "./SinglePendingOrderList.module.scss";
 function SinglePendingOrderList() {
   const cx = classNames.bind(styles);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [order, setOrder] = useState({});
-  const [status, setStatus] = useState("pending");
+  const status = "processing";
   const [orderdetail, setOrderdetail] = useState([]);
   useEffect(() => {
     const fetchApi = async () => {
       const response = await orderService.getAOrder(id);
       setOrder(response?.order[0]);
-      setStatus(response?.order[0].status);
       setOrderdetail(response?.order[0].orderProducts);
     };
     fetchApi();
@@ -31,10 +31,7 @@ function SinglePendingOrderList() {
     const result = await Swal.fire({
       title: `<strong>Bạn có chắc chắn muốn Hủy đơn hàng không? 🙌👀</strong>`,
       icon: "info",
-      html:
-        "You can use <b>bold text</b>, " +
-        '<a href="//sweetalert2.github.io">links</a> ' +
-        "and other HTML tags",
+
       showCloseButton: true,
       showCancelButton: true,
       focusConfirm: false,
@@ -44,21 +41,20 @@ function SinglePendingOrderList() {
       cancelButtonAriaLabel: "Thumbs down",
     });
     if (result.isConfirmed === true) {
-      return;
+      const fetchApi = async () => {
+        const res = await orderService.cancelOrder(id);
+        if (res.data.success === true) {
+          await Swal.fire("Hủy đơn hàng thành công");
+          await navigate("/admin/pendingOrder");
+        }
+      };
+      fetchApi();
     }
-    const fetchApi = async () => {
-      await orderService.cancelOrder(id);
-    };
-    fetchApi();
   };
   const handleshippedOrder = async () => {
     const result = await Swal.fire({
       title: `<strong>Bạn có chắc chắn muốn xác nhận đơn hàng không? 🙌👀</strong>`,
       icon: "info",
-      html:
-        "You can use <b>bold text</b>, " +
-        '<a href="//sweetalert2.github.io">links</a> ' +
-        "and other HTML tags",
       showCloseButton: true,
       showCancelButton: true,
       focusConfirm: false,
@@ -68,14 +64,17 @@ function SinglePendingOrderList() {
       cancelButtonAriaLabel: "Thumbs down",
     });
     if (result.isConfirmed === true) {
-      return;
+      const fetchApi = async () => {
+        const res = await orderService.editOrder(id, status);
+        if (res.data.success === true) {
+            await Swal.fire("Xác nhận đơn hàng thành công ");
+            await navigate("/admin/pendingOrder");
+        }
+      };
+      fetchApi();
     }
-    const fetchApi = async () => {
-      await orderService.editOrder(id,status);
-    };
-    fetchApi();
   };
-  
+
   return (
     <div>
       <Navbar />
@@ -183,25 +182,44 @@ function SinglePendingOrderList() {
                                                   "product-description"
                                                 )}
                                               >
-                                                <div
-                                                  className={cx(
-                                                    "product-description-name"
-                                                  )}
-                                                >
-                                                  {item.product?.product}
-                                                </div>
+                                                {/* <div
+                                                className={cx(
+                                                  "product-description-name"
+                                                )}
+                                              >
+                                                {item.product?.name}
+                                              </div> */}
 
-                                                <div
-                                                  className={cx(
-                                                    "product-description-price"
-                                                  )}
-                                                >
-                                                  <Price
-                                                    price={
-                                                      item.product?.price_sale
-                                                    }
-                                                  />
-                                                </div>
+                                                {item.product?.price_sale >
+                                                0 ? (
+                                                  <div
+                                                    className={cx(
+                                                      "product-description-price"
+                                                    )}
+                                                  >
+                                                    {item.product?.price_sale.toLocaleString(
+                                                      "it-IT",
+                                                      {
+                                                        style: "currency",
+                                                        currency: "VND",
+                                                      }
+                                                    )}
+                                                  </div>
+                                                ) : (
+                                                  <div
+                                                    className={cx(
+                                                      "product-description-price"
+                                                    )}
+                                                  >
+                                                    {item.product?.price.toLocaleString(
+                                                      "it-IT",
+                                                      {
+                                                        style: "currency",
+                                                        currency: "VND",
+                                                      }
+                                                    )}
+                                                  </div>
+                                                )}
                                               </td>
 
                                               <td
@@ -212,12 +230,15 @@ function SinglePendingOrderList() {
                                                     "product-price-des"
                                                   )}
                                                 >
-                                                  <Price
-                                                    price={
-                                                      item.product?.price_sale *
+                                                  {(item.product?.price_sale > 0
+                                                    ? item.product?.price_sale *
                                                       item.quantity
-                                                    }
-                                                  />
+                                                    : item.product?.price *
+                                                      item.quantity
+                                                  ).toLocaleString("it-IT", {
+                                                    style: "currency",
+                                                    currency: "VND",
+                                                  })}
                                                 </span>
                                               </td>
                                             </tr>
@@ -232,7 +253,7 @@ function SinglePendingOrderList() {
                                 <div className={cx("sidebar-content")}>
                                   <table className={cx("product-table")}>
                                     <tbody>
-                                      <tr className={cx("product")}>
+                                      {/* <tr className={cx("product")}>
                                         <td className={cx("total-line-name")}>
                                           Tạm tính
                                         </td>
@@ -241,7 +262,7 @@ function SinglePendingOrderList() {
                                             <Price price={order?.totalPrice} />
                                           </span>
                                         </td>
-                                      </tr>
+                                      </tr> */}
 
                                       <tr>
                                         <td className={cx("total-line-name")}>
@@ -275,15 +296,16 @@ function SinglePendingOrderList() {
                                           <strong
                                             style={{
                                               fontSize: "1.6rem",
+                                              paddingRight: "50px",
                                             }}
                                           >
-                                            <Price
-                                              price={
-                                                order?.totalPrice -
-                                                order?.transportFee -
-                                                order?.discount
+                                            {order.totalPrice?.toLocaleString(
+                                              "it-IT",
+                                              {
+                                                style: "currency",
+                                                currency: "VND",
                                               }
-                                            />
+                                            )}
                                           </strong>
                                         </td>
                                       </tr>
@@ -295,35 +317,38 @@ function SinglePendingOrderList() {
                           </div>
                           <div className={cx("bottom")}>
                             <button
-                              
+                            disabled={order?.status==="pending"?false:true}
                               style={{
                                 backgroundColor: "#0d6efd",
                                 color: "white",
                                 padding: "5px 10px",
                                 marginRight: "20px",
+                                opacity:order?.status==="pending"?1:0.5
                               }}
                               onClick={() => {
-                                handleOnclickCancel()
+                                handleOnclickCancel();
                               }}
                             >
                               Hủy đơn
                             </button>
-                            
-                              <button
-                             
-                                style={{
-                                  backgroundColor: "#0d6efd",
-                                  color: "white",
-                                  padding: "5px 10px",
-                                  marginRight: "20px"
-                                }}
-                                onClick={() => {
-                                  handleshippedOrder();
-                                }}
-                              >
-                               Xác nhận đơn hàng
-                              </button>
-                          
+
+                            <button
+                            disabled={order?.status==="pending"?false:true}
+
+                              style={{
+                                backgroundColor: "#0d6efd",
+                                color: "white",
+                                padding: "5px 10px",
+                                marginRight: "20px",
+                                opacity:order?.status==="pending"?1:0.5
+
+                              }}
+                              onClick={() => {
+                                handleshippedOrder();
+                              }}
+                            >
+                              Xác nhận đơn hàng
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -340,5 +365,3 @@ function SinglePendingOrderList() {
 }
 
 export default SinglePendingOrderList;
-
-

@@ -300,7 +300,7 @@ export default function Payment() {
                                   <input
                                     className="input-radio"
                                     type="radio"
-                                    checked=""
+                                    checked
                                   />
                                 </div>
                                 <div className="radio-content-input">

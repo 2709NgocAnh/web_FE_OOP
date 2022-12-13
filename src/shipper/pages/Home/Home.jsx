@@ -187,7 +187,7 @@ const HomeShipper = () => {
           <div className={cx("list")}>
             <div className={cx("listContainer")}>
               <div className={cx("datatable")}>
-                <div className={cx("datatableTitle")}>Danh sách hóa đơn</div>
+                <div className={cx("datatableTitle")}>Danh sách đơn hàng chờ giao</div>
                 <Box
                   sx={{
                     height: "100%",

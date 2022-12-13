@@ -19,7 +19,6 @@ function DetailOrderShipper() {
   const [order, setOrder] = useState({});
   const [orderStatus, setOrderStatus] = useState();
   const [orderdetail, setOrderdetail] = useState([]);
-  const order_id = id.toString();
   useEffect(() => {
     const fetchApi = async () => {
       const response = await orderService.getAOrder(id);
@@ -30,25 +29,26 @@ function DetailOrderShipper() {
     fetchApi();
   }, [id]);
 
-  const handleshipperAssignOrder = async () => {
-    const fetchApi = async () => {
-      console.log(typeof id.toString());
-      await shipperService.shipperAssignOrder(order_id);
-      setOrderStatus("shipping");
-    };
-    fetchApi();
+  const handleshipperAssignOrder = async (e) => {
+    e.preventDefault();
+      const res = await shipperService.shipperAssignOrder(id);
+      if (res.data.success === true) {
+        Swal.fire("Xác nhận giao hàng thành công");
+        setOrderStatus("shipping");
+      }
   };
-  const handleshippedOrder = async () => {
-    const fetchApi = async () => {
-      await shipperService.shippedOrder(order_id);
-      setOrderStatus("shipped");
-    };
-    fetchApi();
+  const handleshippedOrder = async (e) => {
+    e.preventDefault();
+      const res = await shipperService.shippedOrder(id);
+      if (res.data.success === true) {
+        Swal.fire("Đơn hàng đã giao thành công");
+        setOrderStatus("shipped");
+      }
   };
 
   return (
     <div>
-        <Header/>
+      <Header />
       <div className={cx("container")}>
         <div className={cx("content")}>
           <div className={cx("single")}>
@@ -152,25 +152,44 @@ function DetailOrderShipper() {
                                                   "product-description"
                                                 )}
                                               >
-                                                <div
-                                                  className={cx(
-                                                    "product-description-name"
-                                                  )}
-                                                >
-                                                  {item.product?.product}
-                                                </div>
+                                                {/* <div
+                                                className={cx(
+                                                  "product-description-name"
+                                                )}
+                                              >
+                                                {item.product?.name}
+                                              </div> */}
 
-                                                <div
-                                                  className={cx(
-                                                    "product-description-price"
-                                                  )}
-                                                >
-                                                  <Price
-                                                    price={
-                                                      item.product?.price_sale
-                                                    }
-                                                  />
-                                                </div>
+                                                {item.product?.price_sale >
+                                                0 ? (
+                                                  <div
+                                                    className={cx(
+                                                      "product-description-price"
+                                                    )}
+                                                  >
+                                                    {item.product?.price_sale.toLocaleString(
+                                                      "it-IT",
+                                                      {
+                                                        style: "currency",
+                                                        currency: "VND",
+                                                      }
+                                                    )}
+                                                  </div>
+                                                ) : (
+                                                  <div
+                                                    className={cx(
+                                                      "product-description-price"
+                                                    )}
+                                                  >
+                                                    {item.product?.price.toLocaleString(
+                                                      "it-IT",
+                                                      {
+                                                        style: "currency",
+                                                        currency: "VND",
+                                                      }
+                                                    )}
+                                                  </div>
+                                                )}
                                               </td>
 
                                               <td
@@ -181,12 +200,15 @@ function DetailOrderShipper() {
                                                     "product-price-des"
                                                   )}
                                                 >
-                                                  <Price
-                                                    price={
-                                                      item.product?.price_sale *
+                                                  {(item.product?.price_sale > 0
+                                                    ? item.product?.price_sale *
                                                       item.quantity
-                                                    }
-                                                  />
+                                                    : item.product?.price *
+                                                      item.quantity
+                                                  ).toLocaleString("it-IT", {
+                                                    style: "currency",
+                                                    currency: "VND",
+                                                  })}
                                                 </span>
                                               </td>
                                             </tr>
@@ -201,7 +223,7 @@ function DetailOrderShipper() {
                                 <div className={cx("sidebar-content")}>
                                   <table className={cx("product-table")}>
                                     <tbody>
-                                      <tr className={cx("product")}>
+                                      {/* <tr className={cx("product")}>
                                         <td className={cx("total-line-name")}>
                                           Tạm tính
                                         </td>
@@ -210,7 +232,7 @@ function DetailOrderShipper() {
                                             <Price price={order?.totalPrice} />
                                           </span>
                                         </td>
-                                      </tr>
+                                      </tr> */}
 
                                       <tr>
                                         <td className={cx("total-line-name")}>
@@ -244,15 +266,16 @@ function DetailOrderShipper() {
                                           <strong
                                             style={{
                                               fontSize: "1.6rem",
+                                              paddingRight: "50px",
                                             }}
                                           >
-                                            <Price
-                                              price={
-                                                order?.totalPrice -
-                                                order?.transportFee -
-                                                order?.discount
+                                            {order.totalPrice?.toLocaleString(
+                                              "it-IT",
+                                              {
+                                                style: "currency",
+                                                currency: "VND",
                                               }
-                                            />
+                                            )}
                                           </strong>
                                         </td>
                                       </tr>
@@ -269,36 +292,32 @@ function DetailOrderShipper() {
                               }
                               style={{
                                 backgroundColor: "#0d6efd",
-                                opacity:orderStatus === "processing" ? 1 : 0.5,
+                                opacity: orderStatus === "processing" ? 1 : 0.5,
                                 color: "white",
                                 padding: "5px 10px",
                                 marginRight: "20px",
                               }}
-                              onClick={() => {
-                                handleshipperAssignOrder();
-                              }}
+                              onClick={handleshipperAssignOrder}
+                              
                             >
                               Xác nhận giao hàng
                             </button>
-                            
-                              <button
+
+                            <button
                               disabled={
-                                orderStatus === "shipping" ?false: true
+                                orderStatus === "shipping" ? false : true
                               }
-                                style={{
-                                    opacity:orderStatus === "shipping" ? 1 : 0.5,
-                                  backgroundColor: "#0d6efd",
-                                  color: "white",
-                                  padding: "5px 10px",
-                                  marginRight: "20px",
-                                }}
-                                onClick={() => {
-                                  handleshippedOrder();
-                                }}
-                              >
-                                Giao hàng thành công
-                              </button>
-                          
+                              style={{
+                                opacity: orderStatus === "shipping" ? 1 : 0.5,
+                                backgroundColor: "#0d6efd",
+                                color: "white",
+                                padding: "5px 10px",
+                                marginRight: "20px",
+                              }}
+                              onClick={handleshippedOrder}
+                            >
+                              Giao hàng thành công
+                            </button>
                           </div>
                         </div>
                       </div>
