@@ -56,6 +56,7 @@ import HomeShipper from "~/shipper/pages/Home/Home";
 import DetailOrderShipper from "~/shipper/pages/DetailOrder/DetailOrder";
 import SinglePendingOrderList from "~/admin/pages/order/SinglePendingOrderList/SinglePendingOrderList";
 import PendingOrderList from "~/admin/pages/order/PendingOrderList/PendingOrderList";
+import ListOrderShipping from "~/shipper/pages/ListOrderShipping/ListOrderShipping";
 
 const SHIPPERROUTES = [
   {
@@ -63,9 +64,14 @@ const SHIPPERROUTES = [
     component: HomeShipper,
   },
   {
+    path: config.routes.listOrderAssignedByShipper,
+    component: ListOrderShipping,
+  },
+  {
     path: config.routes.detailOrder,
     component: DetailOrderShipper,
   },
+  
 ];
 
 // Public routes

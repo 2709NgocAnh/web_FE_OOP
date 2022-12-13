@@ -1,6 +1,8 @@
 const routes = {
   admin: "/admin",
   shipper:"/shipper/listOrder",
+  listOrderAssignedByShipper:"/shipper/listOrderAssignedByShipper",
+
   detailOrder:"/shipper/detailOrder/:id",
   customer: "/",
   shop: "/shop",

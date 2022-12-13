@@ -9,6 +9,14 @@ export const getListOrderProcessing = async () => {
     console.log(error);
   }
 };
+export const getListOrderShipping = async () => {
+    try {
+      const res = await httpRequest.get(`order/listOrderAssignedByShipper`);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 export const shipperAssignOrder = async(order_id) => {
     try {
       const res = await httpRequest.post(`order/shipperAssignOrder`,{order_id});
