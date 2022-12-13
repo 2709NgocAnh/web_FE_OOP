@@ -25,10 +25,10 @@ const Widget = ({ type }) => {
       const response2 = await orderService.getOrder(1);
       const response3 = await userService.getUser(1);
 
-      setCountProduct(response.products.length);
-      setCountCategory(response1.categories.length);
-      setCountOrder(response2.orders.length);
-      setCountUser(response3.users.length);
+      setCountProduct(response.totalItem);
+      setCountCategory(response1.totalItem);
+      setCountOrder(response2.totalItem);
+      setCountUser(response3.totalItem);
     };
     fetchApi();
   }, []);

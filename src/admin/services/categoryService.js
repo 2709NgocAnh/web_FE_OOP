@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import * as httpRequest from "~/admin/utils/httpRequest";
 
 export const getCategory = async () => {
@@ -17,12 +18,13 @@ export const removeCategory = async (id) => {
     console.log(error);
   }
 };
-export const newCategory = async (name, status) => {
+export const newCategory = async (name, active) => {
   try {
-    const res = await httpRequest.post(`category/add`, { name, status });
+    const res = await httpRequest.post(`category/add`, { name, active });
     return res;
   } catch (error) {
-    console.log(error);
+    console.log(error.response)
+    Swal.fire(`${error.response.data.message}😥`);
   }
 };
 export const editCategory = async (id, name, active) => {

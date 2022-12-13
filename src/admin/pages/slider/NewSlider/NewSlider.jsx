@@ -2,6 +2,7 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import classNames from "classnames/bind";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import Navbar from "~/admin/Layout/components/Navbar/Navbar";
 import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 import * as sliderService from "~/admin/services/sliderService";
@@ -58,20 +59,19 @@ const NewSlider = () => {
       console.error("AHHHHHHHH!!");
     };
   };
-  const uploadImage = (base64EncodedImage) => {
-    fetchApi(name, content, active, base64EncodedImage);
+  const uploadImage = async(base64EncodedImage) => {
+    const response = await sliderService.newSlider(name, content, active, base64EncodedImage);
+    if (response.data.success === true) {
+        await Swal.fire(`Bạn đã thêm slider ${name} thành công🥰`);
     setImgList("");
     setPreviewSource("");
     navigate("/admin/slider");
    window.location.reload();
-  };
+  }}
   const handleFocus = (e) => {
     setFocused(true);
   };
-  const fetchApi = async (a, b, c, d) => {
-    await sliderService.newSlider(a, b, c, d);
-  };
-
+  
   return (
     <div>
     <Navbar />

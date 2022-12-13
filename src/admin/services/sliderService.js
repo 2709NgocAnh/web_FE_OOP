@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import * as httpRequest from "~/admin/utils/httpRequest";
 
 export const getSlider = async () => {
@@ -26,7 +27,7 @@ export const newSlider = async (name, content, active, image) => {
     });
     return res;
   } catch (error) {
-    console.log(error);
+    Swal.fire(`${error.response.data.message}😥`);
   }
 };
 export const editSlider = async (

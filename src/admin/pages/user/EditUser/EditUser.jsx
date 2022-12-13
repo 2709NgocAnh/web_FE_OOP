@@ -6,12 +6,15 @@ import * as registerService from "~/admin/services/registerService";
 import Navbar from "~/admin/Layout/components/Navbar/Navbar";
 import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 import Cookies from "js-cookie";
+import { useParams } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 const EditUser = () => {
+    const { id } = useParams();
+    
   TabTitle("EditUser");
   const [focused, setFocused] = useState(false);
-  const [role, setRole] = useState("admin");
+  const [role,setRole]=useState("");
   const [values, setValues] = useState({
     id: "",
     fullName: "",
@@ -20,25 +23,29 @@ const EditUser = () => {
     password: "",
     address: "",
     password_confirm: "",
+
   });
   useEffect(() => {
     const fetchApi = async () => {
-      const response = await registerService.getRegister();
+      const response = await registerService.getARegister(id);
+      console.log(response.user)
       setValues({
-        id: response.account._id,
-        fullName: response.account.fullName,
-        email: response.account.email,
-        phoneNumber: response.account.phoneNumber,
-        address: response.account.address,
-        active: response.account.active,
+        id: response.user[0]._id,
+        fullName: response.user[0].fullName,
+        email: response.user[0].email,
+        phoneNumber: response.user[0].phoneNumber,
+        address: response.user[0].address,
+        active: response.user[0].active,
       });
+      setRole(response.user[0].role)
     };
     Cookies.get("accessToken") && fetchApi();
-  }, []);
+  }, [id]);
 
   const arrStatus = [
+    { id: 2, type: "shipper", name: "active" },
     { id: 1, type: "admin", name: "active" },
-    { id: 0, type: "Khách hàng", name: "active" },
+    { id: 0, type: "user", name: "active" },
   ];
   const handleFocus = (e) => {
     setFocused(true);
