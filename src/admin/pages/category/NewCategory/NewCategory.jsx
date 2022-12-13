@@ -5,6 +5,7 @@ import classNames from "classnames/bind";
 import styles from "./NewCategory.module.scss";
 import Navbar from "~/admin/Layout/components/Navbar/Navbar";
 import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
+import Swal from "sweetalert2";
 
 const NewCategory = () => {
   const cx = classNames.bind(styles);
@@ -13,8 +14,8 @@ const NewCategory = () => {
   const [status, setStatus] = useState(1);
   const navigate = useNavigate();
   const arrStatus = [
-    { id: 1, type: "Đang hoạt động", name: "active" },
-    { id: 0, type: "Tạm dừng", name: "active" },
+    { id: 1, type: true, name: "Đang hoạt động" },
+    { id: 0, type: false, name: "Tạm dừng" },
   ];
   const userInputs = [
     {
@@ -34,14 +35,14 @@ const NewCategory = () => {
     setFocused(true);
   };
 
-  const fetchApi = async (a, b) => {
-    await categoryService.newCategory(a, b);
-  };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    fetchApi(name, status);
-    navigate("/admin/category");
-    window.location.reload();
+    const res = await categoryService.newCategory(name,status);
+    if (res.data.success === true) {
+        await Swal.fire(`Bạn đã thêm Danh mục ${name} thành công🥰`);
+        navigate("/admin/category");
+      }
+    
   };
   return (
     <div>
@@ -81,11 +82,11 @@ const NewCategory = () => {
                           <input
                             type="radio"
                             name={input.name}
-                            onClick={(e) => setStatus(input.id)}
-                            checked={input.id === status ? true : false}
+                            onClick={(e) => setStatus(input.type)}
+                            checked={input.type === status ? true : false}
                           />
 
-                          <p>{input.type}</p>
+                          <p>{input.name}</p>
                         </div>
                       ))}
                     </div>

@@ -7,6 +7,7 @@ import styles from "./EditSlider.module.scss";
 import { Image } from "cloudinary-react";
 import Navbar from "~/admin/Layout/components/Navbar/Navbar";
 import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
+import Swal from "sweetalert2";
 
 const EditSlider = () => {
   const cx = classNames.bind(styles);
@@ -74,19 +75,20 @@ console.log(previewSource)
       console.error("AHHHHHHHH!!");
     };
   };
-  const uploadImage = (base64EncodedImage) => {
-    fetchApi(id, name, content, active, changedImg, base64EncodedImage);
-    setImgList("");
+  const uploadImage = async (base64EncodedImage) => {
+    const response = await sliderService.editSlider(id, name, content, active, changedImg, base64EncodedImage);
+    if (response.data.success === true) {
+        await Swal.fire(`Bạn đã cập nhật slider ${name} thành công🥰`);
+        setImgList("");
     setPreviewSource("");
     navigate("/admin/slider");
-    window.location.reload();
-  };
+    
+  }}
   const handleFocus = (e) => {
     setFocused(true);
   };
-  const fetchApi = async (a, b, c, d, e, f) => {
-    const response = await sliderService.editSlider(a, b, c, d, e, f);
-  };
+  
+  
 
   return (
     <div>
@@ -171,7 +173,7 @@ console.log(previewSource)
                   value={content}
                 ></textarea>
               </div>
-              <button className={cx("link")}>Thêm</button>
+              <button className={cx("link")}>Cập nhật</button>
             </form>
           </div>
         </div>

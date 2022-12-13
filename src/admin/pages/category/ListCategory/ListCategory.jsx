@@ -1,3 +1,4 @@
+import { Window } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import classNames from "classnames/bind";
@@ -5,6 +6,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { confirm } from "react-confirm-box";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import Navbar from "~/admin/Layout/components/Navbar/Navbar";
 import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 import * as categoryService from "~/admin/services/categoryService";
@@ -24,14 +26,31 @@ const ListCategory = () => {
   }, []);
 
   const handleDelete = async (id, name) => {
-    const result = await confirm(
-      `Bạn có chắc chắn muốn xóa Danh mục ${name} không?`
-    );
-    if (!result) {
-      return;
-    }
-    await categoryService.removeCategory(id);
-    alert(`Bạn đã xóa Danh mục ${name} thành công`);
+    const result = await Swal.fire({
+        title: `<strong>Bạn có chắc chắn muốn xóa Danh mục ${name} không? 🙌👀</strong>`,
+        icon: "info",
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+        confirmButtonAriaLabel: "Thumbs up, great!",
+        cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+        cancelButtonAriaLabel: "Thumbs down",
+      });
+      if (result.isConfirmed === true) {
+        const fetchApi = async () => {
+          const res = await categoryService.removeCategory(id);
+          if (res.data.success === true) {
+            await Swal.fire(`Bạn đã xóa Danh mục ${name} thành công🥰`);
+            const fetchApi = async () => {
+                const response = await categoryService.getCategory();
+                setData(response.categories);
+              };
+            fetchApi();
+          }
+        };
+        fetchApi();
+      }
   };
 
   const userColumns = [

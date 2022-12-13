@@ -136,3 +136,11 @@ export const UpdateRegister = async (
     });
   }
 };
+export const getARegister = async (id) => {
+    try {
+      const res = await httpRequest.get(`/user/${id}`);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };

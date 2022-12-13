@@ -53,7 +53,6 @@ const EditProduct = () => {
       setContent(response.product[0].content);
       setActive(response.product[0].active);
       setCategory_id(response.product[0].category_id);
-      console.log(response.product[0].category_id);
     };
     fetchApi();
   }, [id]);
@@ -156,7 +155,6 @@ const EditProduct = () => {
         setImgListApi("");
         Swal.fire("Saved!", "", "success");
         navigate("/admin/product");
-        window.location.reload()
       } else if (result.isDenied) {
         Swal.fire("Changes are not saved", "", "info");
         navigate("/admin/product");
