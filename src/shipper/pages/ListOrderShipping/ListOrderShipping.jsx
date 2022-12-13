@@ -4,12 +4,12 @@ import { DataGrid } from "@mui/x-data-grid";
 import classNames from "classnames/bind";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as shipperService from "~/admin/services/shipperService";
 import Header from "~/shipper/Layout/Header/Header";
-import styles from "./Home.module.scss";
+import styles from "./ListOrderShipping.module.scss";
 
-const HomeShipper = () => {
+const ListOrderShipping = () => {
   const cx = classNames.bind(styles);
   const [data, setData] = useState([]);
   const [pagination, setPagination] = useState({
@@ -28,7 +28,7 @@ const HomeShipper = () => {
   };
   useEffect(() => {
     const fetchApi = async () => {
-      const response = await shipperService.getListOrderProcessing(
+      const response = await shipperService.getListOrderShipping(
         Number(pagination.currentPage) + 1
       );
       setData(response.orders);
@@ -187,9 +187,7 @@ const HomeShipper = () => {
           <div className={cx("list")}>
             <div className={cx("listContainer")}>
               <div className={cx("datatable")}>
-              <div className={cx("datatableTitle")}>Danh sách đơn hàng chờ giao
-                  <NavLink to="/shipper/listOrderAssignedByShipper" style={{color:"blue"}}>Danh sách đang giao</NavLink>
-                </div>
+                <div className={cx("datatableTitle")}>Danh sách đơn hàng chờ giao</div>
                 <Box
                   sx={{
                     height: "100%",
@@ -240,4 +238,4 @@ const HomeShipper = () => {
     </div>
   );
 };
-export default HomeShipper;
+export default ListOrderShipping;
