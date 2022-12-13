@@ -58,7 +58,7 @@ const status="received"
   const handleOrderReceviced = async (e) => {
     e.preventDefault();
       const fetchApi = async () => {
-        const res = await orderService.editOrder(id,status);
+        const res = await orderService.receivedOrder(id);
         if (res.data.success === true) {
             await Swal.fire("Cảm ơn bạn đã mua hàng tại shop💑");
             await setOrderStatus("received");

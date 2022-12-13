@@ -65,6 +65,14 @@ export const cancelOrder = async (order_id) => {
       console.log(error);
     }
   };
+  export const receivedOrder = async (order_id) => {
+    try {
+      const res = await httpRequest.post(`order/receivedOrder`, {order_id});
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 export const getAOrder = async (id) => {
   try {
     const res = await httpRequest.get(`order/${id}`);
