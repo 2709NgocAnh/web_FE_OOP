@@ -133,11 +133,17 @@
                           .product-description-name {
                             font-weight: 300;
                           }
+                          .product-description-price {
+                            font-size: 1.6rem;
+                            color: black;
+                          }
                         }
                         .product-price {
                           justify-content: flex-end;
                           .product-price-des {
                             width: 50px;
+                            font-size: 1.6rem;
+                            color: black;
                           }
                         }
                         .total-line-name {

@@ -24,6 +24,19 @@ const ViewOrder = () => {
   useEffect(() => {
     fetchApi();
   }, []);
+  const listorderstatus = [
+    { id: 0, name: "pending", title: "Chờ xác nhận", disabled: true },
+    { id: 1, name: "cancelled", title: "Đã Hủy", disabled: true },
+    {
+      id: 2,
+      name: "processing",
+      title: " Chờ shipper nhận hàng",
+      disabled: true,
+    },
+    { id: 3, name: "shipping", title: "Đang giao", disabled: true },
+    { id: 4, name: "shipped", title: "Đã giao", disabled: true },
+    { id: 5, name: "received", title: "Đã nhận", disabled: true },
+  ];
   const userColumns = [
     {
       field: "id",
@@ -67,26 +80,15 @@ const ViewOrder = () => {
       headerClassName: "super-app-theme--header",
       headerAlign: "center",
       renderCell: (params) => {
-        return (
-          <div className={cx("status")}>
-            <div
-              className={cx(
-                params.row.status === 0
-                  ? "active"
-                  : params.row.status === 1
-                  ? "pending"
-                  : "passive"
-              )}
-            >
-              {params.row.status === 0
-                ? "Chờ xác nhận"
-                : params.row.status === 1
-                ? "Đang giao "
-                : "Đã giao"}
-            </div>
-          </div>
-        );
-      },
+                const result = listorderstatus.find(
+                  (status, index) => status.name === params.row.status
+                );
+                return (
+                  <div className={cx("status")}>
+                    <div className={cx(result?.name)}>{result?.title}</div>
+                  </div>
+                );
+              }
     },
     {
       field: "createdAt",
@@ -140,6 +142,9 @@ const ViewOrder = () => {
   ];
   if (data?.length === 0) {
     return (
+        <>
+      <Header  />
+
       <div className={cx("wrap")}>
         <div className="col-md-3 col-sm-12 col-xs-12">
           <SideBar />
@@ -158,6 +163,7 @@ const ViewOrder = () => {
           </div>
         </div>
       </div>
+      </>
     );
   } else {
     return (

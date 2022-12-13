@@ -2,28 +2,32 @@ import classNames from "classnames/bind";
 import styles from "./DetailOrder.module.scss";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as orderService from "~/admin/services/orderService";
 import Price from "~/customer/pages/shop/component/price/Price";
 import Swal from "sweetalert2";
 import Header from "~/customer/Layout/components/header/Header";
 import { Image } from "cloudinary-react";
 import SideBar from "../sidebar/SideBar";
+import * as discountService from "~/admin/services/discountService";
 
 function DetailOrder() {
   const cx = classNames.bind(styles);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [order, setOrder] = useState({});
   const [orderdetail, setOrderdetail] = useState([]);
   const [orderStatus, setOrderStatus] = useState();
-
+  const [codeDiscount, setCodeDiscount] = useState(0);
+const status="received"
   useEffect(() => {
     const fetchApi = async () => {
       const response = await orderService.getAOrder(id);
       setOrder(response?.order[0]);
       setOrderStatus(response?.order[0].status);
       setOrderdetail(response?.order[0].orderProducts);
+      setCodeDiscount(response?.order[0].discount);
     };
     fetchApi();
   }, [id]);
@@ -32,10 +36,6 @@ function DetailOrder() {
     const result = await Swal.fire({
       title: `<strong>Bạn có chắc chắn muốn Hủy đơn hàng không? 🙌👀</strong>`,
       icon: "info",
-      html:
-        "You can use <b>bold text</b>, " +
-        '<a href="//sweetalert2.github.io">links</a> ' +
-        "and other HTML tags",
       showCloseButton: true,
       showCancelButton: true,
       focusConfirm: false,
@@ -45,14 +45,29 @@ function DetailOrder() {
       cancelButtonAriaLabel: "Thumbs down",
     });
     if (result.isConfirmed === true) {
-      return;
+      const fetchApi = async () => {
+        const res = await orderService.cancelOrder(id);
+        if (res.data.success === true) {
+          Swal.fire("Hủy đơn hàng thành công");
+          setOrderStatus("cancel");
+        }
+      };
+      fetchApi();
     }
-    const fetchApi = async () => {
-      await orderService.cancelOrder(id);
-    };
-    fetchApi();
   };
+  const handleOrderReceviced = async (e) => {
+    e.preventDefault();
+      const fetchApi = async () => {
+        const res = await orderService.editOrder(id,status);
+        if (res.data.success === true) {
+            await Swal.fire("Cảm ơn bạn đã mua hàng tại shop💑");
+            await setOrderStatus("received");
+          await navigate("/shop");
 
+        }
+      };
+      fetchApi();
+    }
   return (
     <>
       <Header />
@@ -91,10 +106,15 @@ function DetailOrder() {
                       </span>
                     </div>
                     <div className={cx("detailItem")}>
-                      <span className={cx("itemKey")} >
+                      <span className={cx("itemKey")}>
                         Trạng thái đơn hàng:
                       </span>
-                      <span className={cx("itemValue")} style={{color:orderStatus==="cancelled"?"red":"black"}}>
+                      <span
+                        className={cx("itemValue")}
+                        style={{
+                          color: orderStatus === "cancelled" ? "red" : "black",
+                        }}
+                      >
                         {orderStatus}
                       </span>
                     </div>
@@ -170,17 +190,27 @@ function DetailOrder() {
                                                 {item.product?.product}
                                               </div>
 
-                                              <div
-                                                className={cx(
-                                                  "product-description-price"
-                                                )}
-                                              >
-                                                <Price
-                                                  price={
-                                                    item.product?.price_sale
-                                                  }
-                                                />
-                                              </div>
+                                              {item.product?.price_sale > 0 ? (
+                                                <div className="product-description-price">
+                                                  {item.product?.price_sale.toLocaleString(
+                                                    "it-IT",
+                                                    {
+                                                      style: "currency",
+                                                      currency: "VND",
+                                                    }
+                                                  )}
+                                                </div>
+                                              ) : (
+                                                <div className="product-description-price">
+                                                  {item.product?.price.toLocaleString(
+                                                    "it-IT",
+                                                    {
+                                                      style: "currency",
+                                                      currency: "VND",
+                                                    }
+                                                  )}
+                                                </div>
+                                              )}
                                             </td>
 
                                             <td className={cx("product-price")}>
@@ -189,12 +219,15 @@ function DetailOrder() {
                                                   "product-price-des"
                                                 )}
                                               >
-                                                <Price
-                                                  price={
-                                                    item.product?.price_sale *
+                                                {(item.product?.price_sale > 0
+                                                  ? item.product?.price_sale *
                                                     item.quantity
-                                                  }
-                                                />
+                                                  : item.product?.price *
+                                                    item.quantity
+                                                ).toLocaleString("it-IT", {
+                                                  style: "currency",
+                                                  currency: "VND",
+                                                })}
                                               </span>
                                             </td>
                                           </tr>
@@ -209,7 +242,7 @@ function DetailOrder() {
                               <div className={cx("sidebar-content")}>
                                 <table className={cx("product-table")}>
                                   <tbody>
-                                    <tr className={cx("product")}>
+                                    {/* <tr className={cx("product")}>
                                       <td className={cx("total-line-name")}>
                                         Tạm tính
                                       </td>
@@ -218,7 +251,7 @@ function DetailOrder() {
                                           <Price price={order?.totalPrice} />
                                         </span>
                                       </td>
-                                    </tr>
+                                    </tr> */}
 
                                     <tr>
                                       <td className={cx("total-line-name")}>
@@ -250,15 +283,16 @@ function DetailOrder() {
                                         <strong
                                           style={{
                                             fontSize: "1.6rem",
+                                            paddingRight: "50px",
                                           }}
                                         >
-                                          <Price
-                                            price={
-                                              order?.totalPrice -
-                                              order?.transportFee -
-                                              order?.discount
+                                          {order.totalPrice?.toLocaleString(
+                                            "it-IT",
+                                            {
+                                              style: "currency",
+                                              currency: "VND",
                                             }
-                                          />
+                                          )}
                                         </strong>
                                       </td>
                                     </tr>
@@ -268,13 +302,18 @@ function DetailOrder() {
                             </div>
                           </div>
                         </div>
-                        
+
                         <div className={cx("bottom")}>
                           <button
-                            disabled={orderStatus==="pending" ? false : true}
+                            disabled={orderStatus === "pending" ? false : true}
                             style={{
                               backgroundColor: "#0d6efd",
-                              opacity: orderStatus!=="cancel"&&(orderStatus==="pending"||orderStatus==="processing")  ? "1" : "0.5",
+                              opacity:
+                                orderStatus !== "cancel" &&
+                                (orderStatus === "pending" ||
+                                  orderStatus === "processing")
+                                  ? "1"
+                                  : "0.5",
                               color: "white",
                               padding: "5px 10px",
                               marginRight: "20px",
@@ -283,17 +322,21 @@ function DetailOrder() {
                           >
                             Hủy đơn
                           </button>
-                          {orderStatus==="shipped"?<button
-                            style={{
-                              backgroundColor: "#0d6efd",
-                              color: "white",
-                              padding: "5px 10px",
-                              marginRight: "20px",
-                            }}
-                            onClick={handleOnclick}
-                          >
-                            Xác nhẫn đã giao
-                          </button>:""}
+                          {orderStatus === "shipped" ? (
+                            <button
+                              style={{
+                                backgroundColor: "#0d6efd",
+                                color: "white",
+                                padding: "5px 10px",
+                                marginRight: "20px",
+                              }}
+                              onClick={handleOrderReceviced}
+                            >
+                              Xác nhận nhận hàng
+                            </button>
+                          ) : (
+                            ""
+                          )}
                         </div>
                       </div>
                     </div>

@@ -28,7 +28,7 @@ export default function Header() {
     <div className={cx("navbar")}>
       <div className={cx("wrapper")}>
         <div className={cx("logo")}>
-          <NavLink to={"/shipper"}>
+          <NavLink to={"/shipper/listOrder"}>
             <Image
               itemProp="logo"
               src={images.logo}

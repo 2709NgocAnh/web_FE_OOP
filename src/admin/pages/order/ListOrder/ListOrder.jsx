@@ -109,7 +109,7 @@ const ListOrder = () => {
         );
         return (
           <div className={cx("status")}>
-            <div className={cx(result.name)}>{result?.title}</div>
+            <div className={cx(result?.name)}>{result?.title}</div>
           </div>
         );
       },

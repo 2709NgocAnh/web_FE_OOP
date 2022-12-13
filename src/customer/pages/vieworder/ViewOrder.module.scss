@@ -172,28 +172,33 @@
       }
     }
   
-    .cellWithStatus {
-      width: 140px;
-  
-      border: 1px solid;
-      border-radius: 5px;
-      padding: 10px;
-      .active {
-        background-color: rgba(0, 128, 0, 0.05);
-        color: green;
-        padding: 10px;
+    .status {
+        border: 1px solid lightgray;
+        border-radius: 5px;
+        font-size: 1.4rem;
+        width: 150px;
+        height: 30px;
+        text-align: center;
+        color: white;
+        .received {
+          background-color: rgba(0, 128, 0, 0.05);
+          color: green;
+          padding: 5px;
+        }
+        .pending,
+        .shipping,
+        .shipped,
+        .processing {
+          background-color: rgba(255, 217, 0, 0.05);
+          color: goldenrod;
+          padding: 5px;
+        }
+        .cancelled {
+          background-color: rgba(255, 0, 0, 0.05);
+          color: crimson;
+          padding: 5px;
+        }
       }
-      .pending {
-        background-color: rgba(255, 217, 0, 0.05);
-        color: goldenrod;
-        padding: 10px;
-      }
-      .passive {
-        background-color: rgba(255, 0, 0, 0.05);
-        color: crimson;
-        padding: 10px;
-      }
-    }
   
     .cellAction {
       display: flex;

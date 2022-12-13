@@ -47,19 +47,19 @@ export const newOrder = async (
 };
 export const editOrder = async (id, status) => {
   try {
-    const res = await httpRequest.post(`order/update`, { id, status });
+    const res = await httpRequest.post(`order/update`,{ id,status});
     return res;
   } catch (error) {
-    await Swal.fire({
-        icon: 'error',
-        text: 'Bạn phải chọn đúng qui trình😰😰',
-        timer:4000
-      })
+    // await Swal.fire({
+    //     icon: 'error',
+    //     text: 'Bạn phải chọn đúng qui trình😰😰',
+    //     timer:4000
+    //   })
   }
 };
-export const cancelOrder = async (id) => {
+export const cancelOrder = async (order_id) => {
     try {
-      const res = await httpRequest.post(`order/cancel`, { id});
+      const res = await httpRequest.post(`order/cancel`, {order_id});
       return res;
     } catch (error) {
       console.log(error);

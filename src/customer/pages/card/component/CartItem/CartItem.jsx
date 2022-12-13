@@ -38,7 +38,7 @@ function CartItem(props) {
               </button>
             </td>
             <td className="cart-product-price" data-label="Đơn giá">
-              {(item.price_sale <0
+              {(item.price_sale >0
                 ? item.price_sale
                 : item.price
               ).toLocaleString("it-IT", {
@@ -76,7 +76,7 @@ function CartItem(props) {
             </td>
             <td data-label="Tổng giá" className="cart-product-price text-right">
               <span style={{color:'black',fontSize:"2rem"}}>
-                {(item.price_sale < 0
+                {(item.price_sale > 0
                   ? item.price_sale * item.cartNum
                   : item.price * item.cartNum
                 ).toLocaleString("it-IT", {

@@ -19,7 +19,7 @@ function Cart(props) {
     const res = cart.reduce((total, item) => {
       return (
         total +
-        (item.price_sale != null
+        (item.price_sale >0
           ? item.price_sale * item.cartNum
           : item.price * item.cartNum)
       );

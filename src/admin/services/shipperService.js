@@ -9,9 +9,9 @@ export const getListOrderProcessing = async () => {
     console.log(error);
   }
 };
-export const shipperAssignOrder = async (order_id) => {
+export const shipperAssignOrder = async(order_id) => {
     try {
-      const res = await httpRequest.get(`order/shipperAssignOrder`,{order_id});
+      const res = await httpRequest.post(`order/shipperAssignOrder`,{order_id});
       return res;
     } catch (error) {
       console.log(error);
@@ -19,7 +19,7 @@ export const shipperAssignOrder = async (order_id) => {
   };
   export const shippedOrder = async (order_id) => {
     try {
-      const res = await httpRequest.get(`order/shippedOrder`,{order_id});
+      const res = await httpRequest.post(`order/shippedOrder`,{order_id});
       return res;
     } catch (error) {
       console.log(error);
