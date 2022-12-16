@@ -1,6 +1,7 @@
 import classNames from "classnames/bind";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import Navbar from "~/admin/Layout/components/Navbar/Navbar";
 import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 import * as discountService from "~/admin/services/discountService";
@@ -95,22 +96,38 @@ const EditDiscount = () => {
     setFocused(true);
   };
   const fetchApi = async (a, b, c, d, e, f, g, h) => {
-   await discountService.editDiscount(a, b, c, d, e, f, g, h);
+    await discountService.editDiscount(a, b, c, d, e, f, g, h);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetchApi(
-      id,
-      values.code,
-      values.discount,
-      values.minium_order,
-      values.purchase_limit,
-      values.expiration_date,
-      content,
-      active
-    );
-    navigate("/admin/discount");
+    Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`,
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        await fetchApi(
+          id,
+          values.code,
+          values.discount,
+          values.minium_order,
+          values.purchase_limit,
+          values.expiration_date,
+          content,
+          active
+        );
+
+        Swal.fire("Saved!", "", "success");
+        navigate("/admin/discount");
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+        navigate("/admin/discount");
+      }
+    });
   };
   return (
     <div>
@@ -163,7 +180,7 @@ const EditDiscount = () => {
                         value={content}
                       ></textarea>
                     </div>
-                    <button className={cx("link")}>Thêm</button>
+                    <button className={cx("link")}>Cập nhật</button>
                   </form>
                 </div>
               </div>

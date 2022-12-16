@@ -12,7 +12,9 @@ export default function Category(props) {
   useEffect(() => {
     const fetchApi = async () => {
       const response = await categoryService.getCategory();
-      setListCategory(response.categories);
+      setListCategory(response.categories.filter((category)=>{
+        return(category.active===true)
+      }));
     };
     fetchApi();
   }, []);

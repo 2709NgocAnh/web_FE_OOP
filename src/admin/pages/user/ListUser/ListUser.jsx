@@ -13,6 +13,8 @@ import styles from "./ListUser.module.scss";
 function ListUser() {
   const cx = classNames.bind(styles);
   const [data, setData] = useState([]);
+  const [valueSearch, setValueSearch] = useState("");
+
   const [pagination, setPagination] = useState({
     currentPage: "0",
     pageSize: "10",
@@ -27,7 +29,15 @@ function ListUser() {
       currentPage: "1",
     });
   };
-  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const fetchApi = async () => {
+      const response = await userService.searchUser(valueSearch);
+      setData(response.users);
+      setValueSearch("")
+    };
+    fetchApi();
+  };
   useEffect(() => {
     const fetchApi = async () => {
         const response = await userService.getUser(Number(pagination.currentPage)+1);
@@ -128,7 +138,10 @@ function ListUser() {
 
   return (
     <div>
-    <Navbar />
+    <Navbar disabled={false}
+        setValueSearch={setValueSearch}
+        valueSearch={valueSearch}
+        handleSubmit={handleSubmit} />
     <div className={cx("container")}>
       <Sidebar />
       <div className={cx("content")}>
@@ -153,7 +166,6 @@ function ListUser() {
           className={cx("datagrid")}
           rows={data}
           columns={userColumns}
-          checkboxSelection
           page={Number(pagination.currentPage)}
           count={totalTask}
           onPageChange={handleChangePage}
