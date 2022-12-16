@@ -10,7 +10,9 @@ function Slider(props) {
   //call API
   const fetchApi = async () => {
     const response = await sliderService.getSlider();
-    setSlideList(response.sliders);
+    setSlideList(response.sliders.filter((slider)=>{
+        return slider.active===true
+      }));
   };
   useEffect(() => {
     fetchApi();

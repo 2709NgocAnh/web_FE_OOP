@@ -9,6 +9,14 @@ export const getOrder = async (pageIndex) => {
     console.log(error);
   }
 };
+export const searchOrder = async (search) => {
+    try {
+      const res = await httpRequest.get(`order?search=${search}`);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 export const listPendingOrder = async () => {
     try {
       const res = await httpRequest.get(`order/listPendingOrder`);

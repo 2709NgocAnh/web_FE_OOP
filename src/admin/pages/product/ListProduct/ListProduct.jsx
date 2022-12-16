@@ -12,6 +12,7 @@ import { Image } from "cloudinary-react";
 import { TablePagination } from "@mui/material";
 import Navbar from "~/admin/Layout/components/Navbar/Navbar";
 import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
+import Swal from "sweetalert2";
 const ListProduct = () => {
   const [list, setList] = useState([]);
   const [category_id, setCategory_id] = useState([]);
@@ -57,22 +58,31 @@ const ListProduct = () => {
     fetchApi();
   }, []);
   const handleDelete = async (id, name) => {
-    const result = await confirm(
-      `Bạn có chắc chắn muốn xóa Danhh mục ${name} không?`
-    );
-    if (!result) {
-      return;
-    }
-    await productService.removeProduct(id, name);
-    alert(`Bạn đã xóa sản phẩm ${name} thành công  `);
-    setTimeout(() => {
+    const result = await Swal.fire({
+      title: `<strong>Bạn có chắc chắn muốn xóa sản phầm ${name} không? 🙌👀</strong>`,
+      icon: "info",
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+      confirmButtonAriaLabel: "Thumbs up, great!",
+      cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+      cancelButtonAriaLabel: "Thumbs down",
+    });
+    if (result.isConfirmed === true) {
       const fetchApi = async () => {
-        const response = await productService.getProduct();
-        setList(response.products);
-      };
-    }, 2000);
-    window.location.reload();
+        const res = await productService.removeProduct(id, name);
 
+        if (res.data.success === true) {
+          await Swal.fire(`Bạn đã xóa Danh mục ${name} thành công🥰`);
+          const fetchApi = async () => {
+            const response = await productService.getProduct();
+            setList(response.products);
+          };
+        }
+        fetchApi();
+      };
+    }
   };
 
   const userColumns = [
@@ -101,20 +111,14 @@ const ListProduct = () => {
       },
     },
     {
-      field: "category_id",
+      field: "category",
       headerName: "Phân loại",
       type: "text",
       width: 160,
       headerClassName: "super-app-theme--header",
       headerAlign: "center",
       renderCell: (params) => {
-        return (
-          <div>
-            {category_id.map((category) =>
-              category._id === params.row.category_id ? category.name : ""
-            )}
-          </div>
-        );
+        return <div>{params.row.category?.name}</div>;
       },
     },
     {
@@ -177,14 +181,14 @@ const ListProduct = () => {
       headerClassName: "super-app-theme--header",
       headerAlign: "center",
     },
-    {
-      field: "num_buy",
-      headerName: "Số lượng đã bán",
-      type: "text",
-      width: 150,
-      headerClassName: "super-app-theme--header",
-      headerAlign: "center",
-    },
+    // {
+    //   field: "num_buy",
+    //   headerName: "Số lượng đã bán",
+    //   type: "text",
+    //   width: 150,
+    //   headerClassName: "super-app-theme--header",
+    //   headerAlign: "center",
+    // },
 
     {
       field: "createdAt",
@@ -248,6 +252,7 @@ const ListProduct = () => {
   return (
     <div>
       <Navbar
+        disabled={false}
         setValueSearch={setValueSearch}
         valueSearch={valueSearch}
         handleSubmit={handleSubmit}

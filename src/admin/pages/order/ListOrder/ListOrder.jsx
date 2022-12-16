@@ -13,6 +13,7 @@ import styles from "./ListOrder.module.scss";
 const ListOrder = () => {
   const cx = classNames.bind(styles);
   const [data, setData] = useState([]);
+  const [valueSearch, setValueSearch] = useState("");
   const [pagination, setPagination] = useState({
     currentPage: "0",
     pageSize: "10",
@@ -26,6 +27,15 @@ const ListOrder = () => {
       pageSize: parseInt(e.target.value, 10).toString(),
       currentPage: "1",
     });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const fetchApi = async () => {
+      const response = await orderService.searchOrder(valueSearch);
+      setData(response.orders);
+      setValueSearch("")
+    };
+    fetchApi();
   };
   useEffect(() => {
     const fetchApi = async () => {
@@ -166,7 +176,10 @@ const ListOrder = () => {
   ];
   return (
     <div>
-      <Navbar />
+      <Navbar  disabled={false}
+        setValueSearch={setValueSearch}
+        valueSearch={valueSearch}
+        handleSubmit={handleSubmit}/>
       <div className={cx("container")}>
         <Sidebar />
         <div className={cx("content")}>

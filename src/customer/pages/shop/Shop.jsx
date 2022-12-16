@@ -39,7 +39,9 @@ export default function Shop() {
   useEffect(() => {
     const fetchApi = async () => {
       const response = await discountService.getDiscount();
-      setDiscountList(response.discounts);
+      setDiscountList(response.discounts.filter((discount)=>{
+        return discount.active===true
+      }));
     };
     fetchApi();
   }, []);
@@ -55,7 +57,9 @@ export default function Shop() {
     e.preventDefault();
     const fetchApi = async () => {
       const response = await productService.getListProduct(numberPage);
-      setProductList(response.products);
+      setProductList(response.products.filter((product)=>{
+        return product.active===true
+      }))
     };
     fetchApi();
   };
