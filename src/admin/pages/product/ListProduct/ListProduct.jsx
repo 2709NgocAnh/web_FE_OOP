@@ -19,7 +19,7 @@ const ListProduct = () => {
   const [valueSearch, setValueSearch] = useState("");
   const [pagination, setPagination] = useState({
     currentPage: "0",
-    pageSize: "10",
+    pageSize: "12",
   });
   const [totalTask, setTotalTask] = useState();
   const handleChangePage = (e, newPage) => {
@@ -27,7 +27,7 @@ const ListProduct = () => {
   };
   const handleChangeRowsPerPage = (e) => {
     setPagination({
-      pageSize: parseInt(e.target.value, 10).toString(),
+      pageSize: parseInt(e.target.value, 12).toString(),
       currentPage: "1",
     });
   };
@@ -50,13 +50,13 @@ const ListProduct = () => {
     };
     fetchApi();
   }, [pagination.currentPage]);
-  useEffect(() => {
-    const fetchApi = async () => {
-      const response = await categoryService.getCategory();
-      setCategory_id(response.categories);
-    };
-    fetchApi();
-  }, []);
+//   useEffect(() => {
+//     const fetchApi = async () => {
+//       const response = await categoryService.getCategory();
+//       setCategory_id(response.categories);
+//     };
+//     fetchApi();
+//   }, []);
   const handleDelete = async (id, name) => {
     const result = await Swal.fire({
       title: `<strong>Bạn có chắc chắn muốn xóa sản phầm ${name} không? 🙌👀</strong>`,
@@ -71,17 +71,21 @@ const ListProduct = () => {
     });
     if (result.isConfirmed === true) {
       const fetchApi = async () => {
-        const res = await productService.removeProduct(id, name);
+        const res = await productService.removeProduct(id);
 
         if (res.data.success === true) {
-          await Swal.fire(`Bạn đã xóa Danh mục ${name} thành công🥰`);
-          const fetchApi = async () => {
-            const response = await productService.getProduct();
-            setList(response.products);
-          };
+          await Swal.fire(`Bạn đã xóa sản phẩm ${name} thành công🥰`);
+            const fetchApi = async () => {
+                const response = await productService.getListProduct(
+                  Number(pagination.currentPage) + 1
+                );
+                setList(response.products);
+                setTotalTask(response.totalItem);
+              };
+              fetchApi();
         }
-        fetchApi();
-      };
+    };
+    fetchApi();
     }
   };
 
@@ -302,7 +306,7 @@ const ListProduct = () => {
                     }
                     component="div"
                     count={totalTask}
-                    rowsPerPage={Number(pagination.pageSize) ?? 10}
+                    rowsPerPage={Number(pagination.pageSize) ?? 12}
                     page={Number(pagination.currentPage)}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}

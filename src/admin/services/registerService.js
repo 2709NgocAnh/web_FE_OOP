@@ -130,6 +130,7 @@ export const UpdateRegister = async (
     });
     return res;
   } catch (error) {
+    console.log(error)
     Swal.fire({
       icon: "error",
       text: "Email này đã tồn tại  🙌👀",

@@ -8,6 +8,14 @@ export const getDiscount = async () => {
     console.log(error);
   }
 };
+export const getHomeDiscountList = async () => {
+    try {
+      const res = await httpRequest.get(`discount/homeDiscountList`);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 export const removeDiscount = async (id) => {
   try {
     const res = await httpRequest.post(`discount/delete`, { id });

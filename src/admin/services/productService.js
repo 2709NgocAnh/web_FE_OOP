@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import * as httpRequest from "~/admin/utils/httpRequest";
 //ADMIN
 export const getListProduct = async (pageIndex) => {
@@ -8,7 +9,14 @@ export const getListProduct = async (pageIndex) => {
       console.log(error);
     }
   };
-
+  export const getHomeListProduct = async (name,sort,pageIndex) => {
+    try {
+      const res = await httpRequest.get(`product/homeProductList?sort=${name}&asc=${sort}&pageSize=12&pageIndex=${pageIndex}`);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 //USER
 export const getProduct = async (name,sort,pageIndex) => {
@@ -92,7 +100,7 @@ export const newProduct = async (
     });
     return res;
   } catch (error) {
-    console.log(error);
+    Swal.fire(`${error.response.data.message}😥`);
   }
 };
 export const editProduct = async (

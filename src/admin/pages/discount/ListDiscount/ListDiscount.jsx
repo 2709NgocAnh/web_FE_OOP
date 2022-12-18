@@ -80,6 +80,20 @@ const ListDiscount = () => {
       headerAlign: "center",
     },
     {
+      field: "expiration_date",
+      headerName: "Ngày hết hạn",
+      width: 220,
+      headerClassName: "super-app-theme--header",
+      headerAlign: "center",
+      renderCell: (params) => {
+        return (
+          <div style={{ margin: "0 auto" }}>
+            {moment(params.row.expiration_date).format("DD/MM/YYYY HH:mm")}
+          </div>
+        );
+      },
+    },
+    {
       field: "createdAt",
       headerName: "Ngày tạo",
       width: 220,
