@@ -26,7 +26,7 @@ export default function Shop() {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const response = await productService.getProduct(
+      const response = await productService.getHomeListProduct(
         nameSort,
         valueSort,
         numberPage
@@ -38,7 +38,7 @@ export default function Shop() {
   }, [nameSort, valueSort, numberPage]);
   useEffect(() => {
     const fetchApi = async () => {
-      const response = await discountService.getDiscount();
+      const response = await discountService.getHomeDiscountList();
       setDiscountList(response.discounts.filter((discount)=>{
         return discount.active===true
       }));

@@ -10,6 +10,7 @@ import * as categoryService from "~/admin/services/categoryService";
 import styles from "./NewProduct.module.scss";
 import Navbar from "~/admin/Layout/components/Navbar/Navbar";
 import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
+import Swal from "sweetalert2";
 
 function NewProduct(props) {
   const cx = classNames.bind(styles);
@@ -122,6 +123,7 @@ function NewProduct(props) {
   };
   const handleSubmitFile = (e) => {
     e.preventDefault();
+   
     fetchApi(
       values.name,
       category_id,
@@ -134,11 +136,15 @@ function NewProduct(props) {
     );
     setImgList("");
     setImgListApi("");
-    navigate("/admin/product");
-    window.location.reload();
   };
   const fetchApi = async (a, b, c, d, e, f, g, h) => {
-    await productService.newProduct(a, b, c, d, e, f, g, h);
+    const res=await productService.newProduct(a, b, c, d, e, f, g, h);
+    if (res.data.success === true) {
+        await Swal.fire(`Bạn đã thêm sản phẩm ${a} thành công🥰`);
+        navigate("/admin/product");
+    window.location.reload();
+
+      }
   };
   
 

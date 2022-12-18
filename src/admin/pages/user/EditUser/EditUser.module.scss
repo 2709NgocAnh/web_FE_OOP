@@ -107,7 +107,7 @@
               border: 1px solid red;
             }
 
-            input:invalid[focused="true"] ~ .err {
+            input:invalid[focused="true"] ~.err{
               display: block;
             }
           }

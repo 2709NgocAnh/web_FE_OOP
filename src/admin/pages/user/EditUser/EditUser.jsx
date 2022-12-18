@@ -6,11 +6,13 @@ import * as registerService from "~/admin/services/registerService";
 import Navbar from "~/admin/Layout/components/Navbar/Navbar";
 import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 import Cookies from "js-cookie";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const cx = classNames.bind(styles);
 const EditUser = () => {
     const { id } = useParams();
+  const navigate = useNavigate();
     
   TabTitle("EditUser");
   const [focused, setFocused] = useState(false);
@@ -28,7 +30,6 @@ const EditUser = () => {
   useEffect(() => {
     const fetchApi = async () => {
       const response = await registerService.getARegister(id);
-      console.log(response.user)
       setValues({
         id: response.user[0]._id,
         fullName: response.user[0].fullName,
@@ -123,48 +124,63 @@ const EditUser = () => {
     },
 
     ...INPUT_lOGIN,
-    {
-      id: 6,
-      name: "password_confirm",
-      type: "password",
-      placeholder: "Confirm Password",
-      errorMessage: "Mật khẩu không khớp!",
-      label: "Confirm Password",
-      reps: values.password,
-      required: true,
-      icon: "fa-solid fa-lock",
-    },
+    // {
+    //   id: 6,
+    //   name: "password_confirm",
+    //   type: "password",
+    //   placeholder: "Confirm Password",
+    //   errorMessage: "Mật khẩu không khớp!",
+    //   label: "Confirm Password",
+    //   pattern: values.password,
+    //   required: true,
+    //   icon: "fa-solid fa-lock",
+    // },
   ];
+  console.log("password",values.password)
+  console.log("password_confirm",values.password_confirm)
+
 
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const fetchApi = async (a, b, c, d, e, f, g, h) => {
-    await registerService.UpdateRegister(a, b, c, d, e, f, g, h);
+   await registerService.UpdateRegister(a, b, c, d, e, f, g, h);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetchApi(
-      values.id,
-      values.fullName,
-      values.email,
-      values.phoneNumber,
-      values.password,
-      values.address,
-      role,
-      values.active
-    );
+    
+    e.preventDefault();
+    Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`,
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        await fetchApi(
+            values.id,
+            values.fullName,
+            values.email,
+            values.phoneNumber,
+            values.password,
+            values.address,
+            role,
+            values.active
+          );
+        Swal.fire("Saved!", "", "success");
+        navigate("/admin/user");
+        
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+        navigate("/admin/user");
 
-    setValues({
-      name: "",
-      email: "",
-      phone: "",
-      address: "",
-      password: "",
-      password_confirm: "",
+      }
     });
+    
   };
   return (
     <div>
@@ -192,7 +208,7 @@ const EditUser = () => {
                           }}
                           focused={focused.toString()}
                         />
-                        <span className={cx("err")}>{input.err}</span>
+                        <span className={cx("err")}>{input.errorMessage}</span>
                       </div>
                     ))}
                     <div className={cx("formInput")}>

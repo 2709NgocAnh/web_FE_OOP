@@ -109,7 +109,7 @@ const NewUser = () => {
   };
 
   const fetchApi = async (a, b, c, d, e, f) => {
-    const response = await registerService.signUpRegister(a, b, c, d, e, f);
+    await registerService.signUpRegister(a, b, c, d, e, f);
   };
 
   const handleSubmit = (e) => {
