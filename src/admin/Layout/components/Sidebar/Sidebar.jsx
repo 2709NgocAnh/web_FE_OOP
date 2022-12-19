@@ -16,6 +16,8 @@ const cx = classNames.bind(styles);
 const Sidebar = () => {
   const logout = () => {
     Cookies.remove("accessToken")
+    Cookies.remove("role")
+
    
   };
   return (

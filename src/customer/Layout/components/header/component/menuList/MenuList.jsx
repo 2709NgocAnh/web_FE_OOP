@@ -7,6 +7,8 @@ export default function MenuList({ items }) {
   const cx = classNames.bind(styles);
   const logout = () => {
     Cookies.remove("accessToken")
+    Cookies.remove("role")
+
     // Cookies.set("accessToken", { expires: 0 });
     localStorage.removeItem("cart");
     window.location.reload();

@@ -60,7 +60,6 @@ const EditUser = () => {
       errorMessage: "Phải là một địa chỉ email hợp lệ!",
       label: "Email",
       pattern: "[a-z0-9]+@[a-z]+.[a-z]{2,3}",
-      required: true,
       icon: "fa-solid fa-envelope",
     },
     {
@@ -72,7 +71,6 @@ const EditUser = () => {
         "Mật khẩu phải bao gồm ký tự in hoa, in thường, chữ số và ký tự đặc biệt",
       label: "Password",
       pattern: `^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`,
-      required: true,
       icon: "fa-solid fa-lock",
     },
     {
@@ -83,7 +81,6 @@ const EditUser = () => {
       errorMessage: "hãy nhập trạng thái user",
       label: "Active",
       pattern: "^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$",
-      required: true,
       icon: "fa-solid fa-user",
     },
   ];
@@ -96,7 +93,6 @@ const EditUser = () => {
       errorMessage: "Tên người dùng phải từ 3-16 ký tự! ",
       label: "Họ và tên",
       pattern: "^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$",
-      required: true,
       icon: "fa-solid fa-user",
     },
 
@@ -108,7 +104,6 @@ const EditUser = () => {
       errorMessage: "Phải là số điện thoại hợp lệ!",
       label: "Số điện thoại",
       pattern: "^[0-9]{10,11}$",
-      required: true,
       icon: "fa-solid fa-phone",
     },
     {
@@ -119,7 +114,6 @@ const EditUser = () => {
       errorMessage: "Phải nhập địa chỉ!",
       label: "Địa chỉ",
       pattern: "^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$",
-      required: true,
       icon: "fa-solid fa-location-dot",
     },
 
@@ -136,8 +130,7 @@ const EditUser = () => {
     //   icon: "fa-solid fa-lock",
     // },
   ];
-  console.log("password",values.password)
-  console.log("password_confirm",values.password_confirm)
+
 
 
   const onChange = (e) => {

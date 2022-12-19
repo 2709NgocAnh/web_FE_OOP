@@ -24,7 +24,7 @@ function About() {
                   <div className={cx("content-page ")}>
                     <p>
                       Chúng mình xuất hiện để đem tới mọi người một chất lượng
-                      áo tốt nhất, với giá thành hấp dẫn nhất để đưa Outerity
+                      áo tốt nhất, với giá thành hấp dẫn nhất để đưa Bag Girl
                       đến với tất cả lứa tuổi và khắp mọi vùng miền đất nước
                     </p>
                   </div>

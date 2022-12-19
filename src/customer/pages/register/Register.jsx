@@ -21,7 +21,7 @@ const Register = () => {
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
-  const password = `^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`;
+  const password = `/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$&+,:;=?@#%|{}<>.^*()%!-])[0-9a-zA-Z$&+,:;=?@#%|{}<>.^*()%!-]{8,}$/`;
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -51,11 +51,9 @@ const Register = () => {
       email: Yup.string()
         .email("Vui lòng nhập định dạng email hợp lệ")
         .required("Vui lòng điền vào trường này"),
-      phoneNumber: Yup.string().matches(
-        phoneRegExp,
-        "Phone number is not valid"
-      )
-      .required("Vui lòng điền vào trường này"),
+      phoneNumber: Yup.string()
+        .matches(phoneRegExp, "Phone number is not valid")
+        .required("Vui lòng điền vào trường này"),
       password: Yup.string()
         .matches(password, "Password is not valid")
         .required("Vui lòng điền vào trường này"),
