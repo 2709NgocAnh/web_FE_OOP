@@ -18,8 +18,12 @@ const PendingOrderList = () => {
   useEffect(() => {
     const fetchApi = async () => {
       const response = await orderService.listPendingOrder();
-      setData(response.orders);
-    };
+      setData(response.orders.filter((order)=>{
+        return(
+            order.user!==null
+        )
+      }))
+    }
     fetchApi();
   }, []);
   

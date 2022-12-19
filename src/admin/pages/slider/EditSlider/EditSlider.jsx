@@ -62,125 +62,138 @@ const EditSlider = () => {
       setPreviewSource(reader.result);
     };
   };
-console.log(previewSource)
+
   const handleSubmitFile = (e) => {
     e.preventDefault();
-    if (!selectedFile) return;
-    const reader = new FileReader();
-    reader.readAsDataURL(selectedFile);
-    reader.onloadend = () => {
-      uploadImage(reader.result);
-    };
-    reader.onerror = () => {
-      console.error("AHHHHHHHH!!");
-    };
+    if (!selectedFile) {
+        const fetchApi = async () => {
+            const response = await sliderService.editSlider(id, name, content, active);
+            if (response.data.success === true) {
+                await Swal.fire(`Bạn đã cập nhật slider ${name} thành công🥰`);
+                setImgList("");
+                setPreviewSource("");
+                navigate("/admin/slider");
+              }
+          };
+          fetchApi();
+      
+    } else {
+      const reader = new FileReader();
+      reader.readAsDataURL(selectedFile);
+      reader.onloadend = () => {
+        uploadImage(reader.result);
+      };
+      reader.onerror = () => {
+        console.error("AHHHHHHHH!!");
+      };
+    }
   };
   const uploadImage = async (base64EncodedImage) => {
-    const response = await sliderService.editSlider(id, name, content, active, changedImg, base64EncodedImage);
+    const response = await sliderService.editSlider(
+      id,
+      name,
+      content,
+      active,
+      changedImg,
+      base64EncodedImage
+    );
     if (response.data.success === true) {
-        await Swal.fire(`Bạn đã cập nhật slider ${name} thành công🥰`);
-        setImgList("");
-    setPreviewSource("");
-    navigate("/admin/slider");
-    
-  }}
+      await Swal.fire(`Bạn đã cập nhật slider ${name} thành công🥰`);
+      setImgList("");
+      setPreviewSource("");
+      navigate("/admin/slider");
+    }
+  };
   const handleFocus = (e) => {
     setFocused(true);
   };
-  
-  
 
   return (
     <div>
-    <Navbar />
-    <div className={cx("container")}>
-      <Sidebar />
-      <div className={cx("content")}>
-    <div className={cx("new")}>
-      <div className={cx("newContainer")}>
-        <div className={cx("bottom")}>
-          <div className={cx("left")}>
-            {changedImg && previewSource ? (
-              <img
-              src={
-                previewSource
-              }
-              alt="chosen"
-            />
-            ) : (
-              <Image
-                className={cx("cellImg")}
-                cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                publicId={image}
-                width="300"
-                crop="scale"
-              />
-            )}
-          </div>
-          <div className={cx("right")}>
-            <form onSubmit={handleSubmitFile}>
-              <div className={cx("formInput")}>
-                <label htmlFor="file">
-                  Image:{" "}
-                  <DriveFolderUploadOutlinedIcon className={cx("icon")} />
-                </label>
-                <input
-                  type="file"
-                  id="file"
-                  onChange={handleFileInputChange}
-                  style={{ display: "none" }}
-                  multiple
-                />
-              </div>
+      <Navbar />
+      <div className={cx("container")}>
+        <Sidebar />
+        <div className={cx("content")}>
+          <div className={cx("new")}>
+            <div className={cx("newContainer")}>
+              <div className={cx("bottom")}>
+                <div className={cx("left")}>
+                  {changedImg && previewSource ? (
+                    <img src={previewSource} alt="chosen" />
+                  ) : (
+                    <Image
+                      className={cx("cellImg")}
+                      cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
+                      publicId={image}
+                      width="300"
+                      crop="scale"
+                    />
+                  )}
+                </div>
+                <div className={cx("right")}>
+                  <form onSubmit={handleSubmitFile}>
+                    <div className={cx("formInput")}>
+                      <label htmlFor="file">
+                        Image:{" "}
+                        <DriveFolderUploadOutlinedIcon className={cx("icon")} />
+                      </label>
+                      <input
+                        type="file"
+                        id="file"
+                        onChange={handleFileInputChange}
+                        style={{ display: "none" }}
+                        multiple
+                      />
+                    </div>
 
-              {userInputs.map((input) => (
-                <div className={cx("formInput")} key={input.id}>
-                  <label>{input.label}</label>
-                  <input
-                    type={input.type}
-                    {...input}
-                    pattern={input.pattern}
-                    value={name}
-                    name={input.name}
-                    onBlur={handleFocus}
-                    onChange={(e) => {
-                      setName(e.target.value);
-                    }}
-                    focused={focused.toString()}
-                  />
-                  <span className={cx("err")}>{input.err}</span>
+                    {userInputs.map((input) => (
+                      <div className={cx("formInput")} key={input.id}>
+                        <label>{input.label}</label>
+                        <input
+                          type={input.type}
+                          {...input}
+                          pattern={input.pattern}
+                          value={name}
+                          name={input.name}
+                          onBlur={handleFocus}
+                          onChange={(e) => {
+                            setName(e.target.value);
+                          }}
+                          focused={focused.toString()}
+                        />
+                        <span className={cx("err")}>{input.err}</span>
+                      </div>
+                    ))}
+                    {typeActive.map((input) => (
+                      <div className={cx("formRadio")} key={input.id}>
+                        <input
+                          type="radio"
+                          name={input.name}
+                          onClick={(e) => setActive(input.id)}
+                          checked={input.id === active ? true : false}
+                        />
+                        <label>{input.type}</label>
+                      </div>
+                    ))}
+                    <div className={cx("formInput-desc")}>
+                      <label>Description</label>
+                      <textarea
+                        rows="4"
+                        cols="50"
+                        onChange={(e) => {
+                          setContent(e.target.value);
+                        }}
+                        value={content}
+                      ></textarea>
+                    </div>
+                    <button className={cx("link")}>Cập nhật</button>
+                  </form>
                 </div>
-              ))}
-              {typeActive.map((input) => (
-                <div className={cx("formRadio")} key={input.id}>
-                  <input
-                    type="radio"
-                    name={input.name}
-                    onClick={(e) => setActive(input.id)}
-                    checked={input.id === active ? true : false}
-                  />
-                  <label>{input.type}</label>
-                </div>
-              ))}
-              <div className={cx("formInput-desc")}>
-                <label>Description</label>
-                <textarea
-                  rows="4"
-                  cols="50"
-                  onChange={(e) => {
-                    setContent(e.target.value);
-                  }}
-                  value={content}
-                ></textarea>
               </div>
-              <button className={cx("link")}>Cập nhật</button>
-            </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    </div>
-    </div>
     </div>
   );
 };

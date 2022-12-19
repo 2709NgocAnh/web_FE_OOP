@@ -100,10 +100,10 @@ export const signUpRegister = async (
     });
     return res;
   } catch (error) {
-    console.log(error.response.data.details[0].message)
+    console.log(error.response.data)
     Swal.fire({
       icon: "error",
-      text: `${error.response.data.details[0].message} 🙌👀`,
+      text: `${error.response.data.message} 🙌👀`,
     });
   }
 };
