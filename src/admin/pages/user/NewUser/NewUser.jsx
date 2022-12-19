@@ -5,10 +5,14 @@ import TabTitle from "~/components/tabtiltle/TabTiltle";
 import * as registerService from "~/admin/services/registerService";
 import Navbar from "~/admin/Layout/components/Navbar/Navbar";
 import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 const NewUser = () => {
   TabTitle("NewUser");
+  const navigate = useNavigate();
+
   const [focused, setFocused] = useState(false);
   const [role, setRole] = useState("admin");
 
@@ -91,17 +95,17 @@ const NewUser = () => {
     },
 
     ...INPUT_lOGIN,
-    {
-      id: 6,
-      name: "password_confirm",
-      type: "password",
-      placeholder: "Confirm Password",
-      errorMessage: "Mật khẩu không khớp!",
-      label: "Confirm Password",
-      reps: values.password,
-      required: true,
-      icon: "fa-solid fa-lock",
-    },
+    // {
+    //   id: 6,
+    //   name: "password_confirm",
+    //   type: "password",
+    //   placeholder: "Confirm Password",
+    //   errorMessage: "Mật khẩu không khớp!",
+    //   label: "Confirm Password",
+    //   reps: values.password,
+    //   required: true,
+    //   icon: "fa-solid fa-lock",
+    // },
   ];
 
   const onChange = (e) => {
@@ -109,12 +113,17 @@ const NewUser = () => {
   };
 
   const fetchApi = async (a, b, c, d, e, f) => {
-    await registerService.signUpRegister(a, b, c, d, e, f);
+    const res =await registerService.signUpRegister(a, b, c, d, e, f);
+    if (res.data.success === true) {
+        console.log(res.data.success)
+      await Swal.fire(`Hãy check mail để xác thực🥰`);
+      navigate("/veryfyEmail");
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    fetchApi(
+     fetchApi(
       values.fullName,
       values.email,
       values.phoneNumber,
@@ -122,46 +131,54 @@ const NewUser = () => {
       values.address,
       role
     );
-
-    setValues({
-      name: "",
-      email: "",
-      phone: "",
-      address: "",
-      password: "",
-      password_confirm: "",
-    });
+    
   };
   return (
     <div>
-    <Navbar />
-    <div className={cx("container")}>
-      <Sidebar />
-      <div className={cx("content")}>
-    <div className={cx("new")}>
-      <div className={cx("newContainer")}>
-        <div className={cx("top")}>
-          <h1>Thêm Thành Viên</h1>
-        </div>
-        <div className={cx("bottom")}>
-          <div className={cx("right")}>
-            <form onSubmit={handleSubmit}>
-              {INPUT_REGISTER.map((input) => (
-                <div className={cx("formInput")} key={input.id}>
-                  <label>{input.label}</label>
-                  <input
-                    {...input}
-                    value={values[input.name]}
-                    onBlur={handleFocus}
-                    onChange={(e) => {
-                      onChange(e);
-                    }}
-                    focused={focused.toString()}
-                  />
-                  <span className={cx("err")}>{input.err}</span>
-                </div>
-              ))}
-              {arrStatus.map((input) => (
+      <Navbar />
+      <div className={cx("container")}>
+        <Sidebar />
+        <div className={cx("content")}>
+          <div className={cx("new")}>
+            <div className={cx("newContainer")}>
+              <div className={cx("top")}>
+                <h1>Thêm Thành Viên</h1>
+              </div>
+              <div className={cx("bottom")}>
+                <div className={cx("right")}>
+                  <form onSubmit={handleSubmit}>
+                    {INPUT_REGISTER.map((input) => (
+                      <div className={cx("formInput")} key={input.id}>
+                        <label>{input.label}</label>
+                        <input
+                          {...input}
+                          value={values[input.name]}
+                          onBlur={handleFocus}
+                          onChange={(e) => {
+                            onChange(e);
+                          }}
+                          focused={focused.toString()}
+                        />
+                        <span className={cx("err")}>{input.err}</span>
+                      </div>
+                    ))}
+                    <div className={cx("formInput")}>
+                      <div className={cx("formRadio")}>
+                        {arrStatus.map((input) => (
+                          <div key={input.type} style={{ marginRight: "10px" }}>
+                            <input
+                              type="radio"
+                              name={input.name}
+                              onClick={(e) => setRole(input.type)}
+                              checked={input.type === role ? true : false}
+                            />
+
+                            <label>{input.type}</label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    {/* {arrStatus.map((input) => (
                 <div className={cx("formRadio")} key={input.type}>
                   <input
                     type="radio"
@@ -172,15 +189,15 @@ const NewUser = () => {
 
                   <label>{input.type}</label>
                 </div>
-              ))}
-              <button className={cx("link")}>Thêm</button>
-            </form>
+              ))} */}
+                    <button className={cx("link")}>Thêm</button>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    </div>
-    </div>
     </div>
   );
 };

@@ -56,10 +56,10 @@ export default function Shop() {
   const handleSubmitAllProduct = (e) => {
     e.preventDefault();
     const fetchApi = async () => {
-      const response = await productService.getListProduct(numberPage);
-      setProductList(response.products.filter((product)=>{
-        return product.active===true
-      }))
+      const response = await productService.getHomeListProduct(nameSort,
+        valueSort,
+        numberPage);
+      setProductList(response.products)
     };
     fetchApi();
   };

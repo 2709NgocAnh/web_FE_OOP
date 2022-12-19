@@ -11,7 +11,7 @@ const NewCategory = () => {
   const cx = classNames.bind(styles);
   const [focused, setFocused] = useState(false);
   const [name, setName] = useState("");
-  const [status, setStatus] = useState(1);
+  const [active, setActive] = useState(true);
   const navigate = useNavigate();
   const arrStatus = [
     { id: 1, type: true, name: "Đang hoạt động" },
@@ -37,7 +37,7 @@ const NewCategory = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await categoryService.newCategory(name,status);
+    const res = await categoryService.newCategory(name,active);
     if (res.data.success === true) {
         await Swal.fire(`Bạn đã thêm Danh mục ${name} thành công🥰`);
         navigate("/admin/category");
@@ -82,8 +82,8 @@ const NewCategory = () => {
                           <input
                             type="radio"
                             name={input.name}
-                            onClick={(e) => setStatus(input.type)}
-                            checked={input.type === status ? true : false}
+                            onClick={(e) => setActive(input.type)}
+                            checked={input.type === active ? true : false}
                           />
 
                           <p>{input.name}</p>
