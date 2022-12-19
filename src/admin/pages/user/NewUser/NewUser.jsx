@@ -116,8 +116,8 @@ const NewUser = () => {
     const res =await registerService.signUpRegister(a, b, c, d, e, f);
     if (res.data.success === true) {
         console.log(res.data.success)
-      await Swal.fire(`Hãy check mail để xác thực🥰`);
-      navigate("/veryfyEmail");
+      await Swal.fire(`Thêm mới user thành công🥰`);
+      navigate("/admin/user");
     }
   };
 
