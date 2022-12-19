@@ -151,12 +151,12 @@ const ListDiscount = () => {
             <Link to={`/admin/discount/editdiscount/${params.row._id}`}>
               <div className={cx("viewButton")}>Edit</div>
             </Link>
-            <div
+            {/* <div
               className={cx("deleteButton")}
               onClick={() => handleDelete(params.row._id, params.row.code)}
             >
               Delete
-            </div>
+            </div> */}
           </div>
         );
       },

@@ -4,7 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import classNames from "classnames/bind";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import * as shipperService from "~/admin/services/shipperService";
 import Header from "~/shipper/Layout/Header/Header";
 import styles from "./ListOrderShipping.module.scss";
@@ -31,7 +31,7 @@ const ListOrderShipping = () => {
       const response = await shipperService.getListOrderShipping(
         Number(pagination.currentPage) + 1
       );
-      setData(response.orders);
+      setData(response.orders.filter((order)=>{return order.user !==null}));
       setTotalTask(response.totalItem);
     };
     fetchApi();
@@ -107,27 +107,6 @@ const ListOrderShipping = () => {
           </div>
         );
       },
-      //   renderCell: (params) => {
-      //     return (
-      //       <div className={cx("status")}>
-      //         <div
-      //           className={cx(
-      //             params.row.status === 0
-      //               ? "active"
-      //               : params.row.status === 1
-      //               ? "pending"
-      //               : "passive"
-      //           )}
-      //         >
-      //           {params.row.status === 0
-      //             ? "Chờ xác nhận"
-      //             : params.row.status === 1
-      //             ? "Đang giao "
-      //             : "Đã giao"}
-      //         </div>
-      //       </div>
-      //     );
-      //   },
     },
     {
       field: "createdAt",
@@ -187,7 +166,9 @@ const ListOrderShipping = () => {
           <div className={cx("list")}>
             <div className={cx("listContainer")}>
               <div className={cx("datatable")}>
-                <div className={cx("datatableTitle")}>Danh sách đơn hàng chờ giao</div>
+                <div className={cx("datatableTitle")}>Danh sách đơn hàng chờ giao
+                <NavLink to="/shipper/listOrder" style={{color:"blue"}}>Danh sách đơn hàng chờ giao </NavLink>
+                </div>
                 <Box
                   sx={{
                     height: "100%",
