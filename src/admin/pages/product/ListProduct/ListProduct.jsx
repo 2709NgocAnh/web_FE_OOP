@@ -242,12 +242,12 @@ const ListProduct = () => {
             >
               <div className={cx("viewButton")}>View</div>
             </NavLink>
-            <div
+            {/* <div
               className={cx("deleteButton")}
               onClick={() => handleDelete(params.row._id, params.row.name)}
             >
               Delete
-            </div>
+            </div> */}
           </div>
         );
       },

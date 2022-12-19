@@ -31,7 +31,7 @@ const HomeShipper = () => {
       const response = await shipperService.getListOrderProcessing(
         Number(pagination.currentPage) + 1
       );
-      setData(response.orders);
+      setData(response.orders.filter((order)=>{return order.user !==null}));
       setTotalTask(response.totalItem);
     };
     fetchApi();
@@ -60,7 +60,7 @@ const HomeShipper = () => {
       headerClassName: "super-app-theme--header",
       headerAlign: "center",
       renderCell: (params) => {
-        return params.row.user.fullName;
+        return params.row.user?.fullName;
       },
     },
     {

@@ -38,7 +38,7 @@ export default function Header() {
           </NavLink>
         </div>
 
-        <Search />
+        {/* <Search /> */}
 
         <div className={cx("items")}>
           <div className={cx("item")}>

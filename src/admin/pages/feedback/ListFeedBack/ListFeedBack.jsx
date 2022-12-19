@@ -119,12 +119,12 @@ const ListFeedback = () => {
             <Link to={`/Feedbacks/${params.row._id}`}>
               <div className={cx("viewButton")}>View</div>
             </Link>
-            <div
+            {/* <div
               className={cx("deleteButton")}
               onClick={() => handleDelete(params.row._id)}
             >
               Delete
-            </div>
+            </div> */}
           </div>
         );
       },

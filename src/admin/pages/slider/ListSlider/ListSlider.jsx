@@ -130,12 +130,12 @@ function Slider() {
             >
               <div className={cx("viewButton")}>Edit</div>
             </Link>
-            <div
+            {/* <div
               className={cx("deleteButton")}
               onClick={() => handleDelete(params.row._id, params.row.name)}
             >
               Delete
-            </div>
+            </div> */}
           </div>
         );
       },
