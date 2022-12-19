@@ -54,7 +54,6 @@ export default function Payment() {
     setPhone(response.account.phoneNumber);
     setEmail(response.account.email);
   };
-  console.log(Cookies.get("accessToken"))
   useEffect(() => {
     if(Cookies.get("accessToken")!==true){
         Swal.fire("Vui lòng đăng nhập trước khi thanh toán") &&
