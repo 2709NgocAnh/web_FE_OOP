@@ -121,7 +121,7 @@ function Footer() {
                         </div>
                     </div>
 
-                    <div className={cx('col-xs-12 col-sm-6 col-md-3 col-lg')}>
+                    {/* <div className={cx('col-xs-12 col-sm-6 col-md-3 col-lg')}>
                         <div className={cx('footer-col')}>
                             <h4 className={cx('footer-title')}>Fanpage</h4>
                             <div className={cx('footer-content footer-contact')}>
@@ -148,7 +148,7 @@ function Footer() {
                                 <div style={{ clear: 'both' }}></div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>

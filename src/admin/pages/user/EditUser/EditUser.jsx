@@ -149,7 +149,6 @@ const EditUser = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
     
     e.preventDefault();
     Swal.fire({

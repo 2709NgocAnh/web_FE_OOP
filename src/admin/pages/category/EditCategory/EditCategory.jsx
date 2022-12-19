@@ -1,6 +1,7 @@
 import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import Navbar from "~/admin/Layout/components/Navbar/Navbar";
 import Sidebar from "~/admin/Layout/components/Sidebar/Sidebar";
 import * as categoryService from "~/admin/services/categoryService";
@@ -49,9 +50,23 @@ const EditCategory = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetchApi(id, name, active);
-    navigate("/admin/category");
-    window.location.reload();
+    Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await  fetchApi(id, name, active);
+        Swal.fire("Saved!", "", "success");
+        navigate("/admin/category");
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+        navigate("/admin/category");
+      }
+    });
+   
   };
 
   return (
