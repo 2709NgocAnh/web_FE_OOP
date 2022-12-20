@@ -61,6 +61,8 @@ const EditUser = () => {
       label: "Email",
       pattern: "[a-z0-9]+@[a-z]+.[a-z]{2,3}",
       icon: "fa-solid fa-envelope",
+      required: true,
+
     },
     {
       id: 5,
@@ -82,6 +84,8 @@ const EditUser = () => {
       label: "Active",
       pattern: "^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$",
       icon: "fa-solid fa-user",
+      required: true,
+
     },
   ];
   const INPUT_REGISTER = [
@@ -94,6 +98,8 @@ const EditUser = () => {
       label: "Họ và tên",
       pattern: "^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$",
       icon: "fa-solid fa-user",
+      required: true,
+
     },
 
     {
@@ -105,6 +111,9 @@ const EditUser = () => {
       label: "Số điện thoại",
       pattern: "^[0-9]{10,11}$",
       icon: "fa-solid fa-phone",
+      required: true,
+
+
     },
     {
       id: 3,
@@ -115,6 +124,8 @@ const EditUser = () => {
       label: "Địa chỉ",
       pattern: "^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$",
       icon: "fa-solid fa-location-dot",
+      required: true,
+
     },
 
     ...INPUT_lOGIN,
@@ -138,7 +149,7 @@ const EditUser = () => {
   };
 
   const fetchApi = async (a, b, c, d, e, f, g, h) => {
-   await registerService.UpdateRegister(a, b, c, d, e, f, g, h);
+   await registerService.UpdateAdminRegister(a, b, c, d, e, f, g, h);
   };
 
   const handleSubmit = (e) => {

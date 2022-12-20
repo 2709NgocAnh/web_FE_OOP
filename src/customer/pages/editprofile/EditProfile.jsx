@@ -14,14 +14,14 @@ const EditProfile = () => {
   TabTitle("EditProfile");
   const [focused, setFocused] = useState(false);
   const [values, setValues] = useState({
-    id: "",
+    // id: "",
     fullName: "",
     email: "",
     phoneNumber: "",
-    password: "",
+    // password: "",
     address: "",
-    password_confirm: "",
-    role: "",
+    // password_confirm: "",
+    // role: "",
   });
   useEffect(() => {
     const fetchApi = async () => {
@@ -29,11 +29,11 @@ const EditProfile = () => {
       setValues({
         id: response.account._id,
         fullName: response.account.fullName,
-        email: response.account.email,
         phoneNumber: response.account.phoneNumber,
         address: response.account.address,
-        active: response.account.active,
-        role: response.account.role,
+        email: response.account.email,
+        // active: response.account.active,
+        // role: response.account.role,
       });
     };
     Cookies.get("accessToken") && fetchApi();
@@ -88,6 +88,7 @@ const EditProfile = () => {
         pattern: "[a-z0-9]+@[a-z]+.[a-z]{2,3}",
         required: true,
         icon: "fa-solid fa-envelope",
+        disabled:true
       },
   ];
 
@@ -95,8 +96,8 @@ const EditProfile = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const fetchApi = async (a, b, c, d, e, f, g, h) => {
-    await registerService.UpdateRegister(a, b, c, d, e, f, g, h);
+  const fetchApi = async (a, b, c, d,e) => {
+    await registerService.UpdateRegister(a, b, c, d,e);
   };
 
   const handleSubmit = (e) => {
@@ -104,22 +105,20 @@ const EditProfile = () => {
     fetchApi(
       values.id,
       values.fullName,
-      values.email,
       values.phoneNumber,
-      values.password,
       values.address,
-      values.role,
-      values.active
+      values.email,
+    //   values.password,
+    //   values.role,
+    //   values.active
     );
 
     setValues({
-      name: "",
-      email: "",
-      phone: "",
-      address: "",
-      password: "",
-      password_confirm: "",
-      role: "",
+        fullName: "",
+        email: "",
+        phoneNumber: "",
+        // password: "",
+        address: "",
     });
   };
   return (
