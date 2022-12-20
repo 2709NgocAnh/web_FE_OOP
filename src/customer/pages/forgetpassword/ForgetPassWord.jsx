@@ -163,6 +163,11 @@ const ForgetPassword = () => {
             {...formikForgetPassWord.getFieldProps("email")}
           />
         </div>
+          {formikForgetPassWord.touched.email && formikForgetPassWord.errors.email && (
+                <span className={cx("form-group--err")}>
+                  {formikForgetPassWord.errors.email}
+                </span>
+              )}
         <div className={cx("form-group")}>
           <button type="submit" className={cx("form-submit")}>
             Gửi
