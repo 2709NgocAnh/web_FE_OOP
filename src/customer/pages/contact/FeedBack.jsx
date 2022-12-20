@@ -66,10 +66,12 @@ function FeedBack() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const fetchApi = async () => {
-       await feedbackService.addFeedBack(content,currentValue);
-       setCurrentValue("")
-       setContent("")
-      };
+        
+      const res= await feedbackService.addFeedBack(content,currentValue);
+      if (res.data.success === true) {
+        await Swal.fire(`Cảm ơn bạn đã feedback🥰`);
+    navigate("/shop");
+      };}
     fetchApi();
     setFocused(false)
   };

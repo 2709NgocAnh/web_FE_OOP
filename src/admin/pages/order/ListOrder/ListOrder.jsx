@@ -186,7 +186,7 @@ const ListOrder = () => {
           <div className={cx("list")}>
             <div className={cx("listContainer")}>
               <div className={cx("datatable")}>
-                <div className={cx("datatableTitle")}>Danh sách hóa đơn
+                <div className={cx("datatableTitle")}>Danh sách đơn hàng
                   <NavLink to="/admin/pendingOrder" style={{color:"blue"}}>Danh sách chờ xử lý</NavLink>
                 </div>
                 <Box

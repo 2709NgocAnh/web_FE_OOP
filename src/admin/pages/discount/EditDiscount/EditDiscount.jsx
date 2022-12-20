@@ -28,6 +28,7 @@ const EditDiscount = () => {
       pattern: "^[[A-Z]]{6}$",
       err: "Hãy nhập tên danh mục",
       required: true,
+
     },
     {
       name: "discount",
@@ -37,6 +38,7 @@ const EditDiscount = () => {
       pattern: "^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$",
       err: "Hãy nhập discount",
       required: true,
+
     },
     {
       name: "minium_order",
@@ -46,6 +48,7 @@ const EditDiscount = () => {
       pattern: "^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$",
       err: "Hãy nhập tên danh mục",
       required: true,
+
     },
     {
       name: "purchase_limit",
@@ -55,6 +58,7 @@ const EditDiscount = () => {
       pattern: "^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$",
       err: "Hãy nhập giới hạn người mua",
       required: true,
+
     },
     {
       name: "expiration_date",
@@ -63,6 +67,7 @@ const EditDiscount = () => {
       placeholder: "27/9/2001",
       err: "Hãy nhập Ngày hết hạn",
       required: true,
+
     },
   ];
 
@@ -82,6 +87,7 @@ const EditDiscount = () => {
         minium_order: response.discount.minium_order,
         purchase_limit: response.discount.purchase_limit,
         expiration_date: response.discount.expiration_date,
+       
       });
       setActive(response.discount.active);
       setContent(response.discount.content);

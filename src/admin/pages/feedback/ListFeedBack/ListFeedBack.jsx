@@ -80,7 +80,7 @@ const ListFeedback = () => {
     {
       field: "createdAt",
       headerName: "Ngày gửi",
-      width: 170,
+      width: 200,
       headerClassName: "super-app-theme--header",
       headerAlign: "center",
       renderCell: (params) => {
@@ -94,7 +94,7 @@ const ListFeedback = () => {
     {
       field: "updatedAt",
       headerName: "Ngày chỉnh sửa",
-      width: 170,
+      width: 200,
       headerClassName: "super-app-theme--header",
       headerAlign: "center",
       renderCell: (params) => {
@@ -106,30 +106,30 @@ const ListFeedback = () => {
       },
     },
   ];
-  const actionColumn = [
-    {
-      field: "action",
-      headerName: "Action",
-      width: 200,
-      headerClassName: "super-app-theme--header",
-      headerAlign: "center",
-      renderCell: (params) => {
-        return (
-          <div className={cx("cellAction")}>
-            <Link to={`/Feedbacks/${params.row._id}`}>
-              <div className={cx("viewButton")}>View</div>
-            </Link>
-            {/* <div
-              className={cx("deleteButton")}
-              onClick={() => handleDelete(params.row._id)}
-            >
-              Delete
-            </div> */}
-          </div>
-        );
-      },
-    },
-  ];
+//   const actionColumn = [
+//     {
+//       field: "action",
+//       headerName: "Action",
+//       width: 200,
+//       headerClassName: "super-app-theme--header",
+//       headerAlign: "center",
+//       renderCell: (params) => {
+//         return (
+//           <div className={cx("cellAction")}>
+//             {/* <Link to={`/Feedbacks/${params.row._id}`}>
+//               <div className={cx("viewButton")}>View</div>
+//             </Link> */}
+//             {/* <div
+//               className={cx("deleteButton")}
+//               onClick={() => handleDelete(params.row._id)}
+//             >
+//               Delete
+//             </div> */}
+//           </div>
+//         );
+//       },
+//     },
+//   ];
   return (
     <div>
       <Navbar />
@@ -161,7 +161,7 @@ const ListFeedback = () => {
                     getRowId={(row) => row._id}
                     className={cx("datagrid")}
                     rows={data}
-                    columns={userColumns.concat(actionColumn)}
+                    columns={userColumns}
                     priceSize={9}
                     rowsPerPageOptions={[9]}
                   />

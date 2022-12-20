@@ -110,6 +110,36 @@ export const signUpRegister = async (
 export const UpdateRegister = async (
   id,
   fullName,
+  phoneNumber,
+  address,
+  email,
+//   password,
+//   role,
+//   active
+) => {
+  try {
+    const res = await httpRequest.post(`user/update`, {
+      id,
+      fullName,
+      phoneNumber,
+      address,
+      email,
+    //   password,
+    //   role,
+    //   active,
+    });
+    return res;
+  } catch (error) {
+    console.log(error)
+    Swal.fire({
+      icon: "error",
+      text: "Email này đã tồn tại  🙌👀",
+    });
+  }
+};
+export const UpdateAdminRegister = async (
+  id,
+  fullName,
   email,
   phoneNumber,
   password,
@@ -119,14 +149,14 @@ export const UpdateRegister = async (
 ) => {
   try {
     const res = await httpRequest.post(`user/update`, {
-      id,
-      fullName,
-      email,
-      phoneNumber,
-      password,
-      address,
-      role,
-      active,
+        id,
+        fullName,
+        email,
+        phoneNumber,
+        password,
+        address,
+        role,
+        active
     });
     return res;
   } catch (error) {

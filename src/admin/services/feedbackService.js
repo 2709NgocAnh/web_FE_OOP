@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import * as httpRequest from "~/admin/utils/httpRequest";
 
 export const getFeedBack = async () => {
@@ -14,6 +15,10 @@ export const addFeedBack = async (content,rating) => {
       return res;
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        icon: "error",
+        text: `${error.response.data.message} 🙌👀`,
+      });
     }
   };
 export const removeFeedBack = async (id) => {
