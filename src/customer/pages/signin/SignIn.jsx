@@ -9,6 +9,7 @@ import { useFormik } from "formik";
 import Cookies from "js-cookie";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import * as Yup from "yup";
 import * as registerService from "~/admin/services/registerService";
 import TabTitle from "~/components/tabtiltle/TabTiltle";
@@ -53,11 +54,11 @@ const SignIn = () => {
       );
       await Cookies.set("role", response1?.data.account.role, { expires: 7 });
       if (response1?.data.account.role === "admin") {
-        return navigate("/admin"),window.location.reload();
+        return  Swal.fire("Đăng nhập thành công"),navigate("/admin"),window.location.reload();
       } else if (response1?.data.account.role === "user") {
-        return navigate("/shop"),window.location.reload();
+        return Swal.fire("Đăng nhập thành công"),navigate("/shop"),window.location.reload();
       } else if (response1?.data.account.role === "shipper") {
-        return navigate("/shipper/listOrder"),window.location.reload();
+        return Swal.fire("Đăng nhập thành công"),navigate("/shipper/listOrder"),window.location.reload();
       }
     }
   };

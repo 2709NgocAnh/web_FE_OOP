@@ -69,6 +69,7 @@ const Register = () => {
   const fetchApiSignUp = async (a, b, c, d, e, f) => {
     const response = await registerService.signUpRegister(a, b, c, d, e, f);
     if (response.data.success === true) {
+        Swal.fire("Vui lòng Kiểm tra email để lấy mã xác nhận")
       navigate("/veryfyEmail");
     }
   };
